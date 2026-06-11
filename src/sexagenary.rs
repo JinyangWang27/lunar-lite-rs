@@ -10,13 +10,29 @@ use crate::{
 };
 
 /// A valid Heavenly Stem / Earthly Branch pair in the sexagenary cycle.
-#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+#[cfg_attr(feature = "serde", derive(serde::Serialize))]
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Hash)]
 pub struct StemBranch {
     stem: HeavenlyStem,
     branch: EarthlyBranch,
 }
 
+#[cfg(feature = "serde")]
+impl<'de> serde::Deserialize<'de> for StemBranch {
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        #[derive(serde::Deserialize)]
+        struct RawStemBranch {
+            stem: HeavenlyStem,
+            branch: EarthlyBranch,
+        }
+
+        let raw = RawStemBranch::deserialize(deserializer)?;
+        StemBranch::try_new(raw.stem, raw.branch).map_err(serde::de::Error::custom)
+    }
+}
 impl StemBranch {
     /// Creates a valid stem-branch pair.
     ///
