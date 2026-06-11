@@ -23,14 +23,14 @@ All conversion data is stored in a generated static table compiled into the bina
 
 ```toml
 [dependencies]
-lunar-lite = "0.3"
+lunar-lite = "0.2"
 ```
 
 With Serde support:
 
 ```toml
 [dependencies]
-lunar-lite = { version = "0.3", features = ["serde"] }
+lunar-lite = { version = "0.2", features = ["serde"] }
 ```
 
 ## Usage
