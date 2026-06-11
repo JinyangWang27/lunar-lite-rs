@@ -18,6 +18,9 @@ target
 # Contains mutation testing data
 **/mutants.out*/
 
+# Local upstream reference installs
+tools/lunar-lite-reference/node_modules/
+
 # Optional local scratch output
 tmp/
 .tmp/

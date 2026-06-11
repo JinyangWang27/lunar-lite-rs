@@ -1,0 +1,10 @@
+{
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dump-year-info": "node scripts/dump-year-info.mjs"
+  },
+  "dependencies": {
+    "lunar-typescript": "^1.8.6"
+  }
+}
