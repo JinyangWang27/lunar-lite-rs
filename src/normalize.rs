@@ -46,7 +46,7 @@ pub(crate) fn validate_lunar_actual_date(date: LunarDate) -> Result<(), LunarErr
             if date.day <= info.month_days[index] {
                 return Ok(());
             }
-            
+
             break;
         }
     }
