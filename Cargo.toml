@@ -14,9 +14,6 @@ keywords = [
     "lunar",
     "lunisolar",
     "calendar",
-    "ganzhi",
-    "stem-branch",
-    "sexagenary",
 ]
 categories = ["date-and-time"]
 include = [
