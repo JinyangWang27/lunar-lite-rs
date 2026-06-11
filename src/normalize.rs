@@ -1,7 +1,7 @@
 use crate::year_info::year_info;
 use crate::{LunarDate, LunarError};
 
-pub fn normalise_lunar_date(date: LunarDate) -> Result<LunarDate, LunarError> {
+pub fn normalize_lunar_date(date: LunarDate) -> Result<LunarDate, LunarError> {
     validate_lunar_basic_shape(date)?;
 
     if !date.is_leap_month {

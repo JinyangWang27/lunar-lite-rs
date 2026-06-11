@@ -1,5 +1,5 @@
 use lunar_lite::{
-    LunarDate, SolarDate, lunar_to_solar, normalise_lunar_date, solar_to_lunar, time_index,
+    LunarDate, SolarDate, lunar_to_solar, normalize_lunar_date, solar_to_lunar, time_index,
 };
 
 #[test]
@@ -64,7 +64,7 @@ fn lunar_to_solar_leap_month_2023() {
 
 #[test]
 fn normalize_fake_leap_month() {
-    let normalized = normalise_lunar_date(LunarDate {
+    let normalized = normalize_lunar_date(LunarDate {
         year: 2024,
         month: 1,
         day: 1,
