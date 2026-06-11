@@ -8,8 +8,22 @@ description = "A small Rust library for Chinese lunisolar date conversion."
 license = "MIT"
 repository = "https://github.com/JinyangWang27/lunar-lite-rs"
 readme = "README.md"
-keywords = ["chinese-calendar", "lunar-calendar", "lunar", "lunisolar", "calendar"]
+keywords = [
+    "chinese-calendar",
+    "lunar-calendar",
+    "lunar",
+    "lunisolar",
+    "calendar",
+]
 categories = ["date-and-time"]
+include = [
+    "Cargo.toml",
+    "LICENSE",
+    "README.md",
+    "src/**",
+    "tests/**",
+]
+
 
 [dependencies]
 serde = { version = "1", features = ["derive"], optional = true }
