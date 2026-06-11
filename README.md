@@ -17,7 +17,7 @@ See [Non-goals](#non-goals).
 
 ## Design
 
-All conversion data is stored in a generated static table compiled into the binary — there is no runtime astronomical calculation. At build time the table is produced once from a reference implementation; at runtime the crate is a pure Rust lookup with no I/O and no allocations on the hot path.
+All conversion data is stored in a generated static table compiled into the binary — there is no runtime astronomical calculation. The table is generated ahead of time from a reference implementation and committed to the crate; at runtime the crate is a pure Rust lookup with no I/O and no allocations on the hot path.
 
 ## Installation
 
