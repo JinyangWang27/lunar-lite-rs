@@ -7,7 +7,7 @@ A small, table-backed Rust library for Chinese lunisolar (农历) date conversio
 
 ## What it does
 
-`lunar-lite` converts between Gregorian solar dates and Chinese lunisolar dates, including leap-month handling and traditional twelve-branch time index (时辰, shíchen) calculation.
+`lunar-lite` converts between Gregorian solar dates and Chinese lunisolar dates, including leap-month handling, traditional twelve-branch time index (时辰, shíchen) calculation, and sexagenary (干支, ganzhi) stem-branch cycle positions.
 
 **Supported lunar years: 1850..=2150**
 
@@ -23,14 +23,14 @@ All conversion data is stored in a generated static table compiled into the bina
 
 ```toml
 [dependencies]
-lunar-lite = "0.1"
+lunar-lite = "0.3"
 ```
 
 With Serde support:
 
 ```toml
 [dependencies]
-lunar-lite = { version = "0.1", features = ["serde"] }
+lunar-lite = { version = "0.3", features = ["serde"] }
 ```
 
 ## Usage
@@ -95,6 +95,33 @@ Index mapping:
 | 12    | 子 (late Zi)  | 23:00–23:59 |
 
 Zi hour is split: the early half (0) begins the current day, the late half (12) closes it.
+
+### Sexagenary cycle (干支)
+
+The sexagenary cycle pairs the ten Heavenly Stems (天干) with the twelve Earthly
+Branches (地支) into sixty positions (六十甲子). The conventional anchor `1984 = 甲子`
+(JiaZi) is used for year pillars.
+
+```rust
+use lunar_lite::{EarthlyBranch, HeavenlyStem, StemBranch};
+
+// Year pillar from a lunar year.
+let pillar = StemBranch::from_lunar_year(2024);
+assert_eq!(pillar.stem(), HeavenlyStem::Jia);    // 甲
+assert_eq!(pillar.branch(), EarthlyBranch::Chen); // 辰  -> 甲辰
+
+// Position within the sixty-step cycle (0 = JiaZi, 59 = GuiHai).
+assert_eq!(pillar.cycle_index(), 40);
+assert_eq!(StemBranch::from_cycle_index(0).stem(), HeavenlyStem::Jia);
+
+// Validated construction: only the sixty parity-matched pairs are accepted.
+assert!(StemBranch::try_new(HeavenlyStem::Jia, EarthlyBranch::Zi).is_ok());
+assert!(StemBranch::try_new(HeavenlyStem::Jia, EarthlyBranch::Chou).is_err());
+```
+
+`HeavenlyStem` and `EarthlyBranch` each expose `index`, `from_index`, and a
+wrapping `offset`; the `HEAVENLY_STEMS` and `EARTHLY_BRANCHES` constants give the
+canonical cyclic ordering.
 
 ## Leap months
 
