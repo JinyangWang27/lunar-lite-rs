@@ -1,6 +1,16 @@
 use crate::year_info::year_info;
 use crate::{LunarDate, LunarError};
 
+/// Normalizes a lunar date and verifies that it actually exists.
+///
+/// If `is_leap_month` is set on a month that has no leap instance in that year,
+/// the flag is cleared. The day is then checked against that month's length.
+///
+/// # Errors
+///
+/// Returns [`LunarError::InvalidLunarDate`] if the month/day are out of shape or
+/// the day exceeds the month's length, or [`LunarError::YearOutOfRange`] if the
+/// year is outside the supported range.
 pub fn normalize_lunar_date(date: LunarDate) -> Result<LunarDate, LunarError> {
     validate_lunar_basic_shape(date)?;
 

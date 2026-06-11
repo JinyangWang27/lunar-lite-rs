@@ -78,8 +78,8 @@ assert_eq!(time_index(23, 0).unwrap(), 12);  // late Zi   23:00–23:59
 
 Index mapping:
 
-| Index | Branch | Hours        |
-|-------|--------|--------------|
+| Index | Branch        | Hours       |
+| ----- | ------------- | ----------- |
 | 0     | 子 (early Zi) | 00:00–00:59 |
 | 1     | 丑 Chou       | 01:00–02:59 |
 | 2     | 寅 Yin        | 03:00–04:59 |
@@ -137,14 +137,16 @@ The Chinese lunisolar calendar inserts an intercalary (leap) month roughly every
 
 ## Error handling
 
-All fallible functions return `Result<_, LunarError>`:
+Date/time conversion functions return `Result<_, LunarError>`.
+Stem-branch validation returns `Result<_, StemBranchError>`.
 
-| Variant | Meaning |
-|---|---|
-| `LunarError::InvalidSolarDate` | Solar date is not a valid calendar date |
-| `LunarError::InvalidLunarDate` | Lunar date is structurally invalid or day exceeds month length |
-| `LunarError::YearOutOfRange` | Year is outside 1850..=2150 |
-| `LunarError::InvalidTime` | Hour > 23 or minute > 59 |
+| Variant                                  | Meaning                                                        |
+| ---------------------------------------- | -------------------------------------------------------------- |
+| `LunarError::InvalidSolarDate`           | Solar date is not a valid calendar date                        |
+| `LunarError::InvalidLunarDate`           | Lunar date is structurally invalid or day exceeds month length |
+| `LunarError::YearOutOfRange`             | Year is outside 1850..=2150                                    |
+| `LunarError::InvalidTime`                | Hour > 23 or minute > 59                                       |
+| `StemBranchError::InvalidStemBranchPair` | The stem and branch do not form a valid sexagenary pair        |
 
 ## Reference data generation
 

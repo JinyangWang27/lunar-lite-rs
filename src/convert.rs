@@ -5,6 +5,13 @@ use crate::{
     year_info::{resolve_lunar_year, solar_date_in_lunar_year, year_info},
 };
 
+/// Converts a Gregorian (solar) date to its Chinese lunar date.
+///
+/// # Errors
+///
+/// Returns [`LunarError::InvalidSolarDate`] if `date` is not a real calendar
+/// date, or [`LunarError::YearOutOfRange`] if it falls outside the supported
+/// range.
 pub fn solar_to_lunar(date: SolarDate) -> Result<LunarDate, LunarError> {
     validate_solar_date(date)?;
 
@@ -36,6 +43,15 @@ pub fn solar_to_lunar(date: SolarDate) -> Result<LunarDate, LunarError> {
     Err(LunarError::YearOutOfRange { year: lunar_year })
 }
 
+/// Converts a Chinese lunar date to its Gregorian (solar) date.
+///
+/// The input is first normalized: an `is_leap_month` flag on a month that has
+/// no leap instance in that year is dropped (see [`normalize_lunar_date`]).
+///
+/// # Errors
+///
+/// Returns [`LunarError::InvalidLunarDate`] if the date does not exist, or
+/// [`LunarError::YearOutOfRange`] if the year is outside the supported range.
 pub fn lunar_to_solar(date: LunarDate) -> Result<SolarDate, LunarError> {
     let date = normalize_lunar_date(date)?;
     let info = year_info(date.year)?;

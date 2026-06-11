@@ -1,5 +1,14 @@
 use crate::LunarError;
 
+/// Returns the double-hour (時辰) index for a wall-clock time.
+///
+/// Chinese timekeeping splits the day into twelve two-hour periods. The Zi (子)
+/// hour straddles midnight, so it is split: `23:00` returns `12` (late Zi) while
+/// `00:00`–`00:59` returns `0` (early Zi). All other periods map to `1..=11`.
+///
+/// # Errors
+///
+/// Returns [`LunarError::InvalidTime`] if `hour > 23` or `minute > 59`.
 pub fn time_index(hour: u8, minute: u8) -> Result<u8, LunarError> {
     if hour > 23 || minute > 59 {
         return Err(LunarError::InvalidTime { hour, minute });
