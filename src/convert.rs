@@ -1,4 +1,4 @@
-use crate::normalize::{normalize_lunar_date, validate_lunar_basic_shape};
+use crate::normalize::normalize_lunar_date;
 use crate::{LunarDate, LunarError, SolarDate};
 use crate::{
     calendar::{add_days, days_between, validate_solar_date},
@@ -37,8 +37,6 @@ pub fn solar_to_lunar(date: SolarDate) -> Result<LunarDate, LunarError> {
 }
 
 pub fn lunar_to_solar(date: LunarDate) -> Result<SolarDate, LunarError> {
-    validate_lunar_basic_shape(date)?;
-
     let date = normalize_lunar_date(date)?;
     let info = year_info(date.year)?;
 
