@@ -16,3 +16,12 @@ pub enum LunarError {
     #[error("Invalid time: {hour:02}:{minute:02}")]
     InvalidTime { hour: u8, minute: u8 },
 }
+
+#[derive(Debug, Error, Clone, PartialEq, Eq)]
+pub enum StemBranchError {
+    #[error("Invalid stem-branch pair: {stem:?} - {branch:?}")]
+    InvalidStemBranchPair {
+        stem: crate::stem_branch::HeavenlyStem,
+        branch: crate::stem_branch::EarthlyBranch,
+    },
+}
