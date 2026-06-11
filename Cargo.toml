@@ -1,0 +1,17 @@
+[package]
+name = "lunar-lite"
+version = "0.1.0"
+authors = ["Jinyang Wang <jinyang.wang27@outlook.com>"]
+edition = "2024"
+rust-version = "1.85"
+description = "A small Rust library for Chinese lunisolar date conversion."
+license = "MIT"
+repository = "https://github.com/JinyangWang27/lunar-lite-rs"
+
+[dependencies]
+serde = { version = "1", features = ["derive"], optional = true }
+thiserror = "2"
+
+[features]
+default = []
+serde = ["dep:serde"]
