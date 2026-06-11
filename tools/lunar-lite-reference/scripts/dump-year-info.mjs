@@ -9,8 +9,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const repoRoot = resolve(__dirname, "../../..");
 
-const MIN_YEAR = 1900;
-const MAX_YEAR = 2100;
+const MIN_YEAR = 1850;
+const MAX_YEAR = 2150;
 
 function padArray(values, length, padValue = 0) {
     if (values.length > length) {
