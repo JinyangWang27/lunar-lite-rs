@@ -1,0 +1,10 @@
+# Coverage shortcuts (cargo-llvm-cov). Install once with:
+#   cargo install cargo-llvm-cov
+# Then:
+#   cargo cov        -> HTML report at target/llvm-cov/html/index.html
+#   cargo cov-open   -> build report and open it in a browser
+#   cargo cov-lcov   -> lcov.info for CI / codecov upload
+[alias]
+cov = "llvm-cov --workspace --html"
+cov-open = "llvm-cov --workspace --html --open"
+cov-lcov = "llvm-cov --workspace --lcov --output-path lcov.info"

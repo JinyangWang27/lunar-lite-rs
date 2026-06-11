@@ -14,3 +14,38 @@ jobs:
       - run: cargo fmt --check
       - run: cargo clippy --all-targets --all-features -- -D warnings
       - run: cargo test --all-features
+
+
+  coverage:
+    name: Coverage
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: llvm-tools-preview
+
+      - name: Install cargo-llvm-cov
+        uses: taiki-e/install-action@cargo-llvm-cov
+
+      # Collect coverage once, then derive each report from the same data.
+      - name: Collect coverage
+        run: cargo llvm-cov --workspace --no-report
+
+      - name: Generate lcov report
+        run: cargo llvm-cov report --lcov --output-path lcov.info
+
+      - name: Upload to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          files: lcov.info
+          fail_ci_if_error: false
+          # Tokenless for public repos; set CODECOV_TOKEN secret for private.
+          token: ${{ secrets.CODECOV_TOKEN }}
+
+      # Gate last so coverage is always uploaded before CI can fail on it.
+      - name: Enforce line-coverage floor
+        run: cargo llvm-cov report --fail-under-lines 90

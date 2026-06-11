@@ -1,0 +1,5 @@
+[toolchain]
+# llvm-tools-preview provides the instrumentation cargo-llvm-cov needs, so
+# coverage works without a manual `rustup component add`.
+channel = "stable"
+components = ["llvm-tools-preview"]
