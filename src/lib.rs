@@ -32,6 +32,7 @@ mod convert;
 mod date;
 mod error;
 mod generated;
+mod julian_day;
 mod normalize;
 mod sexagenary;
 mod solar_terms;
