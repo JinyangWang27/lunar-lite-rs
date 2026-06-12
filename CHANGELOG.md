@@ -7,6 +7,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Four-pillar (四柱 / 八字 BaZi) stem-branch calculation, a faithful port of the
+  TypeScript `lunar-lite@0.2.8` `getHeavenlyStemAndEarthlyBranchBySolarDate`:
+  - `FourPillars` (with `yearly`, `monthly`, `daily`, `hourly`) and the Rust-native
+    constructors `four_pillars_from_solar_date` (default options) and
+    `four_pillars_from_solar_date_with_options`.
+  - TS-compatible `get_heavenly_stem_and_earthly_branch_by_solar_date` and
+    `..._with_options`, plus the `HeavenlyStemAndEarthlyBranchDate` type alias for
+    `FourPillars`, mirroring the TypeScript reference names.
+  - `StemBranchOptions` (default `Exact`/`Exact`) with `YearDivide` (`Normal` =
+    lunar year, `Exact` = 立春 at date granularity) and `MonthDivide` (`Normal` =
+    lunar-month 五虎遁, `Exact` = 12 Jie solar terms at exact second).
+  - Day pillar via Julian-day arithmetic with 晚子时 (late 子) day rollover at
+    `time_index` 12.
+  - Supported range 1850-01-01 ..= 2150-12-31.
+- Generated 12-Jie solar-term boundary table (`src/generated/solar_terms.rs`) from
+  `lunar-typescript@1.8.6`, plus `generate-solar-terms.mjs` and
+  `generate-four-pillars-fixtures.mjs` generators.
+- `LunarError::InvalidTimeIndex` and `LunarError::SolarTermOutOfRange` variants.
+- `serde` support for the new four-pillar types (behind the `serde` feature).
+- Fixture-driven compatibility tests against `lunar-lite@0.2.8` output.
+
 ## [0.2.0] - 2026-06-11
 
 ### Added

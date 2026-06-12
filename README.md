@@ -7,7 +7,7 @@ A small, table-backed Rust library for Chinese lunisolar (农历) date conversio
 
 ## What it does
 
-`lunar-lite` converts between Gregorian solar dates and Chinese lunisolar dates, including leap-month handling, traditional twelve-branch time index (时辰, shíchen) calculation, and sexagenary (干支, ganzhi) stem-branch cycle positions.
+`lunar-lite` converts between Gregorian solar dates and Chinese lunisolar dates, including leap-month handling, traditional twelve-branch time index (时辰, shíchen) calculation, sexagenary (干支, ganzhi) stem-branch cycle positions, and four-pillar (四柱 / 八字 BaZi) year/month/day/hour stem-branch calculation.
 
 **Supported lunar years: 1850..=2150**
 
@@ -123,6 +123,66 @@ assert!(StemBranch::try_new(HeavenlyStem::Jia, EarthlyBranch::Chou).is_err());
 wrapping `offset`; the `HEAVENLY_STEMS` and `EARTHLY_BRANCHES` constants give the
 canonical cyclic ordering.
 
+### Four pillars (四柱 / 八字)
+
+The four-pillar stem-branch API computes the year, month, day, and hour pillars
+(`FourPillars`) for a Gregorian date and a 时辰 index. It is a faithful port of the
+TypeScript [`lunar-lite`](https://github.com/SylarLong/lunar-lite) function
+`getHeavenlyStemAndEarthlyBranchBySolarDate` and is validated against its output.
+
+The Rust-native entry points are `four_pillars_from_solar_date` (default options)
+and `four_pillars_from_solar_date_with_options`. The long
+`get_heavenly_stem_and_earthly_branch_by_solar_date[_with_options]` names are kept
+to document parity with the TypeScript reference; `HeavenlyStemAndEarthlyBranchDate`
+remains available as a type alias for `FourPillars` for the same reason.
+
+```rust
+use lunar_lite::{
+    four_pillars_from_solar_date, four_pillars_from_solar_date_with_options,
+    EarthlyBranch, FourPillars, HeavenlyStem, MonthDivide, SolarDate, StemBranchOptions,
+    YearDivide,
+};
+
+let solar = SolarDate { year: 2000, month: 8, day: 16 };
+
+// Simplest call: default options (Exact, Exact, matching lunar-lite@0.2.8).
+// time_index 2 == 寅时 (03:00–04:59).
+let pillars: FourPillars = four_pillars_from_solar_date(solar, 2).unwrap();
+
+assert_eq!(pillars.yearly.stem(), HeavenlyStem::Geng);  // 庚辰
+assert_eq!(pillars.monthly.branch(), EarthlyBranch::Shen); // 甲申
+
+// Choose boundary conventions explicitly:
+let options = StemBranchOptions { year: YearDivide::Exact, month: MonthDivide::Exact };
+let _ = four_pillars_from_solar_date_with_options(solar, 2, options);
+```
+
+The wall-clock time is synthesized from `time_index` (`hour = max(time_index * 2 -
+1, 0), minute = 30`), matching the reference. `time_index` is `0..=12`, where both
+`0` (early 子) and `12` (late 子) map to the 子 branch; `12` additionally rolls the
+day pillar forward to the next day (晚子时).
+
+**Year pillar — `YearDivide`:**
+
+- `Normal`: uses the lunar year, so the pillar changes at Chinese New Year.
+- `Exact`: uses the 立春 (LiChun) boundary, compared at **date** granularity — on or
+  after the 立春 calendar date counts as the new year.
+
+**Month pillar — `MonthDivide`:**
+
+- `Normal`: derived from the **lunar month** via 五虎遁 (not solar terms).
+- `Exact`: derived from the 12 Jie (节) **solar-term** boundaries, switching at the
+  **exact second** of each term.
+
+> The month pillar uses solar terms, **not** the lunar month, in `Exact` mode. The
+> two modes are intentionally asymmetric: `year:Exact` resolves at date granularity
+> while `month:Exact` resolves at second granularity, reproducing the reference.
+
+**Supported range:** four-pillar calculation covers **1850-01-01 ..= 2150-12-31**.
+`Exact` options cover the whole range; `Normal` options additionally depend on the
+lunar-year table, so solar dates before Chinese New Year 1850 (lunar year 1849)
+return `LunarError::YearOutOfRange`.
+
 ## Leap months
 
 The Chinese lunisolar calendar inserts an intercalary (leap) month roughly every three years. `LunarDate` carries an `is_leap_month: bool` field to distinguish the leap copy of a month from the regular one.
@@ -146,26 +206,33 @@ Stem-branch validation returns `Result<_, StemBranchError>`.
 | `LunarError::InvalidLunarDate`           | Lunar date is structurally invalid or day exceeds month length |
 | `LunarError::YearOutOfRange`             | Year is outside 1850..=2150                                    |
 | `LunarError::InvalidTime`                | Hour > 23 or minute > 59                                       |
+| `LunarError::InvalidTimeIndex`           | 时辰 index is outside 0..=12                                   |
+| `LunarError::SolarTermOutOfRange`        | Gregorian year is outside the solar-term table (1850..=2150)   |
 | `StemBranchError::InvalidStemBranchPair` | The stem and branch do not form a valid sexagenary pair        |
 
 ## Reference data generation
 
-The static table in `src/generated/year_info.rs` is produced by:
+The static tables in `src/generated/` are produced by Node.js scripts under
+`tools/lunar-lite-reference/scripts/`:
 
-```
-tools/lunar-lite-reference/scripts/dump-year-info.mjs
-```
+| Script                             | Generates                                                                 |
+| ---------------------------------- | ------------------------------------------------------------------------- |
+| `dump-year-info.mjs`               | `src/generated/year_info.rs` (lunar-year metadata) + year-info fixtures   |
+| `generate-solar-terms.mjs`         | `src/generated/solar_terms.rs` (the 12 Jie per year, 1850..=2150)         |
+| `generate-four-pillars-fixtures.mjs` | `tests/fixtures/four_pillars.json` (four-pillar compatibility cases)     |
 
-This Node.js script uses the [`lunar-typescript`](https://github.com/6tail/lunar-typescript) library as its reference source and writes both the Rust table and a JSON fixture used by the compatibility test suite.
+The solar-term and year-info scripts use [`lunar-typescript`](https://github.com/6tail/lunar-typescript) as their reference source; the four-pillar fixtures use [`lunar-lite`](https://github.com/SylarLong/lunar-lite). The solar-term generator fails unless every year yields exactly 12 strictly-ordered Jie boundaries.
 
-**Runtime users do not need Node.js or `lunar-typescript`.** The generated file is committed to the repository and regeneration is only needed if you extend the supported year range or update the reference data.
+**Runtime users do not need Node.js, `lunar-typescript`, or `lunar-lite`.** The generated files are committed to the repository; regeneration is only needed when extending the supported range or updating the reference data.
 
 To regenerate:
 
 ```sh
 cd tools/lunar-lite-reference
 npm install
-node scripts/dump-year-info.mjs
+npm run dump-year-info
+npm run generate-solar-terms
+npm run generate-four-pillars-fixtures
 ```
 
 ## Compatibility with lunar-typescript
@@ -174,11 +241,22 @@ Conversion results are generated from `lunar-typescript` and are expected to mat
 
 ## Non-goals
 
-- **BaZi (八字) engine** — pillar calculation is not included.
-- **Solar terms (节气) API** — not yet exposed.
-- **True solar time correction** — time zone offsets based on longitude are not applied.
+- **Solar terms (节气) API** — Jie boundaries back the four-pillar month pillar but are not exposed as a standalone public API.
+- **True solar time correction** — time zone offsets based on longitude are not applied; the four-pillar time is synthesized from `time_index`.
 - **Zi Wei Dou Shu (紫微斗数) charting** — out of scope.
 - **Runtime JavaScript dependency** — the crate is pure Rust at runtime.
+
+## Release process
+
+Releases are managed by [release-plz](https://release-plz.dev/).
+
+After changes are merged into `main`, release-plz opens or updates a Release PR.
+Review the version bump and changelog in that PR. When the Release PR is merged,
+the workflow publishes the crate to crates.io and creates the GitHub release/tag.
+
+Required repository secret:
+
+- `CARGO_REGISTRY_TOKEN`: crates.io API token with permission to publish `lunar-lite`.
 
 ## License
 

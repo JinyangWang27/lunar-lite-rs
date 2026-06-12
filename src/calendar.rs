@@ -57,7 +57,7 @@ fn is_gregorian_leap_year(year: i32) -> bool {
 
 // Days since 1970-01-01, proleptic Gregorian calendar.
 // Algorithm by Howard Hinnant.
-fn days_from_civil(year: i32, month: u8, day: u8) -> i32 {
+pub(crate) fn days_from_civil(year: i32, month: u8, day: u8) -> i32 {
     let mut y = year;
     let m = month as i32;
     let d = day as i32;
@@ -73,7 +73,7 @@ fn days_from_civil(year: i32, month: u8, day: u8) -> i32 {
     era * 146_097 + doe - 719_468
 }
 
-fn civil_from_days(days: i32) -> SolarDate {
+pub(crate) fn civil_from_days(days: i32) -> SolarDate {
     let z = days + 719_468;
     let era = if z >= 0 { z } else { z - 146_096 } / 146_097;
     let doe = z - era * 146_097;

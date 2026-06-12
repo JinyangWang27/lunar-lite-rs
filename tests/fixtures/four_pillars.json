@@ -1,0 +1,5342 @@
+[
+  {
+    "solar": {
+      "year": 1850,
+      "month": 4,
+      "day": 5
+    },
+    "time_index": 6,
+    "options": {
+      "year": "normal",
+      "month": "normal"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "xu"
+      },
+      "monthly": {
+        "stem": "ji",
+        "branch": "mao"
+      },
+      "daily": {
+        "stem": "bing",
+        "branch": "xu"
+      },
+      "hourly": {
+        "stem": "jia",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 1850,
+      "month": 4,
+      "day": 5
+    },
+    "time_index": 6,
+    "options": {
+      "year": "exact",
+      "month": "normal"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "xu"
+      },
+      "monthly": {
+        "stem": "ji",
+        "branch": "mao"
+      },
+      "daily": {
+        "stem": "bing",
+        "branch": "xu"
+      },
+      "hourly": {
+        "stem": "jia",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 1850,
+      "month": 4,
+      "day": 5
+    },
+    "time_index": 6,
+    "options": {
+      "year": "normal",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "xu"
+      },
+      "monthly": {
+        "stem": "ji",
+        "branch": "mao"
+      },
+      "daily": {
+        "stem": "bing",
+        "branch": "xu"
+      },
+      "hourly": {
+        "stem": "jia",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 1850,
+      "month": 4,
+      "day": 5
+    },
+    "time_index": 6,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "xu"
+      },
+      "monthly": {
+        "stem": "ji",
+        "branch": "mao"
+      },
+      "daily": {
+        "stem": "bing",
+        "branch": "xu"
+      },
+      "hourly": {
+        "stem": "jia",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 1850,
+      "month": 10,
+      "day": 20
+    },
+    "time_index": 3,
+    "options": {
+      "year": "normal",
+      "month": "normal"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "xu"
+      },
+      "monthly": {
+        "stem": "bing",
+        "branch": "xu"
+      },
+      "daily": {
+        "stem": "jia",
+        "branch": "chen"
+      },
+      "hourly": {
+        "stem": "ding",
+        "branch": "mao"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 1850,
+      "month": 10,
+      "day": 20
+    },
+    "time_index": 3,
+    "options": {
+      "year": "exact",
+      "month": "normal"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "xu"
+      },
+      "monthly": {
+        "stem": "bing",
+        "branch": "xu"
+      },
+      "daily": {
+        "stem": "jia",
+        "branch": "chen"
+      },
+      "hourly": {
+        "stem": "ding",
+        "branch": "mao"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 1850,
+      "month": 10,
+      "day": 20
+    },
+    "time_index": 3,
+    "options": {
+      "year": "normal",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "xu"
+      },
+      "monthly": {
+        "stem": "bing",
+        "branch": "xu"
+      },
+      "daily": {
+        "stem": "jia",
+        "branch": "chen"
+      },
+      "hourly": {
+        "stem": "ding",
+        "branch": "mao"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 1850,
+      "month": 10,
+      "day": 20
+    },
+    "time_index": 3,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "xu"
+      },
+      "monthly": {
+        "stem": "bing",
+        "branch": "xu"
+      },
+      "daily": {
+        "stem": "jia",
+        "branch": "chen"
+      },
+      "hourly": {
+        "stem": "ding",
+        "branch": "mao"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 1900,
+      "month": 4,
+      "day": 5
+    },
+    "time_index": 6,
+    "options": {
+      "year": "normal",
+      "month": "normal"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "zi"
+      },
+      "monthly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "daily": {
+        "stem": "wu",
+        "branch": "shen"
+      },
+      "hourly": {
+        "stem": "wu",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 1900,
+      "month": 4,
+      "day": 5
+    },
+    "time_index": 6,
+    "options": {
+      "year": "exact",
+      "month": "normal"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "zi"
+      },
+      "monthly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "daily": {
+        "stem": "wu",
+        "branch": "shen"
+      },
+      "hourly": {
+        "stem": "wu",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 1900,
+      "month": 4,
+      "day": 5
+    },
+    "time_index": 6,
+    "options": {
+      "year": "normal",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "zi"
+      },
+      "monthly": {
+        "stem": "ji",
+        "branch": "mao"
+      },
+      "daily": {
+        "stem": "wu",
+        "branch": "shen"
+      },
+      "hourly": {
+        "stem": "wu",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 1900,
+      "month": 4,
+      "day": 5
+    },
+    "time_index": 6,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "zi"
+      },
+      "monthly": {
+        "stem": "ji",
+        "branch": "mao"
+      },
+      "daily": {
+        "stem": "wu",
+        "branch": "shen"
+      },
+      "hourly": {
+        "stem": "wu",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 1900,
+      "month": 10,
+      "day": 20
+    },
+    "time_index": 3,
+    "options": {
+      "year": "normal",
+      "month": "normal"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "zi"
+      },
+      "monthly": {
+        "stem": "bing",
+        "branch": "xu"
+      },
+      "daily": {
+        "stem": "bing",
+        "branch": "yin"
+      },
+      "hourly": {
+        "stem": "xin",
+        "branch": "mao"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 1900,
+      "month": 10,
+      "day": 20
+    },
+    "time_index": 3,
+    "options": {
+      "year": "exact",
+      "month": "normal"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "zi"
+      },
+      "monthly": {
+        "stem": "bing",
+        "branch": "xu"
+      },
+      "daily": {
+        "stem": "bing",
+        "branch": "yin"
+      },
+      "hourly": {
+        "stem": "xin",
+        "branch": "mao"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 1900,
+      "month": 10,
+      "day": 20
+    },
+    "time_index": 3,
+    "options": {
+      "year": "normal",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "zi"
+      },
+      "monthly": {
+        "stem": "bing",
+        "branch": "xu"
+      },
+      "daily": {
+        "stem": "bing",
+        "branch": "yin"
+      },
+      "hourly": {
+        "stem": "xin",
+        "branch": "mao"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 1900,
+      "month": 10,
+      "day": 20
+    },
+    "time_index": 3,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "zi"
+      },
+      "monthly": {
+        "stem": "bing",
+        "branch": "xu"
+      },
+      "daily": {
+        "stem": "bing",
+        "branch": "yin"
+      },
+      "hourly": {
+        "stem": "xin",
+        "branch": "mao"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 1984,
+      "month": 4,
+      "day": 5
+    },
+    "time_index": 6,
+    "options": {
+      "year": "normal",
+      "month": "normal"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "jia",
+        "branch": "zi"
+      },
+      "monthly": {
+        "stem": "wu",
+        "branch": "chen"
+      },
+      "daily": {
+        "stem": "ji",
+        "branch": "si"
+      },
+      "hourly": {
+        "stem": "geng",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 1984,
+      "month": 4,
+      "day": 5
+    },
+    "time_index": 6,
+    "options": {
+      "year": "exact",
+      "month": "normal"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "jia",
+        "branch": "zi"
+      },
+      "monthly": {
+        "stem": "wu",
+        "branch": "chen"
+      },
+      "daily": {
+        "stem": "ji",
+        "branch": "si"
+      },
+      "hourly": {
+        "stem": "geng",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 1984,
+      "month": 4,
+      "day": 5
+    },
+    "time_index": 6,
+    "options": {
+      "year": "normal",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "jia",
+        "branch": "zi"
+      },
+      "monthly": {
+        "stem": "wu",
+        "branch": "chen"
+      },
+      "daily": {
+        "stem": "ji",
+        "branch": "si"
+      },
+      "hourly": {
+        "stem": "geng",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 1984,
+      "month": 4,
+      "day": 5
+    },
+    "time_index": 6,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "jia",
+        "branch": "zi"
+      },
+      "monthly": {
+        "stem": "wu",
+        "branch": "chen"
+      },
+      "daily": {
+        "stem": "ji",
+        "branch": "si"
+      },
+      "hourly": {
+        "stem": "geng",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 1984,
+      "month": 10,
+      "day": 20
+    },
+    "time_index": 3,
+    "options": {
+      "year": "normal",
+      "month": "normal"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "jia",
+        "branch": "zi"
+      },
+      "monthly": {
+        "stem": "jia",
+        "branch": "xu"
+      },
+      "daily": {
+        "stem": "ding",
+        "branch": "hai"
+      },
+      "hourly": {
+        "stem": "gui",
+        "branch": "mao"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 1984,
+      "month": 10,
+      "day": 20
+    },
+    "time_index": 3,
+    "options": {
+      "year": "exact",
+      "month": "normal"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "jia",
+        "branch": "zi"
+      },
+      "monthly": {
+        "stem": "jia",
+        "branch": "xu"
+      },
+      "daily": {
+        "stem": "ding",
+        "branch": "hai"
+      },
+      "hourly": {
+        "stem": "gui",
+        "branch": "mao"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 1984,
+      "month": 10,
+      "day": 20
+    },
+    "time_index": 3,
+    "options": {
+      "year": "normal",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "jia",
+        "branch": "zi"
+      },
+      "monthly": {
+        "stem": "jia",
+        "branch": "xu"
+      },
+      "daily": {
+        "stem": "ding",
+        "branch": "hai"
+      },
+      "hourly": {
+        "stem": "gui",
+        "branch": "mao"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 1984,
+      "month": 10,
+      "day": 20
+    },
+    "time_index": 3,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "jia",
+        "branch": "zi"
+      },
+      "monthly": {
+        "stem": "jia",
+        "branch": "xu"
+      },
+      "daily": {
+        "stem": "ding",
+        "branch": "hai"
+      },
+      "hourly": {
+        "stem": "gui",
+        "branch": "mao"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 4,
+      "day": 5
+    },
+    "time_index": 6,
+    "options": {
+      "year": "normal",
+      "month": "normal"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "daily": {
+        "stem": "gui",
+        "branch": "si"
+      },
+      "hourly": {
+        "stem": "wu",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 4,
+      "day": 5
+    },
+    "time_index": 6,
+    "options": {
+      "year": "exact",
+      "month": "normal"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "daily": {
+        "stem": "gui",
+        "branch": "si"
+      },
+      "hourly": {
+        "stem": "wu",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 4,
+      "day": 5
+    },
+    "time_index": 6,
+    "options": {
+      "year": "normal",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "daily": {
+        "stem": "gui",
+        "branch": "si"
+      },
+      "hourly": {
+        "stem": "wu",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 4,
+      "day": 5
+    },
+    "time_index": 6,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "daily": {
+        "stem": "gui",
+        "branch": "si"
+      },
+      "hourly": {
+        "stem": "wu",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 10,
+      "day": 20
+    },
+    "time_index": 3,
+    "options": {
+      "year": "normal",
+      "month": "normal"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "bing",
+        "branch": "xu"
+      },
+      "daily": {
+        "stem": "xin",
+        "branch": "hai"
+      },
+      "hourly": {
+        "stem": "xin",
+        "branch": "mao"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 10,
+      "day": 20
+    },
+    "time_index": 3,
+    "options": {
+      "year": "exact",
+      "month": "normal"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "bing",
+        "branch": "xu"
+      },
+      "daily": {
+        "stem": "xin",
+        "branch": "hai"
+      },
+      "hourly": {
+        "stem": "xin",
+        "branch": "mao"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 10,
+      "day": 20
+    },
+    "time_index": 3,
+    "options": {
+      "year": "normal",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "bing",
+        "branch": "xu"
+      },
+      "daily": {
+        "stem": "xin",
+        "branch": "hai"
+      },
+      "hourly": {
+        "stem": "xin",
+        "branch": "mao"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 10,
+      "day": 20
+    },
+    "time_index": 3,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "bing",
+        "branch": "xu"
+      },
+      "daily": {
+        "stem": "xin",
+        "branch": "hai"
+      },
+      "hourly": {
+        "stem": "xin",
+        "branch": "mao"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2024,
+      "month": 4,
+      "day": 5
+    },
+    "time_index": 6,
+    "options": {
+      "year": "normal",
+      "month": "normal"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "jia",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "ding",
+        "branch": "mao"
+      },
+      "daily": {
+        "stem": "ji",
+        "branch": "hai"
+      },
+      "hourly": {
+        "stem": "geng",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2024,
+      "month": 4,
+      "day": 5
+    },
+    "time_index": 6,
+    "options": {
+      "year": "exact",
+      "month": "normal"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "jia",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "ding",
+        "branch": "mao"
+      },
+      "daily": {
+        "stem": "ji",
+        "branch": "hai"
+      },
+      "hourly": {
+        "stem": "geng",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2024,
+      "month": 4,
+      "day": 5
+    },
+    "time_index": 6,
+    "options": {
+      "year": "normal",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "jia",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "wu",
+        "branch": "chen"
+      },
+      "daily": {
+        "stem": "ji",
+        "branch": "hai"
+      },
+      "hourly": {
+        "stem": "geng",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2024,
+      "month": 4,
+      "day": 5
+    },
+    "time_index": 6,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "jia",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "wu",
+        "branch": "chen"
+      },
+      "daily": {
+        "stem": "ji",
+        "branch": "hai"
+      },
+      "hourly": {
+        "stem": "geng",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2024,
+      "month": 10,
+      "day": 20
+    },
+    "time_index": 3,
+    "options": {
+      "year": "normal",
+      "month": "normal"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "jia",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "jia",
+        "branch": "xu"
+      },
+      "daily": {
+        "stem": "ding",
+        "branch": "si"
+      },
+      "hourly": {
+        "stem": "gui",
+        "branch": "mao"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2024,
+      "month": 10,
+      "day": 20
+    },
+    "time_index": 3,
+    "options": {
+      "year": "exact",
+      "month": "normal"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "jia",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "jia",
+        "branch": "xu"
+      },
+      "daily": {
+        "stem": "ding",
+        "branch": "si"
+      },
+      "hourly": {
+        "stem": "gui",
+        "branch": "mao"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2024,
+      "month": 10,
+      "day": 20
+    },
+    "time_index": 3,
+    "options": {
+      "year": "normal",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "jia",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "jia",
+        "branch": "xu"
+      },
+      "daily": {
+        "stem": "ding",
+        "branch": "si"
+      },
+      "hourly": {
+        "stem": "gui",
+        "branch": "mao"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2024,
+      "month": 10,
+      "day": 20
+    },
+    "time_index": 3,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "jia",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "jia",
+        "branch": "xu"
+      },
+      "daily": {
+        "stem": "ding",
+        "branch": "si"
+      },
+      "hourly": {
+        "stem": "gui",
+        "branch": "mao"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2100,
+      "month": 4,
+      "day": 5
+    },
+    "time_index": 6,
+    "options": {
+      "year": "normal",
+      "month": "normal"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "shen"
+      },
+      "monthly": {
+        "stem": "ji",
+        "branch": "mao"
+      },
+      "daily": {
+        "stem": "ding",
+        "branch": "chou"
+      },
+      "hourly": {
+        "stem": "bing",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2100,
+      "month": 4,
+      "day": 5
+    },
+    "time_index": 6,
+    "options": {
+      "year": "exact",
+      "month": "normal"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "shen"
+      },
+      "monthly": {
+        "stem": "ji",
+        "branch": "mao"
+      },
+      "daily": {
+        "stem": "ding",
+        "branch": "chou"
+      },
+      "hourly": {
+        "stem": "bing",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2100,
+      "month": 4,
+      "day": 5
+    },
+    "time_index": 6,
+    "options": {
+      "year": "normal",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "shen"
+      },
+      "monthly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "daily": {
+        "stem": "ding",
+        "branch": "chou"
+      },
+      "hourly": {
+        "stem": "bing",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2100,
+      "month": 4,
+      "day": 5
+    },
+    "time_index": 6,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "shen"
+      },
+      "monthly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "daily": {
+        "stem": "ding",
+        "branch": "chou"
+      },
+      "hourly": {
+        "stem": "bing",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2100,
+      "month": 10,
+      "day": 20
+    },
+    "time_index": 3,
+    "options": {
+      "year": "normal",
+      "month": "normal"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "shen"
+      },
+      "monthly": {
+        "stem": "bing",
+        "branch": "xu"
+      },
+      "daily": {
+        "stem": "yi",
+        "branch": "wei"
+      },
+      "hourly": {
+        "stem": "ji",
+        "branch": "mao"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2100,
+      "month": 10,
+      "day": 20
+    },
+    "time_index": 3,
+    "options": {
+      "year": "exact",
+      "month": "normal"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "shen"
+      },
+      "monthly": {
+        "stem": "bing",
+        "branch": "xu"
+      },
+      "daily": {
+        "stem": "yi",
+        "branch": "wei"
+      },
+      "hourly": {
+        "stem": "ji",
+        "branch": "mao"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2100,
+      "month": 10,
+      "day": 20
+    },
+    "time_index": 3,
+    "options": {
+      "year": "normal",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "shen"
+      },
+      "monthly": {
+        "stem": "bing",
+        "branch": "xu"
+      },
+      "daily": {
+        "stem": "yi",
+        "branch": "wei"
+      },
+      "hourly": {
+        "stem": "ji",
+        "branch": "mao"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2100,
+      "month": 10,
+      "day": 20
+    },
+    "time_index": 3,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "shen"
+      },
+      "monthly": {
+        "stem": "bing",
+        "branch": "xu"
+      },
+      "daily": {
+        "stem": "yi",
+        "branch": "wei"
+      },
+      "hourly": {
+        "stem": "ji",
+        "branch": "mao"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2150,
+      "month": 4,
+      "day": 5
+    },
+    "time_index": 6,
+    "options": {
+      "year": "normal",
+      "month": "normal"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "xu"
+      },
+      "monthly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "daily": {
+        "stem": "ji",
+        "branch": "hai"
+      },
+      "hourly": {
+        "stem": "geng",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2150,
+      "month": 4,
+      "day": 5
+    },
+    "time_index": 6,
+    "options": {
+      "year": "exact",
+      "month": "normal"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "xu"
+      },
+      "monthly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "daily": {
+        "stem": "ji",
+        "branch": "hai"
+      },
+      "hourly": {
+        "stem": "geng",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2150,
+      "month": 4,
+      "day": 5
+    },
+    "time_index": 6,
+    "options": {
+      "year": "normal",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "xu"
+      },
+      "monthly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "daily": {
+        "stem": "ji",
+        "branch": "hai"
+      },
+      "hourly": {
+        "stem": "geng",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2150,
+      "month": 4,
+      "day": 5
+    },
+    "time_index": 6,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "xu"
+      },
+      "monthly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "daily": {
+        "stem": "ji",
+        "branch": "hai"
+      },
+      "hourly": {
+        "stem": "geng",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2150,
+      "month": 10,
+      "day": 20
+    },
+    "time_index": 3,
+    "options": {
+      "year": "normal",
+      "month": "normal"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "xu"
+      },
+      "monthly": {
+        "stem": "bing",
+        "branch": "xu"
+      },
+      "daily": {
+        "stem": "ding",
+        "branch": "si"
+      },
+      "hourly": {
+        "stem": "gui",
+        "branch": "mao"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2150,
+      "month": 10,
+      "day": 20
+    },
+    "time_index": 3,
+    "options": {
+      "year": "exact",
+      "month": "normal"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "xu"
+      },
+      "monthly": {
+        "stem": "bing",
+        "branch": "xu"
+      },
+      "daily": {
+        "stem": "ding",
+        "branch": "si"
+      },
+      "hourly": {
+        "stem": "gui",
+        "branch": "mao"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2150,
+      "month": 10,
+      "day": 20
+    },
+    "time_index": 3,
+    "options": {
+      "year": "normal",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "xu"
+      },
+      "monthly": {
+        "stem": "bing",
+        "branch": "xu"
+      },
+      "daily": {
+        "stem": "ding",
+        "branch": "si"
+      },
+      "hourly": {
+        "stem": "gui",
+        "branch": "mao"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2150,
+      "month": 10,
+      "day": 20
+    },
+    "time_index": 3,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "xu"
+      },
+      "monthly": {
+        "stem": "bing",
+        "branch": "xu"
+      },
+      "daily": {
+        "stem": "ding",
+        "branch": "si"
+      },
+      "hourly": {
+        "stem": "gui",
+        "branch": "mao"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 1984,
+      "month": 2,
+      "day": 3
+    },
+    "time_index": 6,
+    "options": {
+      "year": "normal",
+      "month": "normal"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "jia",
+        "branch": "zi"
+      },
+      "monthly": {
+        "stem": "bing",
+        "branch": "yin"
+      },
+      "daily": {
+        "stem": "ding",
+        "branch": "mao"
+      },
+      "hourly": {
+        "stem": "bing",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 1984,
+      "month": 2,
+      "day": 3
+    },
+    "time_index": 6,
+    "options": {
+      "year": "exact",
+      "month": "normal"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "gui",
+        "branch": "hai"
+      },
+      "monthly": {
+        "stem": "jia",
+        "branch": "yin"
+      },
+      "daily": {
+        "stem": "ding",
+        "branch": "mao"
+      },
+      "hourly": {
+        "stem": "bing",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 1984,
+      "month": 2,
+      "day": 3
+    },
+    "time_index": 6,
+    "options": {
+      "year": "normal",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "jia",
+        "branch": "zi"
+      },
+      "monthly": {
+        "stem": "yi",
+        "branch": "chou"
+      },
+      "daily": {
+        "stem": "ding",
+        "branch": "mao"
+      },
+      "hourly": {
+        "stem": "bing",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 1984,
+      "month": 2,
+      "day": 3
+    },
+    "time_index": 6,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "gui",
+        "branch": "hai"
+      },
+      "monthly": {
+        "stem": "yi",
+        "branch": "chou"
+      },
+      "daily": {
+        "stem": "ding",
+        "branch": "mao"
+      },
+      "hourly": {
+        "stem": "bing",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 1984,
+      "month": 2,
+      "day": 5
+    },
+    "time_index": 6,
+    "options": {
+      "year": "normal",
+      "month": "normal"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "jia",
+        "branch": "zi"
+      },
+      "monthly": {
+        "stem": "bing",
+        "branch": "yin"
+      },
+      "daily": {
+        "stem": "ji",
+        "branch": "si"
+      },
+      "hourly": {
+        "stem": "geng",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 1984,
+      "month": 2,
+      "day": 5
+    },
+    "time_index": 6,
+    "options": {
+      "year": "exact",
+      "month": "normal"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "jia",
+        "branch": "zi"
+      },
+      "monthly": {
+        "stem": "bing",
+        "branch": "yin"
+      },
+      "daily": {
+        "stem": "ji",
+        "branch": "si"
+      },
+      "hourly": {
+        "stem": "geng",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 1984,
+      "month": 2,
+      "day": 5
+    },
+    "time_index": 6,
+    "options": {
+      "year": "normal",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "jia",
+        "branch": "zi"
+      },
+      "monthly": {
+        "stem": "bing",
+        "branch": "yin"
+      },
+      "daily": {
+        "stem": "ji",
+        "branch": "si"
+      },
+      "hourly": {
+        "stem": "geng",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 1984,
+      "month": 2,
+      "day": 5
+    },
+    "time_index": 6,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "jia",
+        "branch": "zi"
+      },
+      "monthly": {
+        "stem": "bing",
+        "branch": "yin"
+      },
+      "daily": {
+        "stem": "ji",
+        "branch": "si"
+      },
+      "hourly": {
+        "stem": "geng",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 1984,
+      "month": 2,
+      "day": 4
+    },
+    "time_index": 11,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "jia",
+        "branch": "zi"
+      },
+      "monthly": {
+        "stem": "yi",
+        "branch": "chou"
+      },
+      "daily": {
+        "stem": "wu",
+        "branch": "chen"
+      },
+      "hourly": {
+        "stem": "gui",
+        "branch": "hai"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 1984,
+      "month": 2,
+      "day": 4
+    },
+    "time_index": 12,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "jia",
+        "branch": "zi"
+      },
+      "monthly": {
+        "stem": "bing",
+        "branch": "yin"
+      },
+      "daily": {
+        "stem": "ji",
+        "branch": "si"
+      },
+      "hourly": {
+        "stem": "jia",
+        "branch": "zi"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 2,
+      "day": 3
+    },
+    "time_index": 6,
+    "options": {
+      "year": "normal",
+      "month": "normal"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "ji",
+        "branch": "mao"
+      },
+      "monthly": {
+        "stem": "ding",
+        "branch": "chou"
+      },
+      "daily": {
+        "stem": "xin",
+        "branch": "mao"
+      },
+      "hourly": {
+        "stem": "jia",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 2,
+      "day": 3
+    },
+    "time_index": 6,
+    "options": {
+      "year": "exact",
+      "month": "normal"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "ji",
+        "branch": "mao"
+      },
+      "monthly": {
+        "stem": "ding",
+        "branch": "chou"
+      },
+      "daily": {
+        "stem": "xin",
+        "branch": "mao"
+      },
+      "hourly": {
+        "stem": "jia",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 2,
+      "day": 3
+    },
+    "time_index": 6,
+    "options": {
+      "year": "normal",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "ji",
+        "branch": "mao"
+      },
+      "monthly": {
+        "stem": "ding",
+        "branch": "chou"
+      },
+      "daily": {
+        "stem": "xin",
+        "branch": "mao"
+      },
+      "hourly": {
+        "stem": "jia",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 2,
+      "day": 3
+    },
+    "time_index": 6,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "ji",
+        "branch": "mao"
+      },
+      "monthly": {
+        "stem": "ding",
+        "branch": "chou"
+      },
+      "daily": {
+        "stem": "xin",
+        "branch": "mao"
+      },
+      "hourly": {
+        "stem": "jia",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 2,
+      "day": 5
+    },
+    "time_index": 6,
+    "options": {
+      "year": "normal",
+      "month": "normal"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "wu",
+        "branch": "yin"
+      },
+      "daily": {
+        "stem": "gui",
+        "branch": "si"
+      },
+      "hourly": {
+        "stem": "wu",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 2,
+      "day": 5
+    },
+    "time_index": 6,
+    "options": {
+      "year": "exact",
+      "month": "normal"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "wu",
+        "branch": "yin"
+      },
+      "daily": {
+        "stem": "gui",
+        "branch": "si"
+      },
+      "hourly": {
+        "stem": "wu",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 2,
+      "day": 5
+    },
+    "time_index": 6,
+    "options": {
+      "year": "normal",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "wu",
+        "branch": "yin"
+      },
+      "daily": {
+        "stem": "gui",
+        "branch": "si"
+      },
+      "hourly": {
+        "stem": "wu",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 2,
+      "day": 5
+    },
+    "time_index": 6,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "wu",
+        "branch": "yin"
+      },
+      "daily": {
+        "stem": "gui",
+        "branch": "si"
+      },
+      "hourly": {
+        "stem": "wu",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 2,
+      "day": 4
+    },
+    "time_index": 10,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "ding",
+        "branch": "chou"
+      },
+      "daily": {
+        "stem": "ren",
+        "branch": "chen"
+      },
+      "hourly": {
+        "stem": "geng",
+        "branch": "xu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 2,
+      "day": 4
+    },
+    "time_index": 11,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "wu",
+        "branch": "yin"
+      },
+      "daily": {
+        "stem": "ren",
+        "branch": "chen"
+      },
+      "hourly": {
+        "stem": "xin",
+        "branch": "hai"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2024,
+      "month": 2,
+      "day": 3
+    },
+    "time_index": 6,
+    "options": {
+      "year": "normal",
+      "month": "normal"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "gui",
+        "branch": "mao"
+      },
+      "monthly": {
+        "stem": "yi",
+        "branch": "chou"
+      },
+      "daily": {
+        "stem": "ding",
+        "branch": "you"
+      },
+      "hourly": {
+        "stem": "bing",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2024,
+      "month": 2,
+      "day": 3
+    },
+    "time_index": 6,
+    "options": {
+      "year": "exact",
+      "month": "normal"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "gui",
+        "branch": "mao"
+      },
+      "monthly": {
+        "stem": "yi",
+        "branch": "chou"
+      },
+      "daily": {
+        "stem": "ding",
+        "branch": "you"
+      },
+      "hourly": {
+        "stem": "bing",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2024,
+      "month": 2,
+      "day": 3
+    },
+    "time_index": 6,
+    "options": {
+      "year": "normal",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "gui",
+        "branch": "mao"
+      },
+      "monthly": {
+        "stem": "yi",
+        "branch": "chou"
+      },
+      "daily": {
+        "stem": "ding",
+        "branch": "you"
+      },
+      "hourly": {
+        "stem": "bing",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2024,
+      "month": 2,
+      "day": 3
+    },
+    "time_index": 6,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "gui",
+        "branch": "mao"
+      },
+      "monthly": {
+        "stem": "yi",
+        "branch": "chou"
+      },
+      "daily": {
+        "stem": "ding",
+        "branch": "you"
+      },
+      "hourly": {
+        "stem": "bing",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2024,
+      "month": 2,
+      "day": 5
+    },
+    "time_index": 6,
+    "options": {
+      "year": "normal",
+      "month": "normal"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "gui",
+        "branch": "mao"
+      },
+      "monthly": {
+        "stem": "yi",
+        "branch": "chou"
+      },
+      "daily": {
+        "stem": "ji",
+        "branch": "hai"
+      },
+      "hourly": {
+        "stem": "geng",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2024,
+      "month": 2,
+      "day": 5
+    },
+    "time_index": 6,
+    "options": {
+      "year": "exact",
+      "month": "normal"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "jia",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "ding",
+        "branch": "chou"
+      },
+      "daily": {
+        "stem": "ji",
+        "branch": "hai"
+      },
+      "hourly": {
+        "stem": "geng",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2024,
+      "month": 2,
+      "day": 5
+    },
+    "time_index": 6,
+    "options": {
+      "year": "normal",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "gui",
+        "branch": "mao"
+      },
+      "monthly": {
+        "stem": "bing",
+        "branch": "yin"
+      },
+      "daily": {
+        "stem": "ji",
+        "branch": "hai"
+      },
+      "hourly": {
+        "stem": "geng",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2024,
+      "month": 2,
+      "day": 5
+    },
+    "time_index": 6,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "jia",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "bing",
+        "branch": "yin"
+      },
+      "daily": {
+        "stem": "ji",
+        "branch": "hai"
+      },
+      "hourly": {
+        "stem": "geng",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2024,
+      "month": 2,
+      "day": 4
+    },
+    "time_index": 8,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "jia",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "yi",
+        "branch": "chou"
+      },
+      "daily": {
+        "stem": "wu",
+        "branch": "xu"
+      },
+      "hourly": {
+        "stem": "geng",
+        "branch": "shen"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2024,
+      "month": 2,
+      "day": 4
+    },
+    "time_index": 9,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "jia",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "bing",
+        "branch": "yin"
+      },
+      "daily": {
+        "stem": "wu",
+        "branch": "xu"
+      },
+      "hourly": {
+        "stem": "xin",
+        "branch": "you"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2100,
+      "month": 2,
+      "day": 3
+    },
+    "time_index": 6,
+    "options": {
+      "year": "normal",
+      "month": "normal"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "ji",
+        "branch": "wei"
+      },
+      "monthly": {
+        "stem": "ding",
+        "branch": "chou"
+      },
+      "daily": {
+        "stem": "bing",
+        "branch": "zi"
+      },
+      "hourly": {
+        "stem": "jia",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2100,
+      "month": 2,
+      "day": 3
+    },
+    "time_index": 6,
+    "options": {
+      "year": "exact",
+      "month": "normal"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "ji",
+        "branch": "wei"
+      },
+      "monthly": {
+        "stem": "ding",
+        "branch": "chou"
+      },
+      "daily": {
+        "stem": "bing",
+        "branch": "zi"
+      },
+      "hourly": {
+        "stem": "jia",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2100,
+      "month": 2,
+      "day": 3
+    },
+    "time_index": 6,
+    "options": {
+      "year": "normal",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "ji",
+        "branch": "wei"
+      },
+      "monthly": {
+        "stem": "ding",
+        "branch": "chou"
+      },
+      "daily": {
+        "stem": "bing",
+        "branch": "zi"
+      },
+      "hourly": {
+        "stem": "jia",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2100,
+      "month": 2,
+      "day": 3
+    },
+    "time_index": 6,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "ji",
+        "branch": "wei"
+      },
+      "monthly": {
+        "stem": "ding",
+        "branch": "chou"
+      },
+      "daily": {
+        "stem": "bing",
+        "branch": "zi"
+      },
+      "hourly": {
+        "stem": "jia",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2100,
+      "month": 2,
+      "day": 5
+    },
+    "time_index": 6,
+    "options": {
+      "year": "normal",
+      "month": "normal"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "ji",
+        "branch": "wei"
+      },
+      "monthly": {
+        "stem": "ding",
+        "branch": "chou"
+      },
+      "daily": {
+        "stem": "wu",
+        "branch": "yin"
+      },
+      "hourly": {
+        "stem": "wu",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2100,
+      "month": 2,
+      "day": 5
+    },
+    "time_index": 6,
+    "options": {
+      "year": "exact",
+      "month": "normal"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "shen"
+      },
+      "monthly": {
+        "stem": "ji",
+        "branch": "chou"
+      },
+      "daily": {
+        "stem": "wu",
+        "branch": "yin"
+      },
+      "hourly": {
+        "stem": "wu",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2100,
+      "month": 2,
+      "day": 5
+    },
+    "time_index": 6,
+    "options": {
+      "year": "normal",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "ji",
+        "branch": "wei"
+      },
+      "monthly": {
+        "stem": "wu",
+        "branch": "yin"
+      },
+      "daily": {
+        "stem": "wu",
+        "branch": "yin"
+      },
+      "hourly": {
+        "stem": "wu",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2100,
+      "month": 2,
+      "day": 5
+    },
+    "time_index": 6,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "shen"
+      },
+      "monthly": {
+        "stem": "wu",
+        "branch": "yin"
+      },
+      "daily": {
+        "stem": "wu",
+        "branch": "yin"
+      },
+      "hourly": {
+        "stem": "wu",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2100,
+      "month": 2,
+      "day": 4
+    },
+    "time_index": 1,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "shen"
+      },
+      "monthly": {
+        "stem": "ding",
+        "branch": "chou"
+      },
+      "daily": {
+        "stem": "ding",
+        "branch": "chou"
+      },
+      "hourly": {
+        "stem": "xin",
+        "branch": "chou"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2100,
+      "month": 2,
+      "day": 4
+    },
+    "time_index": 2,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "shen"
+      },
+      "monthly": {
+        "stem": "wu",
+        "branch": "yin"
+      },
+      "daily": {
+        "stem": "ding",
+        "branch": "chou"
+      },
+      "hourly": {
+        "stem": "ren",
+        "branch": "yin"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 1,
+      "day": 5
+    },
+    "time_index": 6,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "ji",
+        "branch": "mao"
+      },
+      "monthly": {
+        "stem": "bing",
+        "branch": "zi"
+      },
+      "daily": {
+        "stem": "ren",
+        "branch": "xu"
+      },
+      "hourly": {
+        "stem": "bing",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 1,
+      "day": 7
+    },
+    "time_index": 6,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "ji",
+        "branch": "mao"
+      },
+      "monthly": {
+        "stem": "ding",
+        "branch": "chou"
+      },
+      "daily": {
+        "stem": "jia",
+        "branch": "zi"
+      },
+      "hourly": {
+        "stem": "geng",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 1,
+      "day": 6
+    },
+    "time_index": 4,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "ji",
+        "branch": "mao"
+      },
+      "monthly": {
+        "stem": "bing",
+        "branch": "zi"
+      },
+      "daily": {
+        "stem": "gui",
+        "branch": "hai"
+      },
+      "hourly": {
+        "stem": "bing",
+        "branch": "chen"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 1,
+      "day": 6
+    },
+    "time_index": 5,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "ji",
+        "branch": "mao"
+      },
+      "monthly": {
+        "stem": "ding",
+        "branch": "chou"
+      },
+      "daily": {
+        "stem": "gui",
+        "branch": "hai"
+      },
+      "hourly": {
+        "stem": "ding",
+        "branch": "si"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 2,
+      "day": 3
+    },
+    "time_index": 6,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "ji",
+        "branch": "mao"
+      },
+      "monthly": {
+        "stem": "ding",
+        "branch": "chou"
+      },
+      "daily": {
+        "stem": "xin",
+        "branch": "mao"
+      },
+      "hourly": {
+        "stem": "jia",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 2,
+      "day": 5
+    },
+    "time_index": 6,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "wu",
+        "branch": "yin"
+      },
+      "daily": {
+        "stem": "gui",
+        "branch": "si"
+      },
+      "hourly": {
+        "stem": "wu",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 2,
+      "day": 4
+    },
+    "time_index": 10,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "ding",
+        "branch": "chou"
+      },
+      "daily": {
+        "stem": "ren",
+        "branch": "chen"
+      },
+      "hourly": {
+        "stem": "geng",
+        "branch": "xu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 2,
+      "day": 4
+    },
+    "time_index": 11,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "wu",
+        "branch": "yin"
+      },
+      "daily": {
+        "stem": "ren",
+        "branch": "chen"
+      },
+      "hourly": {
+        "stem": "xin",
+        "branch": "hai"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 3,
+      "day": 4
+    },
+    "time_index": 6,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "wu",
+        "branch": "yin"
+      },
+      "daily": {
+        "stem": "xin",
+        "branch": "you"
+      },
+      "hourly": {
+        "stem": "jia",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 3,
+      "day": 6
+    },
+    "time_index": 6,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "ji",
+        "branch": "mao"
+      },
+      "daily": {
+        "stem": "gui",
+        "branch": "hai"
+      },
+      "hourly": {
+        "stem": "wu",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 3,
+      "day": 5
+    },
+    "time_index": 7,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "wu",
+        "branch": "yin"
+      },
+      "daily": {
+        "stem": "ren",
+        "branch": "xu"
+      },
+      "hourly": {
+        "stem": "ding",
+        "branch": "wei"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 3,
+      "day": 5
+    },
+    "time_index": 8,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "ji",
+        "branch": "mao"
+      },
+      "daily": {
+        "stem": "ren",
+        "branch": "xu"
+      },
+      "hourly": {
+        "stem": "wu",
+        "branch": "shen"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 4,
+      "day": 3
+    },
+    "time_index": 6,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "ji",
+        "branch": "mao"
+      },
+      "daily": {
+        "stem": "xin",
+        "branch": "mao"
+      },
+      "hourly": {
+        "stem": "jia",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 4,
+      "day": 5
+    },
+    "time_index": 6,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "daily": {
+        "stem": "gui",
+        "branch": "si"
+      },
+      "hourly": {
+        "stem": "wu",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 4,
+      "day": 4
+    },
+    "time_index": 10,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "ji",
+        "branch": "mao"
+      },
+      "daily": {
+        "stem": "ren",
+        "branch": "chen"
+      },
+      "hourly": {
+        "stem": "geng",
+        "branch": "xu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 4,
+      "day": 4
+    },
+    "time_index": 11,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "daily": {
+        "stem": "ren",
+        "branch": "chen"
+      },
+      "hourly": {
+        "stem": "xin",
+        "branch": "hai"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 5,
+      "day": 4
+    },
+    "time_index": 6,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "daily": {
+        "stem": "ren",
+        "branch": "xu"
+      },
+      "hourly": {
+        "stem": "bing",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 5,
+      "day": 6
+    },
+    "time_index": 6,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "xin",
+        "branch": "si"
+      },
+      "daily": {
+        "stem": "jia",
+        "branch": "zi"
+      },
+      "hourly": {
+        "stem": "geng",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 5,
+      "day": 5
+    },
+    "time_index": 6,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "daily": {
+        "stem": "gui",
+        "branch": "hai"
+      },
+      "hourly": {
+        "stem": "wu",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 5,
+      "day": 5
+    },
+    "time_index": 7,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "xin",
+        "branch": "si"
+      },
+      "daily": {
+        "stem": "gui",
+        "branch": "hai"
+      },
+      "hourly": {
+        "stem": "ji",
+        "branch": "wei"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 6,
+      "day": 4
+    },
+    "time_index": 6,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "xin",
+        "branch": "si"
+      },
+      "daily": {
+        "stem": "gui",
+        "branch": "si"
+      },
+      "hourly": {
+        "stem": "wu",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 6,
+      "day": 6
+    },
+    "time_index": 6,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "ren",
+        "branch": "wu"
+      },
+      "daily": {
+        "stem": "yi",
+        "branch": "wei"
+      },
+      "hourly": {
+        "stem": "ren",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 6,
+      "day": 5
+    },
+    "time_index": 8,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "xin",
+        "branch": "si"
+      },
+      "daily": {
+        "stem": "jia",
+        "branch": "wu"
+      },
+      "hourly": {
+        "stem": "ren",
+        "branch": "shen"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 6,
+      "day": 5
+    },
+    "time_index": 9,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "ren",
+        "branch": "wu"
+      },
+      "daily": {
+        "stem": "jia",
+        "branch": "wu"
+      },
+      "hourly": {
+        "stem": "gui",
+        "branch": "you"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 7,
+      "day": 6
+    },
+    "time_index": 6,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "ren",
+        "branch": "wu"
+      },
+      "daily": {
+        "stem": "yi",
+        "branch": "chou"
+      },
+      "hourly": {
+        "stem": "ren",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 7,
+      "day": 8
+    },
+    "time_index": 6,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "gui",
+        "branch": "wei"
+      },
+      "daily": {
+        "stem": "ding",
+        "branch": "mao"
+      },
+      "hourly": {
+        "stem": "bing",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 7,
+      "day": 7
+    },
+    "time_index": 1,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "ren",
+        "branch": "wu"
+      },
+      "daily": {
+        "stem": "bing",
+        "branch": "yin"
+      },
+      "hourly": {
+        "stem": "ji",
+        "branch": "chou"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 7,
+      "day": 7
+    },
+    "time_index": 2,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "gui",
+        "branch": "wei"
+      },
+      "daily": {
+        "stem": "bing",
+        "branch": "yin"
+      },
+      "hourly": {
+        "stem": "geng",
+        "branch": "yin"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 8,
+      "day": 6
+    },
+    "time_index": 6,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "gui",
+        "branch": "wei"
+      },
+      "daily": {
+        "stem": "bing",
+        "branch": "shen"
+      },
+      "hourly": {
+        "stem": "jia",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 8,
+      "day": 8
+    },
+    "time_index": 6,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "jia",
+        "branch": "shen"
+      },
+      "daily": {
+        "stem": "wu",
+        "branch": "xu"
+      },
+      "hourly": {
+        "stem": "wu",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 8,
+      "day": 7
+    },
+    "time_index": 6,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "gui",
+        "branch": "wei"
+      },
+      "daily": {
+        "stem": "ding",
+        "branch": "you"
+      },
+      "hourly": {
+        "stem": "bing",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 8,
+      "day": 7
+    },
+    "time_index": 7,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "jia",
+        "branch": "shen"
+      },
+      "daily": {
+        "stem": "ding",
+        "branch": "you"
+      },
+      "hourly": {
+        "stem": "ding",
+        "branch": "wei"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 9,
+      "day": 6
+    },
+    "time_index": 6,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "jia",
+        "branch": "shen"
+      },
+      "daily": {
+        "stem": "ding",
+        "branch": "mao"
+      },
+      "hourly": {
+        "stem": "bing",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 9,
+      "day": 8
+    },
+    "time_index": 6,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "yi",
+        "branch": "you"
+      },
+      "daily": {
+        "stem": "ji",
+        "branch": "si"
+      },
+      "hourly": {
+        "stem": "geng",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 9,
+      "day": 7
+    },
+    "time_index": 8,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "jia",
+        "branch": "shen"
+      },
+      "daily": {
+        "stem": "wu",
+        "branch": "chen"
+      },
+      "hourly": {
+        "stem": "geng",
+        "branch": "shen"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 9,
+      "day": 7
+    },
+    "time_index": 9,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "yi",
+        "branch": "you"
+      },
+      "daily": {
+        "stem": "wu",
+        "branch": "chen"
+      },
+      "hourly": {
+        "stem": "xin",
+        "branch": "you"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 10,
+      "day": 7
+    },
+    "time_index": 6,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "yi",
+        "branch": "you"
+      },
+      "daily": {
+        "stem": "wu",
+        "branch": "xu"
+      },
+      "hourly": {
+        "stem": "wu",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 10,
+      "day": 9
+    },
+    "time_index": 6,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "bing",
+        "branch": "xu"
+      },
+      "daily": {
+        "stem": "geng",
+        "branch": "zi"
+      },
+      "hourly": {
+        "stem": "ren",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 10,
+      "day": 8
+    },
+    "time_index": 4,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "yi",
+        "branch": "you"
+      },
+      "daily": {
+        "stem": "ji",
+        "branch": "hai"
+      },
+      "hourly": {
+        "stem": "wu",
+        "branch": "chen"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 10,
+      "day": 8
+    },
+    "time_index": 5,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "bing",
+        "branch": "xu"
+      },
+      "daily": {
+        "stem": "ji",
+        "branch": "hai"
+      },
+      "hourly": {
+        "stem": "ji",
+        "branch": "si"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 11,
+      "day": 6
+    },
+    "time_index": 6,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "bing",
+        "branch": "xu"
+      },
+      "daily": {
+        "stem": "wu",
+        "branch": "chen"
+      },
+      "hourly": {
+        "stem": "wu",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 11,
+      "day": 8
+    },
+    "time_index": 6,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "ding",
+        "branch": "hai"
+      },
+      "daily": {
+        "stem": "geng",
+        "branch": "wu"
+      },
+      "hourly": {
+        "stem": "ren",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 11,
+      "day": 7
+    },
+    "time_index": 5,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "bing",
+        "branch": "xu"
+      },
+      "daily": {
+        "stem": "ji",
+        "branch": "si"
+      },
+      "hourly": {
+        "stem": "ji",
+        "branch": "si"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 11,
+      "day": 7
+    },
+    "time_index": 6,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "ding",
+        "branch": "hai"
+      },
+      "daily": {
+        "stem": "ji",
+        "branch": "si"
+      },
+      "hourly": {
+        "stem": "geng",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 12,
+      "day": 6
+    },
+    "time_index": 6,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "ding",
+        "branch": "hai"
+      },
+      "daily": {
+        "stem": "wu",
+        "branch": "xu"
+      },
+      "hourly": {
+        "stem": "wu",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 12,
+      "day": 8
+    },
+    "time_index": 6,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "wu",
+        "branch": "zi"
+      },
+      "daily": {
+        "stem": "geng",
+        "branch": "zi"
+      },
+      "hourly": {
+        "stem": "ren",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 12,
+      "day": 7
+    },
+    "time_index": 2,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "ding",
+        "branch": "hai"
+      },
+      "daily": {
+        "stem": "ji",
+        "branch": "hai"
+      },
+      "hourly": {
+        "stem": "bing",
+        "branch": "yin"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 12,
+      "day": 7
+    },
+    "time_index": 3,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "wu",
+        "branch": "zi"
+      },
+      "daily": {
+        "stem": "ji",
+        "branch": "hai"
+      },
+      "hourly": {
+        "stem": "ding",
+        "branch": "mao"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 8,
+      "day": 16
+    },
+    "time_index": 0,
+    "options": {
+      "year": "normal",
+      "month": "normal"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "jia",
+        "branch": "shen"
+      },
+      "daily": {
+        "stem": "bing",
+        "branch": "wu"
+      },
+      "hourly": {
+        "stem": "wu",
+        "branch": "zi"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 8,
+      "day": 16
+    },
+    "time_index": 0,
+    "options": {
+      "year": "exact",
+      "month": "normal"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "jia",
+        "branch": "shen"
+      },
+      "daily": {
+        "stem": "bing",
+        "branch": "wu"
+      },
+      "hourly": {
+        "stem": "wu",
+        "branch": "zi"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 8,
+      "day": 16
+    },
+    "time_index": 0,
+    "options": {
+      "year": "normal",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "jia",
+        "branch": "shen"
+      },
+      "daily": {
+        "stem": "bing",
+        "branch": "wu"
+      },
+      "hourly": {
+        "stem": "wu",
+        "branch": "zi"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 8,
+      "day": 16
+    },
+    "time_index": 0,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "jia",
+        "branch": "shen"
+      },
+      "daily": {
+        "stem": "bing",
+        "branch": "wu"
+      },
+      "hourly": {
+        "stem": "wu",
+        "branch": "zi"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 8,
+      "day": 16
+    },
+    "time_index": 12,
+    "options": {
+      "year": "normal",
+      "month": "normal"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "jia",
+        "branch": "shen"
+      },
+      "daily": {
+        "stem": "ding",
+        "branch": "wei"
+      },
+      "hourly": {
+        "stem": "geng",
+        "branch": "zi"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 8,
+      "day": 16
+    },
+    "time_index": 12,
+    "options": {
+      "year": "exact",
+      "month": "normal"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "jia",
+        "branch": "shen"
+      },
+      "daily": {
+        "stem": "ding",
+        "branch": "wei"
+      },
+      "hourly": {
+        "stem": "geng",
+        "branch": "zi"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 8,
+      "day": 16
+    },
+    "time_index": 12,
+    "options": {
+      "year": "normal",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "jia",
+        "branch": "shen"
+      },
+      "daily": {
+        "stem": "ding",
+        "branch": "wei"
+      },
+      "hourly": {
+        "stem": "geng",
+        "branch": "zi"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 8,
+      "day": 16
+    },
+    "time_index": 12,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "jia",
+        "branch": "shen"
+      },
+      "daily": {
+        "stem": "ding",
+        "branch": "wei"
+      },
+      "hourly": {
+        "stem": "geng",
+        "branch": "zi"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 8,
+      "day": 16
+    },
+    "time_index": 0,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "jia",
+        "branch": "shen"
+      },
+      "daily": {
+        "stem": "bing",
+        "branch": "wu"
+      },
+      "hourly": {
+        "stem": "wu",
+        "branch": "zi"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 8,
+      "day": 16
+    },
+    "time_index": 1,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "jia",
+        "branch": "shen"
+      },
+      "daily": {
+        "stem": "bing",
+        "branch": "wu"
+      },
+      "hourly": {
+        "stem": "ji",
+        "branch": "chou"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 8,
+      "day": 16
+    },
+    "time_index": 2,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "jia",
+        "branch": "shen"
+      },
+      "daily": {
+        "stem": "bing",
+        "branch": "wu"
+      },
+      "hourly": {
+        "stem": "geng",
+        "branch": "yin"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 8,
+      "day": 16
+    },
+    "time_index": 3,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "jia",
+        "branch": "shen"
+      },
+      "daily": {
+        "stem": "bing",
+        "branch": "wu"
+      },
+      "hourly": {
+        "stem": "xin",
+        "branch": "mao"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 8,
+      "day": 16
+    },
+    "time_index": 4,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "jia",
+        "branch": "shen"
+      },
+      "daily": {
+        "stem": "bing",
+        "branch": "wu"
+      },
+      "hourly": {
+        "stem": "ren",
+        "branch": "chen"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 8,
+      "day": 16
+    },
+    "time_index": 5,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "jia",
+        "branch": "shen"
+      },
+      "daily": {
+        "stem": "bing",
+        "branch": "wu"
+      },
+      "hourly": {
+        "stem": "gui",
+        "branch": "si"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 8,
+      "day": 16
+    },
+    "time_index": 6,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "jia",
+        "branch": "shen"
+      },
+      "daily": {
+        "stem": "bing",
+        "branch": "wu"
+      },
+      "hourly": {
+        "stem": "jia",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 8,
+      "day": 16
+    },
+    "time_index": 7,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "jia",
+        "branch": "shen"
+      },
+      "daily": {
+        "stem": "bing",
+        "branch": "wu"
+      },
+      "hourly": {
+        "stem": "yi",
+        "branch": "wei"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 8,
+      "day": 16
+    },
+    "time_index": 8,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "jia",
+        "branch": "shen"
+      },
+      "daily": {
+        "stem": "bing",
+        "branch": "wu"
+      },
+      "hourly": {
+        "stem": "bing",
+        "branch": "shen"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 8,
+      "day": 16
+    },
+    "time_index": 9,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "jia",
+        "branch": "shen"
+      },
+      "daily": {
+        "stem": "bing",
+        "branch": "wu"
+      },
+      "hourly": {
+        "stem": "ding",
+        "branch": "you"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 8,
+      "day": 16
+    },
+    "time_index": 10,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "jia",
+        "branch": "shen"
+      },
+      "daily": {
+        "stem": "bing",
+        "branch": "wu"
+      },
+      "hourly": {
+        "stem": "wu",
+        "branch": "xu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 8,
+      "day": 16
+    },
+    "time_index": 11,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "jia",
+        "branch": "shen"
+      },
+      "daily": {
+        "stem": "bing",
+        "branch": "wu"
+      },
+      "hourly": {
+        "stem": "ji",
+        "branch": "hai"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2000,
+      "month": 8,
+      "day": 16
+    },
+    "time_index": 12,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "chen"
+      },
+      "monthly": {
+        "stem": "jia",
+        "branch": "shen"
+      },
+      "daily": {
+        "stem": "ding",
+        "branch": "wei"
+      },
+      "hourly": {
+        "stem": "geng",
+        "branch": "zi"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 1850,
+      "month": 1,
+      "day": 1
+    },
+    "time_index": 6,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "ji",
+        "branch": "you"
+      },
+      "monthly": {
+        "stem": "bing",
+        "branch": "zi"
+      },
+      "daily": {
+        "stem": "ren",
+        "branch": "zi"
+      },
+      "hourly": {
+        "stem": "bing",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 1850,
+      "month": 12,
+      "day": 31
+    },
+    "time_index": 6,
+    "options": {
+      "year": "normal",
+      "month": "normal"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "xu"
+      },
+      "monthly": {
+        "stem": "wu",
+        "branch": "zi"
+      },
+      "daily": {
+        "stem": "bing",
+        "branch": "chen"
+      },
+      "hourly": {
+        "stem": "jia",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 1850,
+      "month": 12,
+      "day": 31
+    },
+    "time_index": 6,
+    "options": {
+      "year": "exact",
+      "month": "normal"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "xu"
+      },
+      "monthly": {
+        "stem": "wu",
+        "branch": "zi"
+      },
+      "daily": {
+        "stem": "bing",
+        "branch": "chen"
+      },
+      "hourly": {
+        "stem": "jia",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 1850,
+      "month": 12,
+      "day": 31
+    },
+    "time_index": 6,
+    "options": {
+      "year": "normal",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "xu"
+      },
+      "monthly": {
+        "stem": "wu",
+        "branch": "zi"
+      },
+      "daily": {
+        "stem": "bing",
+        "branch": "chen"
+      },
+      "hourly": {
+        "stem": "jia",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 1850,
+      "month": 12,
+      "day": 31
+    },
+    "time_index": 6,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "xu"
+      },
+      "monthly": {
+        "stem": "wu",
+        "branch": "zi"
+      },
+      "daily": {
+        "stem": "bing",
+        "branch": "chen"
+      },
+      "hourly": {
+        "stem": "jia",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2150,
+      "month": 1,
+      "day": 1
+    },
+    "time_index": 6,
+    "options": {
+      "year": "normal",
+      "month": "normal"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "ji",
+        "branch": "you"
+      },
+      "monthly": {
+        "stem": "ding",
+        "branch": "chou"
+      },
+      "daily": {
+        "stem": "yi",
+        "branch": "chou"
+      },
+      "hourly": {
+        "stem": "ren",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2150,
+      "month": 1,
+      "day": 1
+    },
+    "time_index": 6,
+    "options": {
+      "year": "exact",
+      "month": "normal"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "ji",
+        "branch": "you"
+      },
+      "monthly": {
+        "stem": "ding",
+        "branch": "chou"
+      },
+      "daily": {
+        "stem": "yi",
+        "branch": "chou"
+      },
+      "hourly": {
+        "stem": "ren",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2150,
+      "month": 1,
+      "day": 1
+    },
+    "time_index": 6,
+    "options": {
+      "year": "normal",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "ji",
+        "branch": "you"
+      },
+      "monthly": {
+        "stem": "bing",
+        "branch": "zi"
+      },
+      "daily": {
+        "stem": "yi",
+        "branch": "chou"
+      },
+      "hourly": {
+        "stem": "ren",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2150,
+      "month": 1,
+      "day": 1
+    },
+    "time_index": 6,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "ji",
+        "branch": "you"
+      },
+      "monthly": {
+        "stem": "bing",
+        "branch": "zi"
+      },
+      "daily": {
+        "stem": "yi",
+        "branch": "chou"
+      },
+      "hourly": {
+        "stem": "ren",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2150,
+      "month": 12,
+      "day": 31
+    },
+    "time_index": 6,
+    "options": {
+      "year": "normal",
+      "month": "normal"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "xu"
+      },
+      "monthly": {
+        "stem": "wu",
+        "branch": "zi"
+      },
+      "daily": {
+        "stem": "ji",
+        "branch": "si"
+      },
+      "hourly": {
+        "stem": "geng",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2150,
+      "month": 12,
+      "day": 31
+    },
+    "time_index": 6,
+    "options": {
+      "year": "exact",
+      "month": "normal"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "xu"
+      },
+      "monthly": {
+        "stem": "wu",
+        "branch": "zi"
+      },
+      "daily": {
+        "stem": "ji",
+        "branch": "si"
+      },
+      "hourly": {
+        "stem": "geng",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2150,
+      "month": 12,
+      "day": 31
+    },
+    "time_index": 6,
+    "options": {
+      "year": "normal",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "xu"
+      },
+      "monthly": {
+        "stem": "wu",
+        "branch": "zi"
+      },
+      "daily": {
+        "stem": "ji",
+        "branch": "si"
+      },
+      "hourly": {
+        "stem": "geng",
+        "branch": "wu"
+      }
+    }
+  },
+  {
+    "solar": {
+      "year": 2150,
+      "month": 12,
+      "day": 31
+    },
+    "time_index": 6,
+    "options": {
+      "year": "exact",
+      "month": "exact"
+    },
+    "expected": {
+      "yearly": {
+        "stem": "geng",
+        "branch": "xu"
+      },
+      "monthly": {
+        "stem": "wu",
+        "branch": "zi"
+      },
+      "daily": {
+        "stem": "ji",
+        "branch": "si"
+      },
+      "hourly": {
+        "stem": "geng",
+        "branch": "wu"
+      }
+    }
+  }
+]

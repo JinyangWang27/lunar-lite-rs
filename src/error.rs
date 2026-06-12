@@ -20,6 +20,12 @@ pub enum LunarError {
     /// The time is not a valid 24-hour wall-clock time.
     #[error("Invalid time: {hour:02}:{minute:02}")]
     InvalidTime { hour: u8, minute: u8 },
+    /// The time index is outside the valid `0..=12` range (时辰 index).
+    #[error("Invalid time index: {time_index} (expected 0..=12)")]
+    InvalidTimeIndex { time_index: u8 },
+    /// The Gregorian year falls outside the generated solar-term table range.
+    #[error("Year {year} is outside the supported solar-term range")]
+    SolarTermOutOfRange { year: i32 },
 }
 
 /// Errors from constructing a [`StemBranch`](crate::StemBranch).
