@@ -34,6 +34,7 @@ mod error;
 mod generated;
 mod normalize;
 mod sexagenary;
+mod solar_terms;
 mod stem_branch;
 mod time_index;
 mod year_info;

@@ -2,9 +2,12 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dump-year-info": "node scripts/dump-year-info.mjs"
+    "dump-year-info": "node scripts/dump-year-info.mjs",
+    "generate-solar-terms": "node scripts/generate-solar-terms.mjs",
+    "generate-four-pillars-fixtures": "node scripts/generate-four-pillars-fixtures.mjs"
   },
   "dependencies": {
-    "lunar-typescript": "^1.8.6"
+    "lunar-lite": "0.2.8",
+    "lunar-typescript": "1.8.6"
   }
 }
