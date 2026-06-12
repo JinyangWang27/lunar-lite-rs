@@ -248,16 +248,16 @@ mod tests {
     // Reference: lunar-lite@0.2.8, 2000-08-16 timeIndex 2 -> 庚辰 甲申 丙午 庚寅.
     #[test]
     fn spot_check_2000_08_16() {
-        let r =
-            get_heavenly_stem_and_earthly_branch_by_solar_date(solar(2000, 8, 16), 2, EXACT).unwrap();
+        let r = get_heavenly_stem_and_earthly_branch_by_solar_date(solar(2000, 8, 16), 2, EXACT)
+            .unwrap();
         assert_eq!(r.yearly, sb(HeavenlyStem::Geng, EarthlyBranch::Chen));
         assert_eq!(r.monthly, sb(HeavenlyStem::Jia, EarthlyBranch::Shen));
         assert_eq!(r.daily, sb(HeavenlyStem::Bing, EarthlyBranch::Wu));
         assert_eq!(r.hourly, sb(HeavenlyStem::Geng, EarthlyBranch::Yin));
 
         // Interior date: normal options agree with exact.
-        let n =
-            get_heavenly_stem_and_earthly_branch_by_solar_date(solar(2000, 8, 16), 2, NORMAL).unwrap();
+        let n = get_heavenly_stem_and_earthly_branch_by_solar_date(solar(2000, 8, 16), 2, NORMAL)
+            .unwrap();
         assert_eq!(n, r);
     }
 
@@ -266,12 +266,14 @@ mod tests {
     #[test]
     fn late_zi_rolls_day_and_hour() {
         let early =
-            get_heavenly_stem_and_earthly_branch_by_solar_date(solar(2000, 8, 16), 0, EXACT).unwrap();
+            get_heavenly_stem_and_earthly_branch_by_solar_date(solar(2000, 8, 16), 0, EXACT)
+                .unwrap();
         assert_eq!(early.daily, sb(HeavenlyStem::Bing, EarthlyBranch::Wu));
         assert_eq!(early.hourly, sb(HeavenlyStem::Wu, EarthlyBranch::Zi));
 
         let late =
-            get_heavenly_stem_and_earthly_branch_by_solar_date(solar(2000, 8, 16), 12, EXACT).unwrap();
+            get_heavenly_stem_and_earthly_branch_by_solar_date(solar(2000, 8, 16), 12, EXACT)
+                .unwrap();
         assert_eq!(late.daily, sb(HeavenlyStem::Ding, EarthlyBranch::Wei));
         assert_eq!(late.hourly, sb(HeavenlyStem::Geng, EarthlyBranch::Zi));
     }
@@ -290,8 +292,8 @@ mod tests {
 
     #[test]
     fn alias_matches_primary() {
-        let a =
-            get_heavenly_stem_and_earthly_branch_by_solar_date(solar(2024, 6, 1), 5, EXACT).unwrap();
+        let a = get_heavenly_stem_and_earthly_branch_by_solar_date(solar(2024, 6, 1), 5, EXACT)
+            .unwrap();
         let b = solar_date_to_ganzhi(solar(2024, 6, 1), 5, EXACT).unwrap();
         assert_eq!(a, b);
     }

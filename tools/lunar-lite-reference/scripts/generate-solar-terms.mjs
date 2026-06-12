@@ -87,7 +87,7 @@ function renderYear(year, moments) {
     const rows = moments
         .map(
             (m) =>
-                `        TermMoment { ordinal: ${m.ordinal}, second_of_day: ${m.secondOfDay} },`,
+                `        TermMoment {\n            ordinal: ${m.ordinal},\n            second_of_day: ${m.secondOfDay},\n        },`,
         )
         .join("\n");
     return `    // ${year}\n    [\n${rows}\n    ],`;
