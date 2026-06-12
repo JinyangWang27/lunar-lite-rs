@@ -125,32 +125,36 @@ canonical cyclic ordering.
 
 ### Four pillars (四柱 / 八字)
 
-`get_heavenly_stem_and_earthly_branch_by_solar_date` computes the year, month,
-day, and hour pillars for a Gregorian date and a 时辰 index. It is a faithful port
-of the TypeScript [`lunar-lite`](https://github.com/SylarLong/lunar-lite)
-function of the same name and is validated against its output.
+The four-pillar stem-branch API computes the year, month, day, and hour pillars
+(`FourPillars`) for a Gregorian date and a 时辰 index. It is a faithful port of the
+TypeScript [`lunar-lite`](https://github.com/SylarLong/lunar-lite) function
+`getHeavenlyStemAndEarthlyBranchBySolarDate` and is validated against its output.
+
+The Rust-native entry points are `four_pillars_from_solar_date` (default options)
+and `four_pillars_from_solar_date_with_options`. The long
+`get_heavenly_stem_and_earthly_branch_by_solar_date[_with_options]` names are kept
+to document parity with the TypeScript reference; `HeavenlyStemAndEarthlyBranchDate`
+remains available as a type alias for `FourPillars` for the same reason.
 
 ```rust
 use lunar_lite::{
-    get_heavenly_stem_and_earthly_branch_by_solar_date,
-    get_heavenly_stem_and_earthly_branch_by_solar_date_with_options, solar_date_to_ganzhi,
-    EarthlyBranch, HeavenlyStem, MonthDivide, SolarDate, StemBranchOptions, YearDivide,
+    four_pillars_from_solar_date, four_pillars_from_solar_date_with_options,
+    EarthlyBranch, FourPillars, HeavenlyStem, MonthDivide, SolarDate, StemBranchOptions,
+    YearDivide,
 };
 
 let solar = SolarDate { year: 2000, month: 8, day: 16 };
 
 // Simplest call: default options (Exact, Exact, matching lunar-lite@0.2.8).
 // time_index 2 == 寅时 (03:00–04:59).
-let pillars = get_heavenly_stem_and_earthly_branch_by_solar_date(solar, 2).unwrap();
+let pillars: FourPillars = four_pillars_from_solar_date(solar, 2).unwrap();
 
 assert_eq!(pillars.yearly.stem(), HeavenlyStem::Geng);  // 庚辰
 assert_eq!(pillars.monthly.branch(), EarthlyBranch::Shen); // 甲申
-// `solar_date_to_ganzhi` is a shorter alias with identical semantics.
-assert_eq!(solar_date_to_ganzhi(solar, 2).unwrap(), pillars);
 
 // Choose boundary conventions explicitly:
-let options = StemBranchOptions { year: YearDivide::Normal, month: MonthDivide::Normal };
-let _ = get_heavenly_stem_and_earthly_branch_by_solar_date_with_options(solar, 2, options);
+let options = StemBranchOptions { year: YearDivide::Exact, month: MonthDivide::Exact };
+let _ = four_pillars_from_solar_date_with_options(solar, 2, options);
 ```
 
 The wall-clock time is synthesized from `time_index` (`hour = max(time_index * 2 -

@@ -5,7 +5,7 @@
 #![cfg(feature = "serde")]
 
 use lunar_lite::{
-    HeavenlyStemAndEarthlyBranchDate, SolarDate, StemBranchOptions,
+    FourPillars, SolarDate, StemBranchOptions,
     get_heavenly_stem_and_earthly_branch_by_solar_date_with_options,
 };
 use serde::Deserialize;
@@ -15,7 +15,7 @@ struct Case {
     solar: SolarDate,
     time_index: u8,
     options: StemBranchOptions,
-    expected: HeavenlyStemAndEarthlyBranchDate,
+    expected: FourPillars,
 }
 
 #[test]

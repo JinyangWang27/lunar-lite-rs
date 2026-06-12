@@ -77,7 +77,7 @@ impl Default for StemBranchOptions {
 /// The four pillars (年柱, 月柱, 日柱, 时柱) of a date and time.
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Hash)]
-pub struct HeavenlyStemAndEarthlyBranchDate {
+pub struct FourPillars {
     /// Year pillar (年柱).
     pub yearly: StemBranch,
     /// Month pillar (月柱).
@@ -87,6 +87,9 @@ pub struct HeavenlyStemAndEarthlyBranchDate {
     /// Hour pillar (时柱).
     pub hourly: StemBranch,
 }
+
+/// Compatibility alias mirroring the TypeScript `lunar-lite` result name.
+pub type HeavenlyStemAndEarthlyBranchDate = FourPillars;
 
 /// Computes the four pillars for a Gregorian solar date and 时辰 index, using the
 /// default ([`StemBranchOptions::default`], i.e. `Exact`/`Exact`, matching
@@ -100,7 +103,7 @@ pub struct HeavenlyStemAndEarthlyBranchDate {
 pub fn get_heavenly_stem_and_earthly_branch_by_solar_date(
     solar: SolarDate,
     time_index: u8,
-) -> Result<HeavenlyStemAndEarthlyBranchDate, LunarError> {
+) -> Result<FourPillars, LunarError> {
     get_heavenly_stem_and_earthly_branch_by_solar_date_with_options(
         solar,
         time_index,
@@ -125,7 +128,7 @@ pub fn get_heavenly_stem_and_earthly_branch_by_solar_date_with_options(
     solar: SolarDate,
     time_index: u8,
     options: StemBranchOptions,
-) -> Result<HeavenlyStemAndEarthlyBranchDate, LunarError> {
+) -> Result<FourPillars, LunarError> {
     validate_solar_date(solar)?;
 
     if time_index > MAX_TIME_INDEX {
@@ -159,7 +162,7 @@ pub fn get_heavenly_stem_and_earthly_branch_by_solar_date_with_options(
     let hour_stem_index = (day_stem_index % 5 * 2 + hour_branch_index) % 10;
     let hourly = pillar_from_indices(hour_stem_index, hour_branch_index);
 
-    Ok(HeavenlyStemAndEarthlyBranchDate {
+    Ok(FourPillars {
         yearly,
         monthly,
         daily,
@@ -167,22 +170,22 @@ pub fn get_heavenly_stem_and_earthly_branch_by_solar_date_with_options(
     })
 }
 
-/// Shorter alias for [`get_heavenly_stem_and_earthly_branch_by_solar_date`]
+/// Rust-native alias for [`get_heavenly_stem_and_earthly_branch_by_solar_date`]
 /// (default `Exact`/`Exact` options).
-pub fn solar_date_to_ganzhi(
+pub fn four_pillars_from_solar_date(
     solar: SolarDate,
     time_index: u8,
-) -> Result<HeavenlyStemAndEarthlyBranchDate, LunarError> {
+) -> Result<FourPillars, LunarError> {
     get_heavenly_stem_and_earthly_branch_by_solar_date(solar, time_index)
 }
 
-/// Shorter alias for
+/// Rust-native alias for
 /// [`get_heavenly_stem_and_earthly_branch_by_solar_date_with_options`].
-pub fn solar_date_to_ganzhi_with_options(
+pub fn four_pillars_from_solar_date_with_options(
     solar: SolarDate,
     time_index: u8,
     options: StemBranchOptions,
-) -> Result<HeavenlyStemAndEarthlyBranchDate, LunarError> {
+) -> Result<FourPillars, LunarError> {
     get_heavenly_stem_and_earthly_branch_by_solar_date_with_options(solar, time_index, options)
 }
 
@@ -355,12 +358,12 @@ mod tests {
     fn aliases_match_primary_functions() {
         // Default-options alias.
         assert_eq!(
-            solar_date_to_ganzhi(solar(2024, 6, 1), 5).unwrap(),
+            four_pillars_from_solar_date(solar(2024, 6, 1), 5).unwrap(),
             get_heavenly_stem_and_earthly_branch_by_solar_date(solar(2024, 6, 1), 5).unwrap(),
         );
         // Explicit-options alias.
         assert_eq!(
-            solar_date_to_ganzhi_with_options(solar(2024, 6, 1), 5, NORMAL).unwrap(),
+            four_pillars_from_solar_date_with_options(solar(2024, 6, 1), 5, NORMAL).unwrap(),
             get_heavenly_stem_and_earthly_branch_by_solar_date_with_options(
                 solar(2024, 6, 1),
                 5,
@@ -368,6 +371,14 @@ mod tests {
             )
             .unwrap(),
         );
+    }
+
+    #[test]
+    fn compatibility_alias_type_is_usable() {
+        let pillars: HeavenlyStemAndEarthlyBranchDate =
+            four_pillars_from_solar_date(solar(2000, 8, 16), 2).unwrap();
+        let native: FourPillars = pillars;
+        assert_eq!(native.yearly, sb(HeavenlyStem::Geng, EarthlyBranch::Chen));
     }
 
     #[test]
