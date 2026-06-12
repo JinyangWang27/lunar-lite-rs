@@ -246,6 +246,18 @@ Conversion results are generated from `lunar-typescript` and are expected to mat
 - **Zi Wei Dou Shu (紫微斗数) charting** — out of scope.
 - **Runtime JavaScript dependency** — the crate is pure Rust at runtime.
 
+## Release process
+
+Releases are managed by [release-plz](https://release-plz.dev/).
+
+After changes are merged into `main`, release-plz opens or updates a Release PR.
+Review the version bump and changelog in that PR. When the Release PR is merged,
+the workflow publishes the crate to crates.io and creates the GitHub release/tag.
+
+Required repository secret:
+
+- `CARGO_REGISTRY_TOKEN`: crates.io API token with permission to publish `lunar-lite`.
+
 ## License
 
 MIT — see [LICENSE](LICENSE).
