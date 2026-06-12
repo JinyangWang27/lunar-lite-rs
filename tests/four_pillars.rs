@@ -6,7 +6,7 @@
 
 use lunar_lite::{
     HeavenlyStemAndEarthlyBranchDate, SolarDate, StemBranchOptions,
-    get_heavenly_stem_and_earthly_branch_by_solar_date,
+    get_heavenly_stem_and_earthly_branch_by_solar_date_with_options,
 };
 use serde::Deserialize;
 
@@ -26,7 +26,7 @@ fn fixtures_match_lunar_lite_reference() {
 
     let mut failures = Vec::new();
     for (i, case) in cases.iter().enumerate() {
-        match get_heavenly_stem_and_earthly_branch_by_solar_date(
+        match get_heavenly_stem_and_earthly_branch_by_solar_date_with_options(
             case.solar,
             case.time_index,
             case.options,

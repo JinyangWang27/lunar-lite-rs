@@ -46,7 +46,9 @@ pub use date::{LunarDate, SolarDate};
 pub use error::{LunarError, StemBranchError};
 pub use four_pillars::{
     HeavenlyStemAndEarthlyBranchDate, MonthDivide, StemBranchOptions, YearDivide,
-    get_heavenly_stem_and_earthly_branch_by_solar_date, solar_date_to_ganzhi,
+    get_heavenly_stem_and_earthly_branch_by_solar_date,
+    get_heavenly_stem_and_earthly_branch_by_solar_date_with_options, solar_date_to_ganzhi,
+    solar_date_to_ganzhi_with_options,
 };
 pub use normalize::normalize_lunar_date;
 pub use sexagenary::StemBranch;

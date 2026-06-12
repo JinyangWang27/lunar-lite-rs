@@ -11,9 +11,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Four-pillar (四柱 / 八字 BaZi) stem-branch calculation, a faithful port of the
   TypeScript `lunar-lite@0.2.8` `getHeavenlyStemAndEarthlyBranchBySolarDate`:
-  - `get_heavenly_stem_and_earthly_branch_by_solar_date` and the shorter alias
-    `solar_date_to_ganzhi`, returning a `HeavenlyStemAndEarthlyBranchDate` with
-    `yearly`, `monthly`, `daily`, and `hourly` pillars.
+  - `get_heavenly_stem_and_earthly_branch_by_solar_date` (default options) and
+    `..._with_options`, plus the shorter aliases `solar_date_to_ganzhi` and
+    `solar_date_to_ganzhi_with_options`, returning a
+    `HeavenlyStemAndEarthlyBranchDate` with `yearly`, `monthly`, `daily`, and
+    `hourly` pillars.
   - `StemBranchOptions` (default `Exact`/`Exact`) with `YearDivide` (`Normal` =
     lunar year, `Exact` = 立春 at date granularity) and `MonthDivide` (`Normal` =
     lunar-month 五虎遁, `Exact` = 12 Jie solar terms at exact second).

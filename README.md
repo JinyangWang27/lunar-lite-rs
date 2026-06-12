@@ -132,24 +132,25 @@ function of the same name and is validated against its output.
 
 ```rust
 use lunar_lite::{
-    get_heavenly_stem_and_earthly_branch_by_solar_date, solar_date_to_ganzhi,
+    get_heavenly_stem_and_earthly_branch_by_solar_date,
+    get_heavenly_stem_and_earthly_branch_by_solar_date_with_options, solar_date_to_ganzhi,
     EarthlyBranch, HeavenlyStem, MonthDivide, SolarDate, StemBranchOptions, YearDivide,
 };
 
 let solar = SolarDate { year: 2000, month: 8, day: 16 };
-// time_index 2 == 寅时 (03:00–04:59); default options are (Exact, Exact).
-let pillars =
-    get_heavenly_stem_and_earthly_branch_by_solar_date(solar, 2, StemBranchOptions::default())
-        .unwrap();
+
+// Simplest call: default options (Exact, Exact, matching lunar-lite@0.2.8).
+// time_index 2 == 寅时 (03:00–04:59).
+let pillars = get_heavenly_stem_and_earthly_branch_by_solar_date(solar, 2).unwrap();
 
 assert_eq!(pillars.yearly.stem(), HeavenlyStem::Geng);  // 庚辰
 assert_eq!(pillars.monthly.branch(), EarthlyBranch::Shen); // 甲申
 // `solar_date_to_ganzhi` is a shorter alias with identical semantics.
-assert_eq!(solar_date_to_ganzhi(solar, 2, StemBranchOptions::default()).unwrap(), pillars);
+assert_eq!(solar_date_to_ganzhi(solar, 2).unwrap(), pillars);
 
 // Choose boundary conventions explicitly:
 let options = StemBranchOptions { year: YearDivide::Normal, month: MonthDivide::Normal };
-let _ = get_heavenly_stem_and_earthly_branch_by_solar_date(solar, 2, options);
+let _ = get_heavenly_stem_and_earthly_branch_by_solar_date_with_options(solar, 2, options);
 ```
 
 The wall-clock time is synthesized from `time_index` (`hour = max(time_index * 2 -

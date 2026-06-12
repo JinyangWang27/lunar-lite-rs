@@ -88,7 +88,28 @@ pub struct HeavenlyStemAndEarthlyBranchDate {
     pub hourly: StemBranch,
 }
 
-/// Computes the four pillars for a Gregorian solar date and 时辰 index.
+/// Computes the four pillars for a Gregorian solar date and 时辰 index, using the
+/// default ([`StemBranchOptions::default`], i.e. `Exact`/`Exact`, matching
+/// `lunar-lite@0.2.8`).
+///
+/// Use [`get_heavenly_stem_and_earthly_branch_by_solar_date_with_options`] to
+/// choose the year and month boundary conventions explicitly.
+///
+/// # Errors
+/// See [`get_heavenly_stem_and_earthly_branch_by_solar_date_with_options`].
+pub fn get_heavenly_stem_and_earthly_branch_by_solar_date(
+    solar: SolarDate,
+    time_index: u8,
+) -> Result<HeavenlyStemAndEarthlyBranchDate, LunarError> {
+    get_heavenly_stem_and_earthly_branch_by_solar_date_with_options(
+        solar,
+        time_index,
+        StemBranchOptions::default(),
+    )
+}
+
+/// Computes the four pillars for a Gregorian solar date and 时辰 index with
+/// explicit [`StemBranchOptions`].
 ///
 /// `time_index` is in `0..=12`, where both `0` (early 子) and `12` (late 子) map
 /// to the 子 branch; `12` additionally rolls the day pillar to the next day
@@ -100,7 +121,7 @@ pub struct HeavenlyStemAndEarthlyBranchDate {
 /// - [`LunarError::SolarTermOutOfRange`] if `solar.year` is outside 1850..=2150.
 /// - [`LunarError::YearOutOfRange`] for `Normal` options when the lunar year is
 ///   outside the table (the early-1850 corner before Chinese New Year 1850).
-pub fn get_heavenly_stem_and_earthly_branch_by_solar_date(
+pub fn get_heavenly_stem_and_earthly_branch_by_solar_date_with_options(
     solar: SolarDate,
     time_index: u8,
     options: StemBranchOptions,
@@ -146,13 +167,23 @@ pub fn get_heavenly_stem_and_earthly_branch_by_solar_date(
     })
 }
 
-/// Shorter alias for [`get_heavenly_stem_and_earthly_branch_by_solar_date`].
+/// Shorter alias for [`get_heavenly_stem_and_earthly_branch_by_solar_date`]
+/// (default `Exact`/`Exact` options).
 pub fn solar_date_to_ganzhi(
+    solar: SolarDate,
+    time_index: u8,
+) -> Result<HeavenlyStemAndEarthlyBranchDate, LunarError> {
+    get_heavenly_stem_and_earthly_branch_by_solar_date(solar, time_index)
+}
+
+/// Shorter alias for
+/// [`get_heavenly_stem_and_earthly_branch_by_solar_date_with_options`].
+pub fn solar_date_to_ganzhi_with_options(
     solar: SolarDate,
     time_index: u8,
     options: StemBranchOptions,
 ) -> Result<HeavenlyStemAndEarthlyBranchDate, LunarError> {
-    get_heavenly_stem_and_earthly_branch_by_solar_date(solar, time_index, options)
+    get_heavenly_stem_and_earthly_branch_by_solar_date_with_options(solar, time_index, options)
 }
 
 fn year_pillar(solar: SolarDate, divide: YearDivide) -> Result<StemBranch, LunarError> {
@@ -248,16 +279,24 @@ mod tests {
     // Reference: lunar-lite@0.2.8, 2000-08-16 timeIndex 2 -> 庚辰 甲申 丙午 庚寅.
     #[test]
     fn spot_check_2000_08_16() {
-        let r = get_heavenly_stem_and_earthly_branch_by_solar_date(solar(2000, 8, 16), 2, EXACT)
-            .unwrap();
+        let r = get_heavenly_stem_and_earthly_branch_by_solar_date_with_options(
+            solar(2000, 8, 16),
+            2,
+            EXACT,
+        )
+        .unwrap();
         assert_eq!(r.yearly, sb(HeavenlyStem::Geng, EarthlyBranch::Chen));
         assert_eq!(r.monthly, sb(HeavenlyStem::Jia, EarthlyBranch::Shen));
         assert_eq!(r.daily, sb(HeavenlyStem::Bing, EarthlyBranch::Wu));
         assert_eq!(r.hourly, sb(HeavenlyStem::Geng, EarthlyBranch::Yin));
 
         // Interior date: normal options agree with exact.
-        let n = get_heavenly_stem_and_earthly_branch_by_solar_date(solar(2000, 8, 16), 2, NORMAL)
-            .unwrap();
+        let n = get_heavenly_stem_and_earthly_branch_by_solar_date_with_options(
+            solar(2000, 8, 16),
+            2,
+            NORMAL,
+        )
+        .unwrap();
         assert_eq!(n, r);
     }
 
@@ -265,15 +304,21 @@ mod tests {
     // follows the rolled day stem.
     #[test]
     fn late_zi_rolls_day_and_hour() {
-        let early =
-            get_heavenly_stem_and_earthly_branch_by_solar_date(solar(2000, 8, 16), 0, EXACT)
-                .unwrap();
+        let early = get_heavenly_stem_and_earthly_branch_by_solar_date_with_options(
+            solar(2000, 8, 16),
+            0,
+            EXACT,
+        )
+        .unwrap();
         assert_eq!(early.daily, sb(HeavenlyStem::Bing, EarthlyBranch::Wu));
         assert_eq!(early.hourly, sb(HeavenlyStem::Wu, EarthlyBranch::Zi));
 
-        let late =
-            get_heavenly_stem_and_earthly_branch_by_solar_date(solar(2000, 8, 16), 12, EXACT)
-                .unwrap();
+        let late = get_heavenly_stem_and_earthly_branch_by_solar_date_with_options(
+            solar(2000, 8, 16),
+            12,
+            EXACT,
+        )
+        .unwrap();
         assert_eq!(late.daily, sb(HeavenlyStem::Ding, EarthlyBranch::Wei));
         assert_eq!(late.hourly, sb(HeavenlyStem::Geng, EarthlyBranch::Zi));
     }
@@ -282,26 +327,53 @@ mod tests {
     fn all_time_indices_produce_expected_branches() {
         // Branch index for each time_index: 0 and 12 -> 子, otherwise time_index.
         for ti in 0..=12u8 {
-            let r =
-                get_heavenly_stem_and_earthly_branch_by_solar_date(solar(2000, 8, 16), ti, EXACT)
-                    .unwrap();
+            let r = get_heavenly_stem_and_earthly_branch_by_solar_date_with_options(
+                solar(2000, 8, 16),
+                ti,
+                EXACT,
+            )
+            .unwrap();
             let expected = EarthlyBranch::from_index((ti % 12) as usize);
             assert_eq!(r.hourly.branch(), expected, "time_index {ti}");
         }
     }
 
     #[test]
-    fn alias_matches_primary() {
-        let a = get_heavenly_stem_and_earthly_branch_by_solar_date(solar(2024, 6, 1), 5, EXACT)
-            .unwrap();
-        let b = solar_date_to_ganzhi(solar(2024, 6, 1), 5, EXACT).unwrap();
-        assert_eq!(a, b);
+    fn default_function_equals_explicit_exact_exact() {
+        let default =
+            get_heavenly_stem_and_earthly_branch_by_solar_date(solar(2024, 6, 1), 5).unwrap();
+        let explicit = get_heavenly_stem_and_earthly_branch_by_solar_date_with_options(
+            solar(2024, 6, 1),
+            5,
+            EXACT,
+        )
+        .unwrap();
+        assert_eq!(default, explicit);
+    }
+
+    #[test]
+    fn aliases_match_primary_functions() {
+        // Default-options alias.
+        assert_eq!(
+            solar_date_to_ganzhi(solar(2024, 6, 1), 5).unwrap(),
+            get_heavenly_stem_and_earthly_branch_by_solar_date(solar(2024, 6, 1), 5).unwrap(),
+        );
+        // Explicit-options alias.
+        assert_eq!(
+            solar_date_to_ganzhi_with_options(solar(2024, 6, 1), 5, NORMAL).unwrap(),
+            get_heavenly_stem_and_earthly_branch_by_solar_date_with_options(
+                solar(2024, 6, 1),
+                5,
+                NORMAL
+            )
+            .unwrap(),
+        );
     }
 
     #[test]
     fn invalid_time_index_errors() {
         assert_eq!(
-            get_heavenly_stem_and_earthly_branch_by_solar_date(solar(2000, 1, 1), 13, EXACT),
+            get_heavenly_stem_and_earthly_branch_by_solar_date(solar(2000, 1, 1), 13),
             Err(LunarError::InvalidTimeIndex { time_index: 13 })
         );
     }
@@ -309,11 +381,11 @@ mod tests {
     #[test]
     fn year_out_of_range_errors() {
         assert_eq!(
-            get_heavenly_stem_and_earthly_branch_by_solar_date(solar(1849, 6, 1), 0, EXACT),
+            get_heavenly_stem_and_earthly_branch_by_solar_date(solar(1849, 6, 1), 0),
             Err(LunarError::SolarTermOutOfRange { year: 1849 })
         );
         assert_eq!(
-            get_heavenly_stem_and_earthly_branch_by_solar_date(solar(2151, 6, 1), 0, EXACT),
+            get_heavenly_stem_and_earthly_branch_by_solar_date(solar(2151, 6, 1), 0),
             Err(LunarError::SolarTermOutOfRange { year: 2151 })
         );
     }
