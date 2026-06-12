@@ -2,8 +2,10 @@
 
 [![Crates.io Version](https://img.shields.io/crates/v/lunar-lite.svg)](https://crates.io/crates/lunar-lite)
 [![Crates.io Downloads](https://img.shields.io/crates/d/lunar-lite.svg)](https://crates.io/crates/lunar-lite)
+[![Docs.rs](https://img.shields.io/docsrs/lunar-lite.svg)](https://docs.rs/lunar-lite)
 [![CI](https://github.com/JinyangWang27/lunar-lite-rs/actions/workflows/ci.yml/badge.svg)](https://github.com/JinyangWang27/lunar-lite-rs/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/JinyangWang27/lunar-lite-rs/branch/main/graph/badge.svg)](https://codecov.io/gh/JinyangWang27/lunar-lite-rs)
+[![License](https://img.shields.io/crates/l/lunar-lite.svg)](https://crates.io/crates/lunar-lite)
 
 A compact, table-backed Rust library for Chinese lunisolar (农历) date conversion and stem-branch (干支) calculation.
 
@@ -27,16 +29,8 @@ See [Non-goals](#non-goals).
 
 ## Installation
 
-```toml
-[dependencies]
-lunar-lite = "0.3.1"
-```
-
-With Serde support:
-
-```toml
-[dependencies]
-lunar-lite = { version = "0.3.1", features = ["serde"] }
+```sh
+cargo add lunar-lite
 ```
 
 ## Usage
@@ -221,11 +215,11 @@ Stem-branch validation returns `Result<_, StemBranchError>`.
 The static tables in `src/generated/` are produced by Node.js scripts under
 `tools/lunar-lite-reference/scripts/`:
 
-| Script                             | Generates                                                                 |
-| ---------------------------------- | ------------------------------------------------------------------------- |
-| `dump-year-info.mjs`               | `src/generated/year_info.rs` (lunar-year metadata) + year-info fixtures   |
-| `generate-solar-terms.mjs`         | `src/generated/solar_terms.rs` (the 12 Jie per year, 1850..=2150)         |
-| `generate-four-pillars-fixtures.mjs` | `tests/fixtures/four_pillars.json` (four-pillar compatibility cases)     |
+| Script                               | Generates                                                               |
+| ------------------------------------ | ----------------------------------------------------------------------- |
+| `dump-year-info.mjs`                 | `src/generated/year_info.rs` (lunar-year metadata) + year-info fixtures |
+| `generate-solar-terms.mjs`           | `src/generated/solar_terms.rs` (the 12 Jie per year, 1850..=2150)       |
+| `generate-four-pillars-fixtures.mjs` | `tests/fixtures/four_pillars.json` (four-pillar compatibility cases)    |
 
 The solar-term and year-info scripts use [`lunar-typescript`](https://github.com/6tail/lunar-typescript) as their reference source; the four-pillar fixtures use [`lunar-lite`](https://github.com/SylarLong/lunar-lite). The solar-term generator fails unless every year yields exactly 12 strictly-ordered Jie boundaries.
 
