@@ -31,6 +31,7 @@ mod calendar;
 mod convert;
 mod date;
 mod error;
+mod four_pillars;
 mod generated;
 mod julian_day;
 mod normalize;
@@ -43,6 +44,10 @@ mod year_info;
 pub use convert::{lunar_to_solar, solar_to_lunar};
 pub use date::{LunarDate, SolarDate};
 pub use error::{LunarError, StemBranchError};
+pub use four_pillars::{
+    HeavenlyStemAndEarthlyBranchDate, MonthDivide, StemBranchOptions, YearDivide,
+    get_heavenly_stem_and_earthly_branch_by_solar_date, solar_date_to_ganzhi,
+};
 pub use normalize::normalize_lunar_date;
 pub use sexagenary::StemBranch;
 pub use stem_branch::{EARTHLY_BRANCHES, EarthlyBranch, HEAVENLY_STEMS, HeavenlyStem};

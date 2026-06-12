@@ -23,6 +23,11 @@ pub(crate) struct TermMoment {
 /// Seconds in a day; used to build absolute second-of-range instants.
 pub(crate) const SECONDS_PER_DAY: i64 = 86_400;
 
+/// First Gregorian year covered by the solar-term table.
+pub(crate) const MIN_YEAR: i32 = JIE_START_YEAR;
+/// Last Gregorian year covered by the solar-term table.
+pub(crate) const MAX_YEAR: i32 = JIE_END_YEAR;
+
 /// Index of 立春 (LiChun) within a year's 12 ordered Jie.
 pub(crate) const LI_CHUN: usize = 1;
 
@@ -34,7 +39,7 @@ pub(crate) const MONTH_BRANCH_OF_JIE: [usize; 12] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 
 pub(crate) const MONTH_BRANCH_BEFORE_FIRST_JIE: usize = 0;
 
 fn year_terms(year: i32) -> Result<&'static [TermMoment; 12], LunarError> {
-    if year < JIE_START_YEAR || year > JIE_END_YEAR {
+    if !(JIE_START_YEAR..=JIE_END_YEAR).contains(&year) {
         return Err(LunarError::SolarTermOutOfRange { year });
     }
     Ok(&JIE_BOUNDARIES[(year - JIE_START_YEAR) as usize])

@@ -107,7 +107,7 @@ pub(crate) const JIE_END_YEAR: i32 = ${MAX_YEAR};
 
 /// The 12 Jie (节) boundaries for each Gregorian year in [\`JIE_START_YEAR\`, \`JIE_END_YEAR\`],
 /// ordered 小寒, 立春, 惊蛰, 清明, 立夏, 芒种, 小暑, 立秋, 白露, 寒露, 立冬, 大雪.
-pub(crate) const JIE_BOUNDARIES: [[TermMoment; 12]; ${count}] = [
+pub(crate) static JIE_BOUNDARIES: [[TermMoment; 12]; ${count}] = [
 ${body}
 ];
 `;
