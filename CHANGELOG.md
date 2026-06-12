@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.2](https://github.com/JinyangWang27/lunar-lite-rs/compare/v0.3.1...v0.3.2) - 2026-06-12
+
+### Fixed
+
+- add missing badges for Crates.io version and downloads in README.md ([#10](https://github.com/JinyangWang27/lunar-lite-rs/pull/10))
+
 ## [0.3.1](https://github.com/JinyangWang27/lunar-lite-rs/compare/v0.3.0...v0.3.1) - 2026-06-12
 
 ### Fixed
