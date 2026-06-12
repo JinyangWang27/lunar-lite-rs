@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.0](https://github.com/JinyangWang27/lunar-lite-rs/compare/v0.2.0...v0.3.0) - 2026-06-12
+
+### Added
+
+- add four-pillar (BaZi) Ganzhi API and solar-term boundaries ([#5](https://github.com/JinyangWang27/lunar-lite-rs/pull/5))
+
+### Fixed
+
+- restore release-plz workflow ([#6](https://github.com/JinyangWang27/lunar-lite-rs/pull/6))
+
 ### Added
 
 - Four-pillar (四柱 / 八字 BaZi) stem-branch calculation, a faithful port of the
