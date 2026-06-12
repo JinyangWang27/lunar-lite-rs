@@ -23,14 +23,14 @@ All conversion data is stored in a generated static table compiled into the bina
 
 ```toml
 [dependencies]
-lunar-lite = "0.2"
+lunar-lite = "0.3.1"
 ```
 
 With Serde support:
 
 ```toml
 [dependencies]
-lunar-lite = { version = "0.2", features = ["serde"] }
+lunar-lite = { version = "0.3.1", features = ["serde"] }
 ```
 
 ## Usage
@@ -145,7 +145,7 @@ use lunar_lite::{
 
 let solar = SolarDate { year: 2000, month: 8, day: 16 };
 
-// Simplest call: default options (Exact, Exact, matching lunar-lite@0.2.8).
+// Simplest call: default options (Exact, Exact, matching the TypeScript reference).
 // time_index 2 == 寅时 (03:00–04:59).
 let pillars: FourPillars = four_pillars_from_solar_date(solar, 2).unwrap();
 
