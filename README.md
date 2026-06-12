@@ -1,5 +1,7 @@
 # lunar-lite
 
+[![Crates.io Version](https://img.shields.io/crates/v/lunar-lite.svg)](https://crates.io/crates/lunar-lite)
+[![Crates.io Downloads](https://img.shields.io/crates/d/lunar-lite.svg)](https://crates.io/crates/lunar-lite)
 [![CI](https://github.com/JinyangWang27/lunar-lite-rs/actions/workflows/ci.yml/badge.svg)](https://github.com/JinyangWang27/lunar-lite-rs/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/JinyangWang27/lunar-lite-rs/branch/main/graph/badge.svg)](https://codecov.io/gh/JinyangWang27/lunar-lite-rs)
 
