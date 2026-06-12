@@ -5,7 +5,7 @@
 [![CI](https://github.com/JinyangWang27/lunar-lite-rs/actions/workflows/ci.yml/badge.svg)](https://github.com/JinyangWang27/lunar-lite-rs/actions/workflows/ci.yml)
 [![codecov](https://codecov.io/gh/JinyangWang27/lunar-lite-rs/branch/main/graph/badge.svg)](https://codecov.io/gh/JinyangWang27/lunar-lite-rs)
 
-A small, table-backed Rust library for Chinese lunisolar (农历) date conversion.
+A compact, table-backed Rust library for Chinese lunisolar (农历) date conversion and stem-branch (干支) calculation.
 
 ## What it does
 
@@ -19,7 +19,11 @@ See [Non-goals](#non-goals).
 
 ## Design
 
-All conversion data is stored in a generated static table compiled into the binary — there is no runtime astronomical calculation. The table is generated ahead of time from a reference implementation and committed to the crate; at runtime the crate is a pure Rust lookup with no I/O and no allocations on the hot path.
+`lunar-lite` aims to be small, deterministic, and idiomatic Rust. It does not embed a runtime astronomical engine, but it also does not store a huge day-by-day solar/lunar mapping table.
+
+- **Lunar/solar conversion stores year structure, not every date mapping.** Each supported lunar year is represented by compact metadata: the Gregorian date of Chinese New Year, the leap-month position, the number of lunar months, the ordered month codes, and the length of each lunar month. Solar-to-lunar conversion resolves the lunar year and walks the month lengths by offset; lunar-to-solar conversion performs the inverse offset lookup.
+- **Stem-branch calculation stores precise solar-term boundaries, not precomputed pillars.** The generated solar-term table stores the exact date-time of the 12 Jie (节) boundaries for each supported Gregorian year. In `Exact` mode, the month branch is determined by the most recent Jie boundary, while the month Heavenly Stem is derived from the relevant sui/year stem using 五虎遁.
+- **Runtime stays pure Rust and lightweight.** Generated tables are committed under `src/generated/`; runtime users do not need Node.js, `lunar-typescript`, or `lunar-lite`. There is no runtime I/O, no runtime JavaScript dependency, and no allocations on the conversion hot path.
 
 ## Installation
 
