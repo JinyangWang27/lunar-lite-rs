@@ -96,6 +96,22 @@ Index mapping:
 
 Zi hour is split: the early half (0) begins the current day, the late half (12) closes it.
 
+When you only need the hour branch (时支) rather than the full hour pillar, use the
+index helpers. Both 子 halves resolve to the same branch, and the predicates return
+`Result<bool, _>` so an invalid index is never silently treated as `false`:
+
+```rust
+use lunar_lite::{is_early_zi, is_late_zi, time_index_to_branch, EarthlyBranch};
+
+assert_eq!(time_index_to_branch(0).unwrap(), EarthlyBranch::Zi);  // early 子
+assert_eq!(time_index_to_branch(12).unwrap(), EarthlyBranch::Zi); // late 子
+assert_eq!(time_index_to_branch(1).unwrap(), EarthlyBranch::Chou);
+
+assert!(is_early_zi(0).unwrap());
+assert!(is_late_zi(12).unwrap());
+assert!(time_index_to_branch(13).is_err()); // LunarError::InvalidTimeIndex
+```
+
 ### Sexagenary cycle (干支)
 
 The sexagenary cycle pairs the ten Heavenly Stems (天干) with the twelve Earthly
@@ -122,6 +138,20 @@ assert!(StemBranch::try_new(HeavenlyStem::Jia, EarthlyBranch::Chou).is_err());
 `HeavenlyStem` and `EarthlyBranch` each expose `index`, `from_index`, and a
 wrapping `offset`; the `HEAVENLY_STEMS` and `EARTHLY_BRANCHES` constants give the
 canonical cyclic ordering.
+
+When a domain rule needs the lunar **birth-year** stem/branch (生年干/生年支) — as
+opposed to the four-pillar `yearly` pillar, which may use the 立春 (LiChun) boundary
+under `YearDivide::Exact` — use the lunar-year helpers, which read directly from the
+lunar year:
+
+```rust
+use lunar_lite::{lunar_year_branch, lunar_year_stem, lunar_year_stem_branch};
+use lunar_lite::{EarthlyBranch, HeavenlyStem, StemBranch};
+
+assert_eq!(lunar_year_stem_branch(2024), StemBranch::from_lunar_year(2024));
+assert_eq!(lunar_year_stem(2024), HeavenlyStem::Jia);    // 生年干 甲
+assert_eq!(lunar_year_branch(2024), EarthlyBranch::Chen); // 生年支 辰
+```
 
 ### Four pillars (四柱 / 八字)
 
