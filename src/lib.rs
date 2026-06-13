@@ -51,6 +51,6 @@ pub use four_pillars::{
     get_heavenly_stem_and_earthly_branch_by_solar_date_with_options,
 };
 pub use normalize::normalize_lunar_date;
-pub use sexagenary::StemBranch;
+pub use sexagenary::{StemBranch, lunar_year_branch, lunar_year_stem, lunar_year_stem_branch};
 pub use stem_branch::{EARTHLY_BRANCHES, EarthlyBranch, HEAVENLY_STEMS, HeavenlyStem};
 pub use time_index::time_index;
