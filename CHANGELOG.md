@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [0.3.3](https://github.com/JinyangWang27/lunar-lite-rs/compare/v0.3.2...v0.3.3) - 2026-06-12
+## [1.0.0](https://github.com/JinyangWang27/lunar-lite-rs/compare/v0.3.2...v1.0.0) - 2026-06-12
 
 ### Other
 
