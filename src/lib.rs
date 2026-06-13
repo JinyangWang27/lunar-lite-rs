@@ -53,4 +53,4 @@ pub use four_pillars::{
 pub use normalize::normalize_lunar_date;
 pub use sexagenary::{StemBranch, lunar_year_branch, lunar_year_stem, lunar_year_stem_branch};
 pub use stem_branch::{EARTHLY_BRANCHES, EarthlyBranch, HEAVENLY_STEMS, HeavenlyStem};
-pub use time_index::time_index;
+pub use time_index::{is_early_zi, is_late_zi, time_index, time_index_to_branch};
