@@ -22,6 +22,14 @@
 //! Conversions are backed by a generated table of per-year data; years outside
 //! the supported range return [`LunarError::YearOutOfRange`].
 //!
+//! # Lunar month helpers
+//!
+//! `leap_month`, `has_leap_month`, `lunar_month_days`, and
+//! `validate_lunar_date` expose calendar facts only. They do not encode
+//! downstream chart-placement policy for how consumers should interpret leap
+//! months. Invalid month and leap-month selections return
+//! [`LunarError::InvalidLunarDate`].
+//!
 //! # Features
 //!
 //! - `serde`: derive `Serialize`/`Deserialize` for the public date and
@@ -34,6 +42,7 @@ mod error;
 mod four_pillars;
 mod generated;
 mod julian_day;
+mod lunar_month;
 mod normalize;
 mod sexagenary;
 mod solar_terms;
@@ -50,6 +59,7 @@ pub use four_pillars::{
     get_heavenly_stem_and_earthly_branch_by_solar_date,
     get_heavenly_stem_and_earthly_branch_by_solar_date_with_options,
 };
+pub use lunar_month::{has_leap_month, leap_month, lunar_month_days, validate_lunar_date};
 pub use normalize::normalize_lunar_date;
 pub use sexagenary::{StemBranch, lunar_year_branch, lunar_year_stem, lunar_year_stem_branch};
 pub use stem_branch::{EARTHLY_BRANCHES, EarthlyBranch, HEAVENLY_STEMS, HeavenlyStem};
