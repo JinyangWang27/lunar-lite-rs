@@ -1,0 +1,20 @@
+name: Tyme4rs compatibility spike
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - Cargo.toml
+      - Cargo.lock
+      - tests/tyme4rs_compatibility.rs
+      - .github/workflows/tyme4rs-spike.yml
+  workflow_dispatch:
+
+jobs:
+  compatibility:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Run tyme4rs compatibility test
+        run: cargo test --test tyme4rs_compatibility --all-features -- --nocapture
