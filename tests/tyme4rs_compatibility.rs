@@ -1,3 +1,5 @@
+#![rustfmt::skip]
+
 //! Compatibility spike: can `tyme4rs` reproduce `lunar-lite` public behavior?
 //!
 //! These tests compare the current `lunar-lite` API against `tyme4rs` as an
