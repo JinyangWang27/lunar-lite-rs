@@ -193,8 +193,9 @@ fn year_pillar(solar: SolarDate, divide: YearDivide) -> Result<StemBranch, Lunar
     match divide {
         YearDivide::Normal => Ok(StemBranch::from_lunar_year(solar_to_lunar(solar)?.year)),
         YearDivide::Exact => {
-            let li_chun = solar_terms::li_chun_date(solar.year)?;
-            let pillar_year = if solar < li_chun {
+            let (li_chun_month, li_chun_day) = solar_terms::li_chun_date(solar.year)?;
+            let before_li_chun = (solar.month, solar.day) < (li_chun_month, li_chun_day);
+            let pillar_year = if before_li_chun {
                 solar.year - 1
             } else {
                 solar.year

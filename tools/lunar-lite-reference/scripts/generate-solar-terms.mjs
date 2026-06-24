@@ -1,7 +1,7 @@
 // tools/lunar-lite-reference/scripts/generate-solar-terms.mjs
 //
-// Generates src/generated/solar_terms.rs: the 24 solar-term boundaries plus the
-// 12 Jie (节) boundaries per Gregorian year for 1850..=2150.
+// Generates src/generated/solar_terms.rs: the 12 Jie (节) solar-term boundaries
+// per Gregorian year for 1850..=2150, used by the four-pillar month/year pillars.
 //
 // Source of truth: lunar-typescript@1.8.6 (pinned in package.json).
 // Run: npm install && npm run generate-solar-terms
@@ -17,34 +17,6 @@ const repoRoot = resolve(__dirname, "../../..");
 
 const MIN_YEAR = 1850;
 const MAX_YEAR = 2150;
-
-// The 24 solar terms in public enum order.
-const SOLAR_TERMS = [
-    "立春", // LiChun
-    "雨水", // YuShui
-    "惊蛰", // JingZhe
-    "春分", // ChunFen
-    "清明", // QingMing
-    "谷雨", // GuYu
-    "立夏", // LiXia
-    "小满", // XiaoMan
-    "芒种", // MangZhong
-    "夏至", // XiaZhi
-    "小暑", // XiaoShu
-    "大暑", // DaShu
-    "立秋", // LiQiu
-    "处暑", // ChuShu
-    "白露", // BaiLu
-    "秋分", // QiuFen
-    "寒露", // HanLu
-    "霜降", // ShuangJiang
-    "立冬", // LiDong
-    "小雪", // XiaoXue
-    "大雪", // DaXue
-    "冬至", // DongZhi
-    "小寒", // XiaoHan
-    "大寒", // DaHan
-];
 
 // The 12 Jie (节), in calendar order within a Gregorian year. The corresponding
 // month earthly branch is, in order: 丑 寅 卯 辰 巳 午 未 申 酉 戌 亥 子.
@@ -72,16 +44,28 @@ function dumpYear(year) {
     // A mid-year Lunar carries a JieQi table spanning the whole Gregorian year.
     const table = Solar.fromYmd(year, 6, 1).getLunar().getJieQiTable();
 
-    const solarTermMoments = SOLAR_TERMS.map((name) => lookupTermMoment(year, name));
-    const jieMoments = [];
+    const moments = [];
     let prevOrdinalSeconds = -1;
 
     for (let i = 0; i < JIE.length; i++) {
         const name = JIE[i];
-        const moment = termMoment(table, year, name);
+        const solar = table[name];
+
+        if (!solar) {
+            throw new Error(`year ${year}: missing Jie ${name}`);
+        }
+        if (solar.getYear() !== year) {
+            throw new Error(
+                `year ${year}: Jie ${name} resolved to ${solar.toYmd()} (wrong year)`,
+            );
+        }
+
+        const ordinal = dayOfYear(year, solar.getMonth(), solar.getDay());
+        const secondOfDay =
+            solar.getHour() * 3600 + solar.getMinute() * 60 + solar.getSecond();
 
         // Strictly increasing in (ordinal, secondOfDay) -> chronological order.
-        const key = moment.ordinal * 86_400 + moment.secondOfDay;
+        const key = ordinal * 86_400 + secondOfDay;
         if (key <= prevOrdinalSeconds) {
             throw new Error(
                 `year ${year}: Jie ${name} not strictly after the previous term`,
@@ -89,54 +73,14 @@ function dumpYear(year) {
         }
         prevOrdinalSeconds = key;
 
-        jieMoments.push(moment);
+        moments.push({ ordinal, secondOfDay });
     }
 
-    if (solarTermMoments.length !== 24) {
-        throw new Error(`year ${year}: expected 24 solar terms, got ${solarTermMoments.length}`);
+    if (moments.length !== 12) {
+        throw new Error(`year ${year}: expected 12 Jie, got ${moments.length}`);
     }
 
-    if (jieMoments.length !== 12) {
-        throw new Error(`year ${year}: expected 12 Jie, got ${jieMoments.length}`);
-    }
-
-    return { solarTermMoments, jieMoments };
-}
-
-function termMoment(table, year, name) {
-    const solar = table[name];
-
-    if (!solar) {
-        throw new Error(`year ${year}: missing solar term ${name}`);
-    }
-    if (solar.getYear() !== year) {
-        throw new Error(
-            `year ${year}: solar term ${name} resolved to ${solar.toYmd()} (wrong year)`,
-        );
-    }
-
-    return {
-        ordinal: dayOfYear(year, solar.getMonth(), solar.getDay()),
-        secondOfDay:
-            solar.getHour() * 3600 + solar.getMinute() * 60 + solar.getSecond(),
-    };
-}
-
-function lookupTermMoment(year, name) {
-    for (const anchorYear of [year, year + 1]) {
-        const table = Solar.fromYmd(anchorYear, 6, 1).getLunar().getJieQiTable();
-        const solar = table[name];
-
-        if (solar?.getYear() === year) {
-            return {
-                ordinal: dayOfYear(year, solar.getMonth(), solar.getDay()),
-                secondOfDay:
-                    solar.getHour() * 3600 + solar.getMinute() * 60 + solar.getSecond(),
-            };
-        }
-    }
-
-    throw new Error(`year ${year}: missing same-year solar term ${name}`);
+    return moments;
 }
 
 function renderYear(year, moments) {
@@ -150,12 +94,7 @@ function renderYear(year, moments) {
 }
 
 function renderRust(years) {
-    const solarTermBody = years
-        .map(({ year, solarTermMoments }) => renderYear(year, solarTermMoments))
-        .join("\n");
-    const jieBody = years
-        .map(({ year, jieMoments }) => renderYear(year, jieMoments))
-        .join("\n");
+    const body = years.map(({ year, moments }) => renderYear(year, moments)).join("\n");
     const count = years.length;
 
     return `// @generated by tools/lunar-lite-reference/scripts/generate-solar-terms.mjs
@@ -166,28 +105,21 @@ use crate::solar_terms::TermMoment;
 pub(crate) const JIE_START_YEAR: i32 = ${MIN_YEAR};
 pub(crate) const JIE_END_YEAR: i32 = ${MAX_YEAR};
 
-/// The 24 solar-term boundaries for each Gregorian year in [\`JIE_START_YEAR\`, \`JIE_END_YEAR\`],
-/// ordered 立春, 雨水, 惊蛰, 春分, 清明, 谷雨, 立夏, 小满, 芒种, 夏至, 小暑, 大暑,
-/// 立秋, 处暑, 白露, 秋分, 寒露, 霜降, 立冬, 小雪, 大雪, 冬至, 小寒, 大寒.
-pub(crate) static SOLAR_TERM_BOUNDARIES: [[TermMoment; 24]; ${count}] = [
-${solarTermBody}
-];
-
 /// The 12 Jie (节) boundaries for each Gregorian year in [\`JIE_START_YEAR\`, \`JIE_END_YEAR\`],
 /// ordered 小寒, 立春, 惊蛰, 清明, 立夏, 芒种, 小暑, 立秋, 白露, 寒露, 立冬, 大雪.
 pub(crate) static JIE_BOUNDARIES: [[TermMoment; 12]; ${count}] = [
-${jieBody}
+${body}
 ];
 `;
 }
 
 const years = [];
 for (let year = MIN_YEAR; year <= MAX_YEAR; year++) {
-    years.push({ year, ...dumpYear(year) });
+    years.push({ year, moments: dumpYear(year) });
 }
 
 const rustPath = resolve(repoRoot, "src/generated/solar_terms.rs");
 await mkdir(dirname(rustPath), { recursive: true });
 await writeFile(rustPath, renderRust(years), "utf8");
 
-console.log(`Generated ${rustPath} (${years.length} years, 24 solar terms + 12 Jie each)`);
+console.log(`Generated ${rustPath} (${years.length} years, 12 Jie each)`);
