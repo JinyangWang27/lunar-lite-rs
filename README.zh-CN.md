@@ -24,7 +24,7 @@
 `lunar-lite` 力求小巧、确定性强、符合 Rust 惯用风格。它不内嵌运行时天文计算引擎，也不存储庞大的逐日公农历映射表。
 
 - **农历/公历转换存储的是年份结构，而非每个日期的映射。** 每个支持的农历年以紧凑的元数据表示：公历春节日期、闰月位置、农历月份数量、月份编码顺序及各月天数。公历转农历通过偏移量推算农历年并遍历月份天数；农历转公历则执行逆向偏移查找。
-- **干支计算存储的是精确的节气边界，而非预计算的四柱。** 生成的节气表存储每个支持公历年的 12 个节（Jie）边界的精确日期时间。在 `Exact` 模式下，月支由最近的节气边界确定，月天干则通过五虎遁从相应岁/年干推算。
+- **干支计算存储的是精确的节气边界，而非预计算的四柱。** 生成的节气表存储每个支持公历年的 24 节气精确日期时间。在 `Exact` 模式下，月支由最近的节（Jie）边界确定，月天干则通过五虎遁从相应岁/年干推算。
 - **运行时保持纯 Rust 且轻量。** 生成的静态表提交在 `src/generated/` 目录下；运行时用户无需 Node.js、`lunar-typescript` 或 `lunar-lite`。转换热路径上无运行时 I/O、无运行时 JavaScript 依赖、无内存分配。
 
 ## 安装
@@ -95,6 +95,28 @@ assert_eq!(time_index(23, 0).unwrap(), 12);  // 晚子时  23:00–23:59
 | 12   | 子（晚子时）  | 23:00–23:59 |
 
 子时分为两段：早子时（索引 0）属于当日之始，晚子时（索引 12）属于当日之末。
+
+### 节气辅助函数
+
+`lunar-lite` 提供按日期粒度查询 24 节气公历日期的辅助函数：
+
+- `solar_term_date(year, term)`
+- `li_chun_date(year)`
+- `is_on_or_after_li_chun(date)`
+
+这些辅助函数返回节气发生的公历日期，不暴露节气的精确时、分、秒。
+
+```rust
+use lunar_lite::{li_chun_date, solar_term_date, SolarDate, SolarTerm};
+
+assert_eq!(
+    solar_term_date(2000, SolarTerm::LiChun).unwrap(),
+    SolarDate { year: 2000, month: 2, day: 4 }
+);
+assert_eq!(li_chun_date(2000).unwrap(), SolarDate { year: 2000, month: 2, day: 4 });
+```
+
+这些 API 只报告历法事实，不决定下游排盘或术数库如何把立春用作年界。
 
 ### 干支纪年
 
@@ -196,10 +218,10 @@ let _ = four_pillars_from_solar_date_with_options(solar, 2, options);
 | 脚本                                   | 生成内容                                                            |
 | -------------------------------------- | ------------------------------------------------------------------- |
 | `dump-year-info.mjs`                   | `src/generated/year_info.rs`（农历年元数据）及年份信息 fixture      |
-| `generate-solar-terms.mjs`             | `src/generated/solar_terms.rs`（1850..=2150 年的 12 个节气边界）    |
+| `generate-solar-terms.mjs`             | `src/generated/solar_terms.rs`（1850..=2150 年的 24 节气与 12 节边界） |
 | `generate-four-pillars-fixtures.mjs`   | `tests/fixtures/four_pillars.json`（四柱兼容性测试用例）            |
 
-节气和年份信息脚本以 [`lunar-typescript`](https://github.com/6tail/lunar-typescript) 为参考来源；四柱 fixture 使用 [`lunar-lite`](https://github.com/SylarLong/lunar-lite)。节气生成器要求每年必须恰好包含 12 个严格有序的节气边界，否则报错。
+节气和年份信息脚本以 [`lunar-typescript`](https://github.com/6tail/lunar-typescript) 为参考来源；四柱 fixture 使用 [`lunar-lite`](https://github.com/SylarLong/lunar-lite)。节气生成器要求每年必须包含全部 24 节气，并恰好包含 12 个严格有序的节边界，否则报错。
 
 **运行时用户无需安装 Node.js、`lunar-typescript` 或 `lunar-lite`。** 生成的文件已提交到仓库；只有在扩展支持范围或更新参考数据时才需要重新生成。
 
@@ -219,7 +241,6 @@ npm run generate-four-pillars-fixtures
 
 ## 非目标
 
-- **节气 API** — 节气边界支撑四柱月柱计算，但不作为独立的公开 API 暴露。
 - **真太阳时修正** — 不根据经度应用时区偏移；四柱时间由 `time_index` 合成。
 - **紫微斗数排盘** — 不在支持范围内。
 - **运行时 JavaScript 依赖** — 库在运行时为纯 Rust 实现。
