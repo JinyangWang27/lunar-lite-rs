@@ -17,9 +17,29 @@ jobs:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
       - name: Run tyme4rs compatibility test
+        id: compat
         shell: bash
         run: |
           set +e
-          cargo test --test tyme4rs_compatibility --all-features -- --nocapture 2>&1 | tail -n 200
-          status=${PIPESTATUS[0]}
+          cargo test -q --test tyme4rs_compatibility --all-features -- --nocapture > /tmp/tyme4rs-compat.out 2>&1
+          status=$?
+          tail -n 120 /tmp/tyme4rs-compat.out > /tmp/tyme4rs-compat-tail.txt
+          {
+            echo 'compat_status='$status
+            echo 'compat_tail<<EOF'
+            cat /tmp/tyme4rs-compat-tail.txt
+            echo EOF
+          } >> "$GITHUB_OUTPUT"
           exit "$status"
+      - name: Comment compatibility failure tail
+        if: failure() && github.event_name == 'pull_request'
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea
+        with:
+          script: |
+            const tail = `${{ steps.compat.outputs.compat_tail }}`;
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: `Tyme4rs compatibility spike failed. Final output tail:\n\n\`\`\`text\n${tail.slice(0, 6000)}\n\`\`\``
+            });
