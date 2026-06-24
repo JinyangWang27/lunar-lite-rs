@@ -17,4 +17,9 @@ jobs:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
       - name: Run tyme4rs compatibility test
-        run: cargo test --test tyme4rs_compatibility --all-features -- --nocapture
+        shell: bash
+        run: |
+          set +e
+          cargo test --test tyme4rs_compatibility --all-features -- --nocapture 2>&1 | tail -n 200
+          status=${PIPESTATUS[0]}
+          exit "$status"
