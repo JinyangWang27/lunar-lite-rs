@@ -30,14 +30,6 @@
 //! months. Invalid month and leap-month selections return
 //! [`LunarError::InvalidLunarDate`].
 //!
-//! # Solar-term helpers
-//!
-//! `solar_term_date`, `li_chun_date`, and `is_on_or_after_li_chun` expose
-//! date-level Gregorian calendar facts for the 24 solar terms. They report the
-//! calendar date on which a term occurs, not the exact hour/minute/second, and
-//! do not decide how downstream charting or astrology libraries should use
-//! LiChun as a year boundary.
-//!
 //! # Features
 //!
 //! - `serde`: derive `Serialize`/`Deserialize` for the public date and

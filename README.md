@@ -24,7 +24,7 @@ See [Non-goals](#non-goals).
 `lunar-lite` aims to be small, deterministic, and idiomatic Rust. It does not embed a runtime astronomical engine, but it also does not store a huge day-by-day solar/lunar mapping table.
 
 - **Lunar/solar conversion stores year structure, not every date mapping.** Each supported lunar year is represented by compact metadata: the Gregorian date of Chinese New Year, the leap-month position, the number of lunar months, the ordered month codes, and the length of each lunar month. Solar-to-lunar conversion resolves the lunar year and walks the month lengths by offset; lunar-to-solar conversion performs the inverse offset lookup.
-- **Stem-branch calculation stores precise solar-term boundaries, not precomputed pillars.** The generated solar-term table stores exact date-times for the 24 solar terms for each supported Gregorian year. In `Exact` mode, the month branch is determined by the most recent Jie (节) boundary, while the month Heavenly Stem is derived from the relevant sui/year stem using 五虎遁.
+- **Stem-branch calculation stores precise solar-term boundaries, not precomputed pillars.** The generated solar-term table stores the exact date-time of the 12 Jie (节) boundaries for each supported Gregorian year. In `Exact` mode, the month branch is determined by the most recent Jie boundary, while the month Heavenly Stem is derived from the relevant sui/year stem using 五虎遁.
 - **Runtime stays pure Rust and lightweight.** Generated tables are committed under `src/generated/`; runtime users do not need Node.js, `lunar-typescript`, or `lunar-lite`. There is no runtime I/O, no runtime JavaScript dependency, and no allocations on the conversion hot path.
 
 ## Installation
@@ -111,28 +111,6 @@ assert!(is_early_zi(0).unwrap());
 assert!(is_late_zi(12).unwrap());
 assert!(time_index_to_branch(13).is_err()); // LunarError::InvalidTimeIndex
 ```
-
-### Solar-term helpers
-
-`lunar-lite` exposes date-level helpers for querying the Gregorian date of the 24 solar terms:
-
-- `solar_term_date(year, term)`
-- `li_chun_date(year)`
-- `is_on_or_after_li_chun(date)`
-
-These helpers expose the Gregorian calendar date on which a solar term occurs. They do not expose the exact hour/minute/second of the solar term.
-
-```rust
-use lunar_lite::{li_chun_date, solar_term_date, SolarDate, SolarTerm};
-
-assert_eq!(
-    solar_term_date(2000, SolarTerm::LiChun).unwrap(),
-    SolarDate { year: 2000, month: 2, day: 4 }
-);
-assert_eq!(li_chun_date(2000).unwrap(), SolarDate { year: 2000, month: 2, day: 4 });
-```
-
-These APIs report calendar facts only. They do not decide how a downstream charting or astrology library should use LiChun as a year boundary.
 
 ### Sexagenary cycle (干支)
 
@@ -281,10 +259,10 @@ The static tables in `src/generated/` are produced by Node.js scripts under
 | Script                               | Generates                                                               |
 | ------------------------------------ | ----------------------------------------------------------------------- |
 | `dump-year-info.mjs`                 | `src/generated/year_info.rs` (lunar-year metadata) + year-info fixtures |
-| `generate-solar-terms.mjs`           | `src/generated/solar_terms.rs` (the 24 solar terms and 12 Jie per year, 1850..=2150) |
+| `generate-solar-terms.mjs`           | `src/generated/solar_terms.rs` (the 12 Jie per year, 1850..=2150)       |
 | `generate-four-pillars-fixtures.mjs` | `tests/fixtures/four_pillars.json` (four-pillar compatibility cases)    |
 
-The solar-term and year-info scripts use [`lunar-typescript`](https://github.com/6tail/lunar-typescript) as their reference source; the four-pillar fixtures use [`lunar-lite`](https://github.com/SylarLong/lunar-lite). The solar-term generator fails unless every year yields all 24 solar terms and exactly 12 strictly-ordered Jie boundaries.
+The solar-term and year-info scripts use [`lunar-typescript`](https://github.com/6tail/lunar-typescript) as their reference source; the four-pillar fixtures use [`lunar-lite`](https://github.com/SylarLong/lunar-lite). The solar-term generator fails unless every year yields exactly 12 strictly-ordered Jie boundaries.
 
 **Runtime users do not need Node.js, `lunar-typescript`, or `lunar-lite`.** The generated files are committed to the repository; regeneration is only needed when extending the supported range or updating the reference data.
 
@@ -304,6 +282,7 @@ Conversion results are generated from `lunar-typescript` and are expected to mat
 
 ## Non-goals
 
+- **Solar terms (节气) API** — Jie boundaries back the four-pillar month pillar but are not exposed as a standalone public API.
 - **True solar time correction** — time zone offsets based on longitude are not applied; the four-pillar time is synthesized from `time_index`.
 - **Zi Wei Dou Shu (紫微斗数) charting** — out of scope.
 - **Runtime JavaScript dependency** — the crate is pure Rust at runtime.
