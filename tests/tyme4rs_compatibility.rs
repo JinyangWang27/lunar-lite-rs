@@ -153,17 +153,29 @@ fn leap_month_and_month_lengths_match_tyme4rs_across_supported_years() {
     for year in 1850..=2150 {
         let tyme_leap_month = TymeLunarYear::from_year(year as isize).get_leap_month();
         let leap = lunar_lite::leap_month(year).unwrap();
-        assert_eq!(leap, (tyme_leap_month > 0).then_some(tyme_leap_month as u8));
-        assert_eq!(lunar_lite::has_leap_month(year).unwrap(), tyme_leap_month > 0);
+        assert_eq!(
+            leap,
+            (tyme_leap_month > 0).then_some(tyme_leap_month as u8)
+        );
+        assert_eq!(
+            lunar_lite::has_leap_month(year).unwrap(),
+            tyme_leap_month > 0
+        );
 
         for month in 1..=12 {
             let tyme_days = TymeLunarMonth::from_ym(year as isize, month as isize).get_day_count();
-            assert_eq!(lunar_month_days(year, month, false).unwrap(), tyme_days as u8);
+            assert_eq!(
+                lunar_month_days(year, month, false).unwrap(),
+                tyme_days as u8
+            );
 
             if tyme_leap_month == month as usize {
                 let tyme_leap_days =
                     TymeLunarMonth::from_ym(year as isize, -(month as isize)).get_day_count();
-                assert_eq!(lunar_month_days(year, month, true).unwrap(), tyme_leap_days as u8);
+                assert_eq!(
+                    lunar_month_days(year, month, true).unwrap(),
+                    tyme_leap_days as u8
+                );
             }
         }
     }
@@ -187,7 +199,10 @@ fn strict_lunar_validation_matches_tyme4rs_validity_for_representative_dates() {
     let fake_leap = lunar(2024, 1, 1, true);
     let normalized = normalize_lunar_date(fake_leap).unwrap();
     assert_eq!(normalized, lunar(2024, 1, 1, false));
-    assert_eq!(lunar_to_solar(fake_leap).unwrap(), tyme_solar_from_lunar(normalized));
+    assert_eq!(
+        lunar_to_solar(fake_leap).unwrap(),
+        tyme_solar_from_lunar(normalized)
+    );
 }
 
 #[test]
@@ -216,7 +231,10 @@ fn time_index_semantics_match_tyme4rs_lunar_hour_index() {
             .get_lunar_hour()
             .get_index_in_day() as u8;
         assert_eq!(expected_index, tyme_index);
-        assert_eq!(time_index_to_branch(expected_index).unwrap().index(), (tyme_index % 12) as usize);
+        assert_eq!(
+            time_index_to_branch(expected_index).unwrap().index(),
+            (tyme_index % 12) as usize
+        );
     }
 }
 
