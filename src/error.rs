@@ -14,6 +14,13 @@ pub enum LunarError {
         day: u8,
         is_leap_month: bool,
     },
+    /// The lunar month does not exist in that lunar year.
+    #[error("Invalid lunar month: {year:04}-{month:02}, is_leap_month={is_leap_month}")]
+    InvalidLunarMonth {
+        year: i32,
+        month: u8,
+        is_leap_month: bool,
+    },
     /// The year falls outside the range covered by the generated tables.
     #[error("Year {year} is out of supported range")]
     YearOutOfRange { year: i32 },
