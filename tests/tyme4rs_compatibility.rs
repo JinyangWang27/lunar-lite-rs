@@ -1,6 +1,5 @@
 #![allow(warnings)]
 #![allow(clippy::all)]
-#![rustfmt::skip]
 
 //! Compatibility spike: can `tyme4rs` reproduce `lunar-lite` public behavior?
 //!
