@@ -112,6 +112,25 @@ assert!(is_late_zi(12).unwrap());
 assert!(time_index_to_branch(13).is_err()); // LunarError::InvalidTimeIndex
 ```
 
+### LiChun helper
+
+`lunar-lite` exposes date-level helpers for querying the Gregorian date of LiChun:
+
+- `li_chun_date(year)`
+- `is_on_or_after_li_chun(date)`
+
+These APIs report calendar facts only. They do not decide how a downstream charting or astrology library should use LiChun as a year boundary.
+
+The helpers expose only the Gregorian date, not the exact hour/minute/second of LiChun.
+
+```rust
+use lunar_lite::{li_chun_date, is_on_or_after_li_chun, SolarDate};
+
+let li_chun = SolarDate { year: 2000, month: 2, day: 4 };
+assert_eq!(li_chun_date(2000).unwrap(), li_chun);
+assert!(is_on_or_after_li_chun(li_chun).unwrap());
+```
+
 ### Sexagenary cycle (干支)
 
 The sexagenary cycle pairs the ten Heavenly Stems (天干) with the twelve Earthly
@@ -282,7 +301,6 @@ Conversion results are generated from `lunar-typescript` and are expected to mat
 
 ## Non-goals
 
-- **Solar terms (节气) API** — Jie boundaries back the four-pillar month pillar but are not exposed as a standalone public API.
 - **True solar time correction** — time zone offsets based on longitude are not applied; the four-pillar time is synthesized from `time_index`.
 - **Zi Wei Dou Shu (紫微斗数) charting** — out of scope.
 - **Runtime JavaScript dependency** — the crate is pure Rust at runtime.

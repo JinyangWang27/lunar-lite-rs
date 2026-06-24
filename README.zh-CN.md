@@ -96,6 +96,25 @@ assert_eq!(time_index(23, 0).unwrap(), 12);  // 晚子时  23:00–23:59
 
 子时分为两段：早子时（索引 0）属于当日之始，晚子时（索引 12）属于当日之末。
 
+### 立春辅助函数
+
+`lunar-lite` 提供按日期粒度查询立春公历日期的辅助函数：
+
+- `li_chun_date(year)`
+- `is_on_or_after_li_chun(date)`
+
+这些 API 只报告历法事实，不决定下游排盘或术数库如何把立春用作年界。
+
+这些辅助函数只返回公历日期，不暴露立春的精确时、分、秒。
+
+```rust
+use lunar_lite::{li_chun_date, is_on_or_after_li_chun, SolarDate};
+
+let li_chun = SolarDate { year: 2000, month: 2, day: 4 };
+assert_eq!(li_chun_date(2000).unwrap(), li_chun);
+assert!(is_on_or_after_li_chun(li_chun).unwrap());
+```
+
 ### 干支纪年
 
 干支纪年将十天干与十二地支两两相配，形成六十个组合（六十甲子）。年柱以 `1984 年 = 甲子` 为基准锚点。
@@ -219,7 +238,6 @@ npm run generate-four-pillars-fixtures
 
 ## 非目标
 
-- **节气 API** — 节气边界支撑四柱月柱计算，但不作为独立的公开 API 暴露。
 - **真太阳时修正** — 不根据经度应用时区偏移；四柱时间由 `time_index` 合成。
 - **紫微斗数排盘** — 不在支持范围内。
 - **运行时 JavaScript 依赖** — 库在运行时为纯 Rust 实现。

@@ -4,7 +4,8 @@
 //! The runtime never computes astronomical solar terms; it reads the generated
 //! [`crate::generated::solar_terms`] table (sourced from `lunar-typescript@1.8.6`).
 
-use crate::calendar::{civil_from_days, days_from_civil};
+use crate::calendar::{civil_from_days, days_from_civil, validate_solar_date};
+use crate::date::SolarDate;
 use crate::error::LunarError;
 use crate::generated::solar_terms::{JIE_BOUNDARIES, JIE_END_YEAR, JIE_START_YEAR};
 
@@ -67,11 +68,33 @@ pub(crate) fn jie_instants(year: i32) -> Result<[i64; 12], LunarError> {
     Ok(out)
 }
 
-/// The `(month, day)` on which 立春 falls in `year`.
-pub(crate) fn li_chun_date(year: i32) -> Result<(u8, u8), LunarError> {
+/// Returns the Gregorian date on which 立春 (LiChun) occurs in `year`.
+///
+/// These helpers expose the Gregorian calendar date on which LiChun occurs.
+/// They do not expose the exact hour/minute/second of LiChun.
+///
+/// # Errors
+/// Returns [`LunarError::SolarTermOutOfRange`] if `year` is outside the
+/// generated solar-term table.
+pub fn li_chun_date(year: i32) -> Result<SolarDate, LunarError> {
     let moment = year_terms(year)?[LI_CHUN];
-    let date = civil_from_days(days_from_civil(year, 1, 1) + (moment.ordinal as i32 - 1));
-    Ok((date.month, date.day))
+    Ok(civil_from_days(
+        days_from_civil(year, 1, 1) + (moment.ordinal as i32 - 1),
+    ))
+}
+
+/// Returns whether `date` is on or after that Gregorian year's LiChun date.
+///
+/// These helpers expose the Gregorian calendar date on which LiChun occurs.
+/// They do not expose the exact hour/minute/second of LiChun.
+///
+/// # Errors
+/// - [`LunarError::InvalidSolarDate`] if `date` is not a real Gregorian date.
+/// - [`LunarError::SolarTermOutOfRange`] if `date.year` is outside the
+///   generated solar-term table.
+pub fn is_on_or_after_li_chun(date: SolarDate) -> Result<bool, LunarError> {
+    validate_solar_date(date)?;
+    Ok(date >= li_chun_date(date.year)?)
 }
 
 #[cfg(test)]
@@ -81,8 +104,22 @@ mod tests {
     #[test]
     fn li_chun_dates_match_reference() {
         // lunar-typescript@1.8.6: 立春 2000 = 2000-02-04, 2024 = 2024-02-04.
-        assert_eq!(li_chun_date(2000).unwrap(), (2, 4));
-        assert_eq!(li_chun_date(2024).unwrap(), (2, 4));
+        assert_eq!(
+            li_chun_date(2000).unwrap(),
+            SolarDate {
+                year: 2000,
+                month: 2,
+                day: 4
+            }
+        );
+        assert_eq!(
+            li_chun_date(2024).unwrap(),
+            SolarDate {
+                year: 2024,
+                month: 2,
+                day: 4
+            }
+        );
     }
 
     #[test]

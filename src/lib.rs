@@ -30,6 +30,13 @@
 //! months. Invalid month and leap-month selections return
 //! [`LunarError::InvalidLunarDate`].
 //!
+//! # LiChun helper
+//!
+//! `li_chun_date` and `is_on_or_after_li_chun` expose date-level Gregorian
+//! calendar facts for LiChun. They report the calendar date on which LiChun
+//! occurs, not the exact hour/minute/second, and do not decide how downstream
+//! charting or astrology libraries should use LiChun as a year boundary.
+//!
 //! # Features
 //!
 //! - `serde`: derive `Serialize`/`Deserialize` for the public date and
@@ -62,5 +69,6 @@ pub use four_pillars::{
 pub use lunar_month::{has_leap_month, leap_month, lunar_month_days, validate_lunar_date};
 pub use normalize::normalize_lunar_date;
 pub use sexagenary::{StemBranch, lunar_year_branch, lunar_year_stem, lunar_year_stem_branch};
+pub use solar_terms::{is_on_or_after_li_chun, li_chun_date};
 pub use stem_branch::{EARTHLY_BRANCHES, EarthlyBranch, HEAVENLY_STEMS, HeavenlyStem};
 pub use time_index::{is_early_zi, is_late_zi, time_index, time_index_to_branch};
