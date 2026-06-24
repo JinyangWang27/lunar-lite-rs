@@ -47,9 +47,10 @@ fn lunar_month_days_leap_month_returns_29_or_30() {
 fn lunar_month_days_rejects_invalid_month_zero() {
     assert_eq!(
         lunar_month_days(2024, 0, false).unwrap_err(),
-        LunarError::InvalidLunarMonth {
+        LunarError::InvalidLunarDate {
             year: 2024,
             month: 0,
+            day: 1,
             is_leap_month: false,
         }
     );
@@ -59,9 +60,10 @@ fn lunar_month_days_rejects_invalid_month_zero() {
 fn lunar_month_days_rejects_invalid_month_thirteen() {
     assert_eq!(
         lunar_month_days(2024, 13, false).unwrap_err(),
-        LunarError::InvalidLunarMonth {
+        LunarError::InvalidLunarDate {
             year: 2024,
             month: 13,
+            day: 1,
             is_leap_month: false,
         }
     );
@@ -71,9 +73,10 @@ fn lunar_month_days_rejects_invalid_month_thirteen() {
 fn lunar_month_days_rejects_invalid_leap_month_flag_for_non_leap_year() {
     assert_eq!(
         lunar_month_days(2024, 1, true).unwrap_err(),
-        LunarError::InvalidLunarMonth {
+        LunarError::InvalidLunarDate {
             year: 2024,
             month: 1,
+            day: 1,
             is_leap_month: true,
         }
     );
@@ -83,9 +86,10 @@ fn lunar_month_days_rejects_invalid_leap_month_flag_for_non_leap_year() {
 fn lunar_month_days_rejects_leap_flag_for_wrong_month() {
     assert_eq!(
         lunar_month_days(2020, 5, true).unwrap_err(),
-        LunarError::InvalidLunarMonth {
+        LunarError::InvalidLunarDate {
             year: 2020,
             month: 5,
+            day: 1,
             is_leap_month: true,
         }
     );

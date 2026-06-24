@@ -226,7 +226,7 @@ The Chinese lunisolar calendar inserts an intercalary (leap) month roughly every
 - `lunar_month_days(year, month, is_leap_month)`
 - `validate_lunar_date(date)`
 
-These APIs report calendar facts only. They do not encode downstream chart-placement policies such as whether a leap month should count as the previous month or split at mid-month.
+These APIs report calendar facts only. They do not encode downstream chart-placement policies such as whether a leap month should count as the previous month or split at mid-month. Invalid month or leap-month selections return `LunarError::InvalidLunarDate`.
 
 `normalize_lunar_date` is the safe entry point for externally-supplied dates:
 
@@ -244,8 +244,7 @@ Stem-branch validation returns `Result<_, StemBranchError>`.
 | Variant                                  | Meaning                                                        |
 | ---------------------------------------- | -------------------------------------------------------------- |
 | `LunarError::InvalidSolarDate`           | Solar date is not a valid calendar date                        |
-| `LunarError::InvalidLunarDate`           | Lunar date is structurally invalid or day exceeds month length |
-| `LunarError::InvalidLunarMonth`          | Lunar month or requested leap month does not exist             |
+| `LunarError::InvalidLunarDate`           | Lunar date is structurally invalid, requested month/leap month does not exist, or day exceeds month length |
 | `LunarError::YearOutOfRange`             | Year is outside 1850..=2150                                    |
 | `LunarError::InvalidTime`                | Hour > 23 or minute > 59                                       |
 | `LunarError::InvalidTimeIndex`           | 时辰 index is outside 0..=12                                   |

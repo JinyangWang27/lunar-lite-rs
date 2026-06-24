@@ -27,7 +27,8 @@
 //! `leap_month`, `has_leap_month`, `lunar_month_days`, and
 //! `validate_lunar_date` expose calendar facts only. They do not encode
 //! downstream chart-placement policy for how consumers should interpret leap
-//! months.
+//! months. Invalid month and leap-month selections return
+//! [`LunarError::InvalidLunarDate`].
 //!
 //! # Features
 //!
