@@ -6913,70 +6913,85 @@ impl AstronomicalKernel {
         t * 36525.0 + ONE_THIRD
     }
 
-    pub fn qi_shuo(is_qi: bool, is_high: bool, jd: f64, pc: f64) -> f64 {
-        let w: f64;
+    /// Returns the day offset of the solar term (`is_qi`) or new moon nearest
+    /// Julian Day `julian_day`, from the analytic series. `is_high` selects the
+    /// high-precision variant; `pc` is the table-alignment correction.
+    pub fn qi_shuo(is_qi: bool, is_high: bool, julian_day: f64, pc: f64) -> f64 {
+        let target_angle: f64;
         if is_qi {
-            w = ((jd + pc - 2451259.0) / 365.2422 * 24.0).floor() * PI / 12.0;
+            target_angle = ((julian_day + pc - 2451259.0) / 365.2422 * 24.0).floor() * PI / 12.0;
         } else {
-            w = ((jd + pc - 2451551.0) / 29.5306).floor() * PI_2;
+            target_angle = ((julian_day + pc - 2451551.0) / 29.5306).floor() * PI_2;
         }
-        let d: f64;
+        let day_offset: f64;
         if is_qi {
             if is_high {
-                d = Self::qi_high(w);
+                day_offset = Self::qi_high(target_angle);
             } else {
-                d = Self::qi_low(w);
+                day_offset = Self::qi_low(target_angle);
             }
         } else {
             if is_high {
-                d = Self::shuo_high(w);
+                day_offset = Self::shuo_high(target_angle);
             } else {
-                d = Self::shuo_low(w);
+                day_offset = Self::shuo_low(target_angle);
             }
         }
-        (d + 0.5).floor()
+        (day_offset + 0.5).floor()
     }
 
     /// Returns the day offset from J2000 of a calendar event (solar term when
     /// `is_qi`, otherwise new moon), using the calibrated low-precision tables
     /// where available and falling back to the high-precision series elsewhere.
-    pub fn calendar_event_offset(is_qi: bool, jd: f64, kb: &[f64], pc: f64, fkb: String) -> f64 {
-        let size: usize = kb.len();
-        let mut d: f64 = 0.0;
-        let j: f64 = jd + 2451545.0;
-        let f1: f64 = kb[0] - pc;
-        let f2: f64 = kb[size - 1] - pc;
-        if j < f1 || j >= 2436935.0 {
-            d = Self::qi_shuo(is_qi, true, j, pc);
-        } else if j >= f1 && j < f2 {
+    pub fn calendar_event_offset(
+        is_qi: bool,
+        day_offset: f64,
+        calibration_table: &[f64],
+        pc: f64,
+        corrections: String,
+    ) -> f64 {
+        let size: usize = calibration_table.len();
+        let mut result_offset: f64 = 0.0;
+        // Julian Day from the J2000 day offset.
+        let julian_day: f64 = day_offset + 2451545.0;
+        let table_start_jd: f64 = calibration_table[0] - pc;
+        let table_end_jd: f64 = calibration_table[size - 1] - pc;
+        if julian_day < table_start_jd || julian_day >= 2436935.0 {
+            result_offset = Self::qi_shuo(is_qi, true, julian_day, pc);
+        } else if julian_day >= table_start_jd && julian_day < table_end_jd {
             let mut i: usize = 0;
             while i < size {
-                if j + pc < kb[i + 2] {
+                if julian_day + pc < calibration_table[i + 2] {
                     break;
                 }
                 i += 2;
             }
-            d = (kb[i] + kb[i + 1] * ((j + pc - kb[i]) / kb[i + 1]).floor() + 0.5).floor();
-            if !is_qi && d == 1683460.0 {
-                d += 1.0;
+            result_offset = (calibration_table[i]
+                + calibration_table[i + 1]
+                    * ((julian_day + pc - calibration_table[i]) / calibration_table[i + 1])
+                        .floor()
+                + 0.5)
+                .floor();
+            if !is_qi && result_offset == 1683460.0 {
+                result_offset += 1.0;
             }
-            d -= 2451545.0;
-        } else if j >= f2 {
-            d = Self::qi_shuo(is_qi, false, j, pc);
-            let from: usize;
+            result_offset -= 2451545.0;
+        } else if julian_day >= table_end_jd {
+            result_offset = Self::qi_shuo(is_qi, false, julian_day, pc);
+            let correction_index: usize;
             if is_qi {
-                from = ((jd - f2) / 365.2422 * 24.0) as usize;
+                correction_index = ((day_offset - table_end_jd) / 365.2422 * 24.0) as usize;
             } else {
-                from = ((jd - f2) / 29.5306) as usize;
+                correction_index = ((day_offset - table_end_jd) / 29.5306) as usize;
             }
-            let n: &str = &fkb[from..from + 1];
-            if n == "1" {
-                d += 1.0;
-            } else if n == "2" {
-                d -= 1.0;
+            let correction: &str = &corrections[correction_index..correction_index + 1];
+            if correction == "1" {
+                result_offset += 1.0;
+            } else if correction == "2" {
+                result_offset -= 1.0;
             }
         }
-        d
+        result_offset
     }
 
     /// Calculates the new-moon (朔) day offset from J2000 nearest `jd`.

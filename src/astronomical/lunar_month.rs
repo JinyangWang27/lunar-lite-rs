@@ -122,15 +122,18 @@ impl LunarMonth {
 
     pub(crate) fn day_count(self) -> Result<u8, LunarError> {
         let new_moon = self.new_moon_offset()?;
-        Ok((AstronomicalKernel::new_moon_day_offset(new_moon + SYNODIC_MONTH_DAYS)
-            - AstronomicalKernel::new_moon_day_offset(new_moon)) as u8)
+        Ok(
+            (AstronomicalKernel::new_moon_day_offset(new_moon + SYNODIC_MONTH_DAYS)
+                - AstronomicalKernel::new_moon_day_offset(new_moon)) as u8,
+        )
     }
 
     fn new_moon_offset(self) -> Result<f64, LunarError> {
-        let dong_zhi_jd = solar_term::winter_solstice_cursory_offset(self.year);
-        let mut w = AstronomicalKernel::new_moon_day_offset(dong_zhi_jd);
-        if w > dong_zhi_jd {
-            w -= 29.53;
+        let winter_solstice_offset = solar_term::winter_solstice_cursory_offset(self.year);
+        let mut winter_solstice_new_moon_offset =
+            AstronomicalKernel::new_moon_day_offset(winter_solstice_offset);
+        if winter_solstice_new_moon_offset > winter_solstice_offset {
+            winter_solstice_new_moon_offset -= 29.53;
         }
 
         let previous_leap_month = lunar_year::leap_month(self.year - 1)?.unwrap_or(0);
@@ -141,7 +144,8 @@ impl LunarMonth {
             offset = 3.0;
         }
 
-        Ok(w + SYNODIC_MONTH_DAYS * (offset + self.index_in_year()? as f64))
+        Ok(winter_solstice_new_moon_offset
+            + SYNODIC_MONTH_DAYS * (offset + self.index_in_year()? as f64))
     }
 }
 
