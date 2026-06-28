@@ -3,6 +3,8 @@
 //! The original implementation is MIT licensed. This module keeps only the
 //! internal functions needed by `lunar-lite` for new moons and solar terms.
 
+#![allow(clippy::approx_constant, clippy::needless_late_init)]
+
 use std::f64::consts::PI;
 use std::sync::LazyLock;
 

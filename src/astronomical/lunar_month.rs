@@ -87,7 +87,8 @@ impl LunarMonth {
         self.month
     }
 
-    pub(crate) fn month_with_leap(self) -> i8 {
+    #[cfg(test)]
+    fn month_with_leap(self) -> i8 {
         if self.is_leap {
             -(self.month as i8)
         } else {

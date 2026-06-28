@@ -1,6 +1,6 @@
 // src/calendar.rs
 
-use crate::julian_day::{from_ymd_hms, to_solar_date};
+use crate::julian_day::from_ymd_hms;
 use crate::{LunarError, SolarDate};
 
 const MIN_SOLAR_YEAR: i32 = 1;
@@ -36,15 +36,6 @@ pub(crate) fn days_between(start: SolarDate, end: SolarDate) -> Result<i32, Luna
     let end_days = from_ymd_hms(end.year, end.month, end.day, 0, 0, 0);
 
     Ok((end_days - start_days) as i32)
-}
-
-pub(crate) fn add_days(date: SolarDate, days: i32) -> Result<SolarDate, LunarError> {
-    validate_solar_date(date)?;
-
-    let base = from_ymd_hms(date.year, date.month, date.day, 0, 0, 0);
-    let date = to_solar_date(base + days as f64);
-    validate_solar_date(date)?;
-    Ok(date)
 }
 
 fn invalid_solar(date: SolarDate) -> LunarError {
@@ -89,24 +80,4 @@ pub(crate) fn days_from_civil(year: i32, month: u8, day: u8) -> i32 {
     let doe = yoe * 365 + yoe / 4 - yoe / 100 + doy;
 
     era * 146_097 + doe - 719_468
-}
-
-pub(crate) fn civil_from_days(days: i32) -> SolarDate {
-    let z = days + 719_468;
-    let era = if z >= 0 { z } else { z - 146_096 } / 146_097;
-    let doe = z - era * 146_097;
-    let yoe = (doe - doe / 1_460 + doe / 36_524 - doe / 146_096) / 365;
-    let mut y = yoe + era * 400;
-    let doy = doe - (365 * yoe + yoe / 4 - yoe / 100);
-    let mp = (5 * doy + 2) / 153;
-    let d = doy - (153 * mp + 2) / 5 + 1;
-    let m = mp + if mp < 10 { 3 } else { -9 };
-
-    y += if m <= 2 { 1 } else { 0 };
-
-    SolarDate {
-        year: y,
-        month: m as u8,
-        day: d as u8,
-    }
 }
