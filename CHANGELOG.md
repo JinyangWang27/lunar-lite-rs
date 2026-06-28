@@ -29,6 +29,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Conversion support now follows tyme-compatible policy: solar years `1..=9999`,
   Julian-calendar semantics before `1582-10-15`, and the invalid Gregorian
   reform gap `1582-10-05..=1582-10-14`.
+- The astronomical kernel's raw data now lives as reviewable source files under
+  `data/astronomical/` and is compiled into typed constants by `build.rs` at
+  build time. No runtime file I/O or parsing is added, public API and numerical
+  behaviour are unchanged, and the data files are shipped in the crate package so
+  the build works from crates.io.
 
 ### Fixed
 
