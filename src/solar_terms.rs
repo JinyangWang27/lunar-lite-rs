@@ -1,8 +1,8 @@
 //! Astronomical solar-term (节气) lookups for four-pillar month and year pillars.
 
 use crate::astronomical::solar_term;
-use crate::calendar::days_from_civil;
 use crate::error::LunarError;
+use crate::julian_day::from_ymd_hms;
 
 /// Seconds in a day; used to build absolute second-of-range instants.
 pub(crate) const SECONDS_PER_DAY: i64 = 86_400;
@@ -23,8 +23,14 @@ pub(crate) const MONTH_BRANCH_OF_JIE: [usize; 12] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 
 pub(crate) const MONTH_BRANCH_BEFORE_FIRST_JIE: usize = 0;
 
 /// Absolute instant of a wall-clock time, comparable against term instants.
+///
+/// Built on the Julian Day so user-date instants and Jie solar-term instants
+/// share one Julian/Gregorian calendar policy (Julian before 1582-10-15,
+/// Gregorian after). The Julian Day is rounded to whole seconds to keep
+/// comparisons free of floating-point equality artefacts.
 pub(crate) fn day_instant(year: i32, month: u8, day: u8, second_of_day: i64) -> i64 {
-    days_from_civil(year, month, day) as i64 * SECONDS_PER_DAY + second_of_day
+    let julian_day = from_ymd_hms(year, month, day, 0, 0, 0);
+    (julian_day * SECONDS_PER_DAY as f64).round() as i64 + second_of_day
 }
 
 /// The 12 Jie instants (seconds since epoch) for `year`, in table order.
@@ -80,6 +86,20 @@ mod tests {
         let instants = jie_instants(2000).unwrap();
         let expected = day_instant(2000, 2, 4, 20 * 3600 + 40 * 60 + 24);
         assert_eq!(instants[LI_CHUN], expected);
+    }
+
+    #[test]
+    fn pre_reform_julian_leap_day_does_not_collapse() {
+        // 1500 is a Julian leap year, so 1500-02-29 is a real, distinct day that
+        // must not collapse onto 1500-03-01 the way a proleptic-Gregorian day
+        // count would. Instants must be consecutive and strictly increasing.
+        let feb28 = day_instant(1500, 2, 28, 0);
+        let feb29 = day_instant(1500, 2, 29, 0);
+        let mar01 = day_instant(1500, 3, 1, 0);
+
+        assert!(feb28 < feb29 && feb29 < mar01);
+        assert_eq!(feb29 - feb28, SECONDS_PER_DAY);
+        assert_eq!(mar01 - feb29, SECONDS_PER_DAY);
     }
 
     #[test]

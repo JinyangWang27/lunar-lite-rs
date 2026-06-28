@@ -62,22 +62,3 @@ fn is_leap_year(year: i32) -> bool {
     }
     year % 4 == 0 && (year % 100 != 0 || year % 400 == 0)
 }
-
-// Days since 1970-01-01, proleptic Gregorian calendar. This remains for
-// four-pillar exact-second comparisons after solar dates have already been
-// validated.
-pub(crate) fn days_from_civil(year: i32, month: u8, day: u8) -> i32 {
-    let mut y = year;
-    let m = month as i32;
-    let d = day as i32;
-
-    y -= if m <= 2 { 1 } else { 0 };
-
-    let era = if y >= 0 { y } else { y - 399 } / 400;
-    let yoe = y - era * 400;
-    let mp = m + if m > 2 { -3 } else { 9 };
-    let doy = (153 * mp + 2) / 5 + d - 1;
-    let doe = yoe * 365 + yoe / 4 - yoe / 100 + doy;
-
-    era * 146_097 + doe - 719_468
-}
