@@ -6,8 +6,9 @@
 //! [`StemBranchOptions`], it returns the year, month, day, and hour pillars.
 //!
 //! Like the reference, the wall-clock time is synthesized from `time_index` as
-//! `hour = max(time_index * 2 - 1, 0), minute = 30`. The supported range is
-//! **1850-01-01 ..= 2150-12-31**.
+//! `hour = max(time_index * 2 - 1, 0), minute = 30`. The supported solar-year
+//! range is **1..=9999**, excluding the Gregorian reform gap
+//! 1582-10-05..=1582-10-14.
 //!
 //! ## Year pillar
 //! - [`YearDivide::Normal`]: the lunar-year pillar (Chinese New Year boundary).
@@ -121,9 +122,9 @@ pub fn get_heavenly_stem_and_earthly_branch_by_solar_date(
 /// # Errors
 /// - [`LunarError::InvalidSolarDate`] if `solar` is not a real date.
 /// - [`LunarError::InvalidTimeIndex`] if `time_index > 12`.
-/// - [`LunarError::SolarTermOutOfRange`] if `solar.year` is outside 1850..=2150.
+/// - [`LunarError::SolarTermOutOfRange`] if `solar.year` is outside `1..=9999`.
 /// - [`LunarError::YearOutOfRange`] for `Normal` options when the lunar year is
-///   outside the table (the early-1850 corner before Chinese New Year 1850).
+///   outside `-1..=9999`.
 pub fn get_heavenly_stem_and_earthly_branch_by_solar_date_with_options(
     solar: SolarDate,
     time_index: u8,
@@ -392,12 +393,12 @@ mod tests {
     #[test]
     fn year_out_of_range_errors() {
         assert_eq!(
-            get_heavenly_stem_and_earthly_branch_by_solar_date(solar(1849, 6, 1), 0),
-            Err(LunarError::SolarTermOutOfRange { year: 1849 })
+            get_heavenly_stem_and_earthly_branch_by_solar_date(solar(0, 6, 1), 0),
+            Err(LunarError::YearOutOfRange { year: 0 })
         );
         assert_eq!(
-            get_heavenly_stem_and_earthly_branch_by_solar_date(solar(2151, 6, 1), 0),
-            Err(LunarError::SolarTermOutOfRange { year: 2151 })
+            get_heavenly_stem_and_earthly_branch_by_solar_date(solar(10_000, 6, 1), 0),
+            Err(LunarError::YearOutOfRange { year: 10_000 })
         );
     }
 
