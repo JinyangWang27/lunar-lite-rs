@@ -136,7 +136,15 @@ impl LunarMonth {
             winter_solstice_new_moon_offset -= 29.53;
         }
 
-        let previous_leap_month = lunar_year::leap_month(self.year - 1)?.unwrap_or(0);
+        // The previous year's leap month feeds a month-offset correction. At the
+        // lower boundary (year == MIN_LUNAR_YEAR) the previous year is out of
+        // range; treat it as having no leap month so month-length lookups for
+        // the earliest supported lunar year still resolve.
+        let previous_leap_month = if self.year > lunar_year::MIN_LUNAR_YEAR {
+            lunar_year::leap_month(self.year - 1)?.unwrap_or(0)
+        } else {
+            0
+        };
         let mut offset = 2.0;
         if self.year > 8 && self.year < 24 {
             offset = 1.0;
