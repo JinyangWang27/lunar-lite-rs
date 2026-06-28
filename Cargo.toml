@@ -8,6 +8,7 @@ description = "A small Rust library for Chinese lunisolar date conversion."
 license = "MIT"
 repository = "https://github.com/JinyangWang27/lunar-lite-rs"
 readme = "README.md"
+build = "build.rs"
 keywords = [
     "chinese-calendar",
     "lunar-calendar",
@@ -22,6 +23,8 @@ include = [
     "LICENSE",
     "THIRD_PARTY_LICENSES.md",
     "README.md",
+    "build.rs",
+    "data/**",
     "src/**",
     "tests/**",
 ]
