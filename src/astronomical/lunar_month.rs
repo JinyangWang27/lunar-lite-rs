@@ -18,7 +18,11 @@ impl LunarMonth {
         lunar_year::validate_lunar_year(year)?;
 
         if month_with_leap == 0 || !(-12..=12).contains(&month_with_leap) {
-            return Err(invalid_lunar_month(year, month_with_leap.unsigned_abs(), month_with_leap < 0));
+            return Err(invalid_lunar_month(
+                year,
+                month_with_leap.unsigned_abs(),
+                month_with_leap < 0,
+            ));
         }
 
         let month = month_with_leap.unsigned_abs();
@@ -45,7 +49,11 @@ impl LunarMonth {
         let forward = n > 0;
         let add = if forward { 1 } else { -1 };
 
-        while if forward { index > month_count } else { index <= 0 } {
+        while if forward {
+            index > month_count
+        } else {
+            index <= 0
+        } {
             if forward {
                 index -= month_count;
             }
@@ -113,7 +121,8 @@ impl LunarMonth {
 
     pub(crate) fn day_count(self) -> Result<u8, LunarError> {
         let new_moon = self.new_moon_offset()?;
-        Ok((ShouXingUtil::calc_shuo(new_moon + SYNODIC_MONTH_DAYS) - ShouXingUtil::calc_shuo(new_moon)) as u8)
+        Ok((ShouXingUtil::calc_shuo(new_moon + SYNODIC_MONTH_DAYS)
+            - ShouXingUtil::calc_shuo(new_moon)) as u8)
     }
 
     fn new_moon_offset(self) -> Result<f64, LunarError> {
@@ -136,7 +145,11 @@ impl LunarMonth {
 }
 
 fn lunar_year_month_count(year: i32) -> Result<i32, LunarError> {
-    Ok(if lunar_year::leap_month(year)?.is_some() { 13 } else { 12 })
+    Ok(if lunar_year::leap_month(year)?.is_some() {
+        13
+    } else {
+        12
+    })
 }
 
 fn invalid_lunar_month(year: i32, month: u8, is_leap_month: bool) -> LunarError {
@@ -155,29 +168,142 @@ mod tests {
     #[test]
     fn month_lengths_and_first_days_match_tyme() {
         let cases = [
-            (2020, 4, 30, SolarDate { year: 2020, month: 4, day: 23 }),
-            (2020, -4, 29, SolarDate { year: 2020, month: 5, day: 23 }),
-            (2023, 6, 29, SolarDate { year: 2023, month: 7, day: 18 }),
-            (2023, 7, 30, SolarDate { year: 2023, month: 8, day: 16 }),
-            (2023, 8, 30, SolarDate { year: 2023, month: 9, day: 15 }),
-            (2023, 9, 29, SolarDate { year: 2023, month: 10, day: 15 }),
-            (2033, -11, 29, SolarDate { year: 2033, month: 12, day: 22 }),
-            (2033, 12, 30, SolarDate { year: 2034, month: 1, day: 20 }),
-            (9_999, 12, 29, SolarDate { year: 9_999, month: 12, day: 30 }),
+            (
+                2020,
+                4,
+                30,
+                SolarDate {
+                    year: 2020,
+                    month: 4,
+                    day: 23,
+                },
+            ),
+            (
+                2020,
+                -4,
+                29,
+                SolarDate {
+                    year: 2020,
+                    month: 5,
+                    day: 23,
+                },
+            ),
+            (
+                2023,
+                6,
+                29,
+                SolarDate {
+                    year: 2023,
+                    month: 7,
+                    day: 18,
+                },
+            ),
+            (
+                2023,
+                7,
+                30,
+                SolarDate {
+                    year: 2023,
+                    month: 8,
+                    day: 16,
+                },
+            ),
+            (
+                2023,
+                8,
+                30,
+                SolarDate {
+                    year: 2023,
+                    month: 9,
+                    day: 15,
+                },
+            ),
+            (
+                2023,
+                9,
+                29,
+                SolarDate {
+                    year: 2023,
+                    month: 10,
+                    day: 15,
+                },
+            ),
+            (
+                2033,
+                -11,
+                29,
+                SolarDate {
+                    year: 2033,
+                    month: 12,
+                    day: 22,
+                },
+            ),
+            (
+                2033,
+                12,
+                30,
+                SolarDate {
+                    year: 2034,
+                    month: 1,
+                    day: 20,
+                },
+            ),
+            (
+                9_999,
+                12,
+                29,
+                SolarDate {
+                    year: 9_999,
+                    month: 12,
+                    day: 30,
+                },
+            ),
         ];
 
         for (year, month, days, first_day) in cases {
             let lunar_month = LunarMonth::from_ym(year, month).unwrap();
             assert_eq!(lunar_month.day_count().unwrap(), days, "{year}-{month}");
-            assert_eq!(lunar_month.first_solar_date().unwrap(), first_day, "{year}-{month}");
+            assert_eq!(
+                lunar_month.first_solar_date().unwrap(),
+                first_day,
+                "{year}-{month}"
+            );
         }
     }
 
     #[test]
     fn next_month_matches_tyme_leap_navigation() {
-        assert_eq!(LunarMonth::from_ym(2008, 11).unwrap().next(1).unwrap().month_with_leap(), 12);
-        assert_eq!(LunarMonth::from_ym(2008, 11).unwrap().next(2).unwrap().month_with_leap(), 1);
-        assert_eq!(LunarMonth::from_ym(2020, 4).unwrap().next(1).unwrap().month_with_leap(), -4);
-        assert_eq!(LunarMonth::from_ym(2020, -4).unwrap().next(1).unwrap().month_with_leap(), 5);
+        assert_eq!(
+            LunarMonth::from_ym(2008, 11)
+                .unwrap()
+                .next(1)
+                .unwrap()
+                .month_with_leap(),
+            12
+        );
+        assert_eq!(
+            LunarMonth::from_ym(2008, 11)
+                .unwrap()
+                .next(2)
+                .unwrap()
+                .month_with_leap(),
+            1
+        );
+        assert_eq!(
+            LunarMonth::from_ym(2020, 4)
+                .unwrap()
+                .next(1)
+                .unwrap()
+                .month_with_leap(),
+            -4
+        );
+        assert_eq!(
+            LunarMonth::from_ym(2020, -4)
+                .unwrap()
+                .next(1)
+                .unwrap()
+                .month_with_leap(),
+            5
+        );
     }
 }

@@ -17,14 +17,7 @@ pub(crate) struct SolarDateTime {
 ///
 /// Dates before 1582-10-15 are interpreted in the Julian calendar; dates on or
 /// after 1582-10-15 are interpreted in the Gregorian calendar.
-pub(crate) fn from_ymd_hms(
-    year: i32,
-    month: u8,
-    day: u8,
-    hour: u8,
-    minute: u8,
-    second: u8,
-) -> f64 {
+pub(crate) fn from_ymd_hms(year: i32, month: u8, day: u8, hour: u8, minute: u8, second: u8) -> f64 {
     let d = day as f64 + ((second as f64 / 60.0 + minute as f64) / 60.0 + hour as f64) / 24.0;
     let mut n = 0;
     let gregorian = year * 372 + month as i32 * 31 + d as i32 >= 588_829;
@@ -119,7 +112,9 @@ fn add_seconds(time: SolarDateTime) -> SolarDateTime {
     let total_seconds = time.hour as u32 * 3600 + time.minute as u32 * 60 + time.second as u32 + 60;
     let day_offset = total_seconds / 86_400;
     let second_of_day = total_seconds % 86_400;
-    let date = to_solar_date(from_ymd_hms(time.date.year, time.date.month, time.date.day, 0, 0, 0) + day_offset as f64);
+    let date = to_solar_date(
+        from_ymd_hms(time.date.year, time.date.month, time.date.day, 0, 0, 0) + day_offset as f64,
+    );
 
     SolarDateTime {
         date,
@@ -153,14 +148,42 @@ mod tests {
         let after = from_ymd_hms(1582, 10, 15, 0, 0, 0);
 
         assert_eq!(after - before, 1.0);
-        assert_eq!(to_solar_date(before), SolarDate { year: 1582, month: 10, day: 4 });
-        assert_eq!(to_solar_date(after), SolarDate { year: 1582, month: 10, day: 15 });
-        assert_eq!(to_solar_date(before + 1.0), SolarDate { year: 1582, month: 10, day: 15 });
+        assert_eq!(
+            to_solar_date(before),
+            SolarDate {
+                year: 1582,
+                month: 10,
+                day: 4
+            }
+        );
+        assert_eq!(
+            to_solar_date(after),
+            SolarDate {
+                year: 1582,
+                month: 10,
+                day: 15
+            }
+        );
+        assert_eq!(
+            to_solar_date(before + 1.0),
+            SolarDate {
+                year: 1582,
+                month: 10,
+                day: 15
+            }
+        );
     }
 
     #[test]
     fn julian_calendar_leap_day_before_reform_round_trips() {
         let day = from_ymd_hms(1500, 2, 29, 0, 0, 0);
-        assert_eq!(to_solar_date(day), SolarDate { year: 1500, month: 2, day: 29 });
+        assert_eq!(
+            to_solar_date(day),
+            SolarDate {
+                year: 1500,
+                month: 2,
+                day: 29
+            }
+        );
     }
 }

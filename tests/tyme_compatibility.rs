@@ -73,8 +73,16 @@ fn conversions_match_tyme_modern_round_trip_anchors() {
     ];
 
     for (solar_date, lunar_date) in cases {
-        assert_eq!(solar_to_lunar(solar_date).unwrap(), lunar_date, "{solar_date:?}");
-        assert_eq!(lunar_to_solar(lunar_date).unwrap(), solar_date, "{lunar_date:?}");
+        assert_eq!(
+            solar_to_lunar(solar_date).unwrap(),
+            lunar_date,
+            "{solar_date:?}"
+        );
+        assert_eq!(
+            lunar_to_solar(lunar_date).unwrap(),
+            solar_date,
+            "{lunar_date:?}"
+        );
     }
 }
 
@@ -87,8 +95,16 @@ fn conversions_match_tyme_2033_regressions() {
     ];
 
     for (solar_date, lunar_date) in cases {
-        assert_eq!(solar_to_lunar(solar_date).unwrap(), lunar_date, "{solar_date:?}");
-        assert_eq!(lunar_to_solar(lunar_date).unwrap(), solar_date, "{lunar_date:?}");
+        assert_eq!(
+            solar_to_lunar(solar_date).unwrap(),
+            lunar_date,
+            "{solar_date:?}"
+        );
+        assert_eq!(
+            lunar_to_solar(lunar_date).unwrap(),
+            solar_date,
+            "{lunar_date:?}"
+        );
     }
 }
 

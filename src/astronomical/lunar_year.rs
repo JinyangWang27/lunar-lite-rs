@@ -38,4 +38,3 @@ mod tests {
         assert_eq!(leap_month(9_999).unwrap(), None);
     }
 }
-

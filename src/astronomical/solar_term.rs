@@ -13,9 +13,9 @@ pub(crate) fn term_cursory_offset(year: i32, index: i32) -> f64 {
     let y = (year * 24 + index).div_euclid(24);
     let term_index = (year * 24 + index).rem_euclid(24);
     let jd = ((y as f64 - 2000.0) * SOLAR_YEAR_DAYS + 180.0).floor();
-    let mut winter_solstice = ((jd - WINTER_SOLSTICE_2000_OFFSET + 183.0) / SOLAR_YEAR_DAYS).floor()
-        * SOLAR_YEAR_DAYS
-        + WINTER_SOLSTICE_2000_OFFSET;
+    let mut winter_solstice =
+        ((jd - WINTER_SOLSTICE_2000_OFFSET + 183.0) / SOLAR_YEAR_DAYS).floor() * SOLAR_YEAR_DAYS
+            + WINTER_SOLSTICE_2000_OFFSET;
 
     if ShouXingUtil::calc_qi(winter_solstice) > jd {
         winter_solstice -= SOLAR_YEAR_DAYS;
