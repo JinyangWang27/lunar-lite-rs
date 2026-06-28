@@ -29,7 +29,7 @@
 
 - **农历/公历转换在内部计算天文朔日。** 它不存储逐日公农历映射表，也不暴露 tyme4rs 类型。
 - **干支 Exact 月柱在内部计算节气边界。** 在 `Exact` 模式下，月支由最近的节气边界确定，月天干则通过五虎遁从相应岁/年干推算。
-- **运行时保持纯 Rust 且轻量。** 运行时用户无需 Node.js、`lunar-typescript`、`lunar-lite` 或 `tyme4rs`。
+- **运行时保持纯 Rust 且轻量。** 运行时用户无需 Node.js、`lunar-typescript` 或 `tyme4rs`。
 
 ## 安装
 
@@ -203,7 +203,7 @@ let _ = four_pillars_from_solar_date_with_options(solar, 2, options);
 
 四柱 fixture 使用 [`lunar-lite`](https://github.com/SylarLong/lunar-lite)。转换测试使用经 [`tyme4rs`](https://github.com/6tail/tyme4rs) 校验的稳定字面量。
 
-**运行时用户无需安装 Node.js、`lunar-typescript`、`lunar-lite` 或 `tyme4rs`。**
+**运行时用户无需安装 Node.js、`lunar-typescript` 或 `tyme4rs`。**
 
 重新生成方法：
 
