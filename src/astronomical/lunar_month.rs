@@ -1,3 +1,5 @@
+//! Lunar months located from astronomical new moons (朔) and winter solstice.
+
 use crate::astronomical::{lunar_year, solar_term};
 use crate::julian_day::{J2000, to_solar_date};
 use crate::{LunarError, SolarDate};

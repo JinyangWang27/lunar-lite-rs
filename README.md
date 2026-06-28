@@ -13,8 +13,12 @@ A compact Rust library for Chinese lunisolar (农历) date conversion and stem-b
 
 `lunar-lite` converts between Gregorian solar dates and Chinese lunisolar dates, including leap-month handling, traditional twelve-branch time index (时辰, shíchen) calculation, sexagenary (干支, ganzhi) stem-branch cycle positions, and four-pillar (四柱 / 八字 BaZi) year/month/day/hour stem-branch calculation.
 
-**Supported conversion range:** solar years `1..=9999`, lunar years `-1..=9999`.
-The Gregorian reform gap `1582-10-05..=1582-10-14` is invalid, matching tyme4rs.
+**Supported conversion range:** solar years `1..=9999`. Lunar-month facts
+(`leap_month`, `lunar_month_days`) accept lunar years `-1..=9999`; full
+lunar-to-solar conversion additionally requires the resulting solar date to fall
+in `1..=9999`, so the earliest lunar years (around `-1`) report
+`YearOutOfRange`. Dates before `1582-10-15` use Julian-calendar semantics, and
+the Gregorian reform gap `1582-10-05..=1582-10-14` is invalid, matching tyme4rs.
 
 ## What it does not do
 
@@ -22,7 +26,7 @@ See [Non-goals](#non-goals).
 
 ## Design
 
-`lunar-lite` aims to be small, deterministic, and idiomatic Rust. It uses a minimal internal astronomical backend adapted from the MIT-licensed `6tail/tyme4rs` ShouXing routines.
+`lunar-lite` aims to be small, deterministic, and idiomatic Rust. It uses a small internal astronomical backend for new-moon and solar-term calculation, with tyme4rs-compatible calendar behaviour. Portions of the astronomical calculation kernel are adapted from MIT-licensed `6tail/tyme4rs`; see [`THIRD_PARTY_LICENSES.md`](THIRD_PARTY_LICENSES.md).
 
 - **Lunar/solar conversion computes astronomical new moons internally.** It does not store a day-by-day solar/lunar mapping table and does not expose tyme4rs types.
 - **Stem-branch exact month mode computes Jie boundaries astronomically.** In `Exact` mode, the month branch is determined by the most recent Jie boundary, while the month Heavenly Stem is derived from the relevant sui/year stem using 五虎遁.
@@ -273,7 +277,7 @@ npm run generate-four-pillars-fixtures
 
 ## Compatibility with tyme4rs
 
-Conversion results are intended to match tyme4rs calendar policy over the supported range. The internal astronomical routines are adapted from `6tail/tyme4rs` and ShouXing-style calculations under the MIT license.
+Conversion results are intended to match tyme4rs calendar policy over the supported range. Portions of the internal astronomical kernel are adapted from MIT-licensed `6tail/tyme4rs`; see [`THIRD_PARTY_LICENSES.md`](THIRD_PARTY_LICENSES.md). This is an independent adaptation and does not imply any endorsement by, or affiliation with, `6tail` or the `tyme4rs` project.
 
 ## Non-goals
 

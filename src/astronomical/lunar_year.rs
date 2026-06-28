@@ -1,3 +1,8 @@
+//! Lunar-year leap-month lookup.
+//!
+//! The compressed per-year leap-month encoding is adapted from MIT-licensed
+//! `6tail/tyme4rs`; see `THIRD_PARTY_LICENSES.md`.
+
 use crate::LunarError;
 
 pub(crate) const MIN_LUNAR_YEAR: i32 = -1;
@@ -19,7 +24,7 @@ pub(crate) fn leap_month(year: i32) -> Result<Option<u8>, LunarError> {
     let month = match code {
         b'0'..=b'9' => code - b'0',
         b'a'..=b'c' => code - b'a' + 10,
-        _ => unreachable!("leap-month code is generated from tyme4rs"),
+        _ => unreachable!("leap-month code is from a fixed adapted encoding"),
     };
     Ok((month != 0).then_some(month))
 }

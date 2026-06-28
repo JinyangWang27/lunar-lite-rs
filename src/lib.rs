@@ -19,12 +19,20 @@
 //!
 //! # Supported range
 //!
-//! Conversions use an internal astronomical new-moon and solar-term backend
-//! adapted from the MIT-licensed `6tail/tyme4rs` ShouXing routines.
+//! `lunar-lite` uses a small internal astronomical backend for new-moon and
+//! solar-term calculation, with tyme4rs-compatible calendar behaviour. Portions
+//! of the astronomical calculation kernel are adapted from MIT-licensed
+//! `6tail/tyme4rs`; see `THIRD_PARTY_LICENSES.md`.
 //!
 //! - Solar conversion supports Gregorian years `1..=9999`.
-//! - Lunar conversion supports lunar years `-1..=9999`.
-//! - The historical Gregorian reform gap `1582-10-05..=1582-10-14` is invalid.
+//! - Lunar-month facts ([`leap_month`], [`lunar_month_days`]) accept lunar years
+//!   `-1..=9999`.
+//! - Full lunar-to-solar conversion additionally requires the resulting solar
+//!   date to fall in solar years `1..=9999`. Every lunar year `-1` date lands
+//!   before solar year 1, so [`lunar_to_solar`] reports
+//!   [`LunarError::YearOutOfRange`] there.
+//! - Dates before `1582-10-15` use Julian-calendar semantics; the historical
+//!   Gregorian reform gap `1582-10-05..=1582-10-14` is invalid.
 //!
 //! Years outside the supported ranges return [`LunarError::YearOutOfRange`].
 //!

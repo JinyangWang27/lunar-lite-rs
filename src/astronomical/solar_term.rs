@@ -1,3 +1,5 @@
+//! Solar terms (节气) located astronomically from the winter solstice anchor.
+
 use crate::astronomical::kernel::AstronomicalKernel;
 use crate::julian_day::{J2000, SolarDateTime, to_solar_datetime};
 

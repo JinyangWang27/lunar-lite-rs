@@ -9,12 +9,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
-- Replaced generated lunar-year and solar-term conversion tables with an internal
-  astronomical backend adapted from MIT-licensed `6tail/tyme4rs` ShouXing-style
-  routines.
+- Replaced generated lunar-year and solar-term conversion tables with a small
+  internal astronomical backend for new-moon and solar-term calculation, with
+  tyme4rs-compatible calendar behaviour. Portions of the kernel are adapted from
+  MIT-licensed `6tail/tyme4rs`; see `THIRD_PARTY_LICENSES.md`.
 - Conversion support now follows tyme-compatible policy: solar years `1..=9999`,
-  lunar years `-1..=9999`, and invalid Gregorian reform gap
-  `1582-10-05..=1582-10-14`.
+  Julian-calendar semantics before `1582-10-15`, and the invalid Gregorian
+  reform gap `1582-10-05..=1582-10-14`.
+
+### Fixed
+
+- Four-pillar exact-mode instants are built on the Julian Day so user dates and
+  Jie solar-term boundaries share one Julian/Gregorian calendar policy; pre-reform
+  Julian leap days (e.g. `1500-02-29`) no longer collapse onto the next day.
+- Lunar-month facts (`leap_month`, `lunar_month_days`) now resolve for the
+  lowest supported lunar year `-1` instead of failing on an out-of-range
+  previous-year lookup. Full lunar-to-solar conversion still requires the
+  resulting solar date to fall in `1..=9999`.
+
+### Added
+
+- `THIRD_PARTY_LICENSES.md` reproducing the upstream MIT notice for the adapted
+  astronomical kernel, included in crate packaging.
 
 ## [1.0.0](https://github.com/JinyangWang27/lunar-lite-rs/compare/v0.3.2...v1.0.0) - 2026-06-12
 
