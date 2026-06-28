@@ -1,46 +1,33 @@
+use crate::astronomical::lunar_month::LunarMonth;
+use crate::calendar::{days_between, validate_solar_date};
+use crate::julian_day::to_solar_date;
 use crate::normalize::normalize_lunar_date;
 use crate::{LunarDate, LunarError, SolarDate};
-use crate::{
-    calendar::{add_days, days_between, validate_solar_date},
-    year_info::{resolve_lunar_year, solar_date_in_lunar_year, year_info},
-};
 
 /// Converts a Gregorian (solar) date to its Chinese lunar date.
 ///
 /// # Errors
 ///
 /// Returns [`LunarError::InvalidSolarDate`] if `date` is not a real calendar
-/// date, or [`LunarError::YearOutOfRange`] if it falls outside the supported
-/// range.
+/// date, or [`LunarError::YearOutOfRange`] if it falls outside solar years
+/// `1..=9999`.
 pub fn solar_to_lunar(date: SolarDate) -> Result<LunarDate, LunarError> {
     validate_solar_date(date)?;
 
-    let lunar_year = resolve_lunar_year(date)?;
-    let info = year_info(lunar_year)?;
+    let mut month = LunarMonth::from_ym(date.year, date.month as i8)?;
+    let mut offset = days_between(month.first_solar_date()?, date)?;
 
-    if !solar_date_in_lunar_year(date, info)? {
-        return Err(LunarError::YearOutOfRange { year: date.year });
+    while offset < 0 {
+        month = month.next(-1)?;
+        offset += month.day_count()? as i32;
     }
 
-    let mut offset = days_between(info.new_year, date)?;
-
-    for index in 0..info.month_count as usize {
-        let month_days = info.month_days[index] as i32;
-
-        if offset < month_days {
-            let month_code = info.month_codes[index];
-
-            return Ok(LunarDate {
-                year: lunar_year,
-                month: month_code.unsigned_abs(),
-                day: (offset + 1) as u8,
-                is_leap_month: month_code < 0,
-            });
-        }
-
-        offset -= month_days;
-    }
-    Err(LunarError::YearOutOfRange { year: lunar_year })
+    Ok(LunarDate {
+        year: month.year(),
+        month: month.month(),
+        day: (offset + 1) as u8,
+        is_leap_month: month.is_leap(),
+    })
 }
 
 /// Converts a Chinese lunar date to its Gregorian (solar) date.
@@ -51,43 +38,31 @@ pub fn solar_to_lunar(date: SolarDate) -> Result<LunarDate, LunarError> {
 /// # Errors
 ///
 /// Returns [`LunarError::InvalidLunarDate`] if the date does not exist, or
-/// [`LunarError::YearOutOfRange`] if the year is outside the supported range.
+/// [`LunarError::YearOutOfRange`] if the lunar year is outside `-1..=9999` or
+/// the resulting solar date is outside solar years `1..=9999`.
 pub fn lunar_to_solar(date: LunarDate) -> Result<SolarDate, LunarError> {
     let date = normalize_lunar_date(date)?;
-    let info = year_info(date.year)?;
-
-    let target_month_code = if date.is_leap_month {
+    let month_with_leap = if date.is_leap_month {
         -(date.month as i8)
     } else {
         date.month as i8
     };
+    let month = LunarMonth::from_ym(date.year, month_with_leap)?;
 
-    let mut offset = 0i32;
-
-    for index in 0..info.month_count as usize {
-        let month_code = info.month_codes[index];
-        let month_days = info.month_days[index];
-
-        if month_code == target_month_code {
-            if date.day > month_days {
-                return Err(LunarError::InvalidLunarDate {
-                    year: date.year,
-                    month: date.month,
-                    day: date.day,
-                    is_leap_month: date.is_leap_month,
-                });
-            }
-
-            return add_days(info.new_year, offset + date.day as i32 - 1);
-        }
-
-        offset += month_days as i32;
+    if date.day > month.day_count()? {
+        return Err(invalid_lunar_date(date));
     }
 
-    Err(LunarError::InvalidLunarDate {
+    let solar = to_solar_date(month.first_julian_day()? + date.day as f64 - 1.0);
+    validate_solar_date(solar)?;
+    Ok(solar)
+}
+
+fn invalid_lunar_date(date: LunarDate) -> LunarError {
+    LunarError::InvalidLunarDate {
         year: date.year,
         month: date.month,
         day: date.day,
         is_leap_month: date.is_leap_month,
-    })
+    }
 }

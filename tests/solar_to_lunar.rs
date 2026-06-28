@@ -62,11 +62,10 @@ fn solar_to_lunar_first_supported_lunar_new_year() {
 }
 
 #[test]
-fn solar_to_lunar_day_before_first_supported_new_year_is_out_of_range() {
-    // 1850-02-11 belongs to lunar year 1849, which predates MIN_LUNAR_YEAR.
+fn solar_to_lunar_day_before_old_generated_range_new_year_is_supported() {
     assert_eq!(
-        solar_to_lunar(solar(1850, 2, 11)).unwrap_err(),
-        LunarError::YearOutOfRange { year: 1849 }
+        solar_to_lunar(solar(1850, 2, 11)).unwrap(),
+        lunar(1849, 12, 30, false)
     );
 }
 
@@ -80,19 +79,11 @@ fn solar_to_lunar_near_upper_supported_range() {
     );
 }
 
-// REGRESSION: the tail of lunar year 2150 spills into Gregorian 2151. Because
-// `resolve_lunar_year` range-checks the *Gregorian* year against
-// MAX_LUNAR_YEAR (2150), `solar_to_lunar` cannot reach those final lunar days
-// even though `lunar_to_solar` produces them (see lunar_to_solar.rs). This test
-// pins the current behavior: a 2151 Gregorian date errors with
-// YearOutOfRange { year: 2151 } rather than resolving to lunar 2150.
-// TODO: revisit if the supported Gregorian span is widened to cover the lunar
-// 2150 tail; this would require relaxing the range check in resolve_lunar_year.
 #[test]
-fn solar_to_lunar_lunar_2150_tail_in_gregorian_2151_is_out_of_range() {
+fn solar_to_lunar_lunar_2150_tail_in_gregorian_2151_is_supported() {
     assert_eq!(
-        solar_to_lunar(solar(2151, 1, 18)).unwrap_err(),
-        LunarError::YearOutOfRange { year: 2151 }
+        solar_to_lunar(solar(2151, 1, 18)).unwrap(),
+        lunar(2150, 12, 1, false)
     );
 }
 

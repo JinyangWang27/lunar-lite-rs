@@ -19,8 +19,22 @@
 //!
 //! # Supported range
 //!
-//! Conversions are backed by a generated table of per-year data; years outside
-//! the supported range return [`LunarError::YearOutOfRange`].
+//! `lunar-lite` uses a small internal astronomical backend for new-moon and
+//! solar-term calculation, with tyme4rs-compatible calendar behaviour. Portions
+//! of the astronomical calculation kernel are adapted from MIT-licensed
+//! `6tail/tyme4rs`; see `THIRD_PARTY_LICENSES.md`.
+//!
+//! - Solar conversion supports Gregorian years `1..=9999`.
+//! - Lunar-month facts ([`leap_month`], [`lunar_month_days`]) accept lunar years
+//!   `-1..=9999`.
+//! - Full lunar-to-solar conversion additionally requires the resulting solar
+//!   date to fall in solar years `1..=9999`. Every lunar year `-1` date lands
+//!   before solar year 1, so [`lunar_to_solar`] reports
+//!   [`LunarError::YearOutOfRange`] there.
+//! - Dates before `1582-10-15` use Julian-calendar semantics; the historical
+//!   Gregorian reform gap `1582-10-05..=1582-10-14` is invalid.
+//!
+//! Years outside the supported ranges return [`LunarError::YearOutOfRange`].
 //!
 //! # Lunar month helpers
 //!
@@ -35,12 +49,12 @@
 //! - `serde`: derive `Serialize`/`Deserialize` for the public date and
 //!   stem-branch types.
 
+mod astronomical;
 mod calendar;
 mod convert;
 mod date;
 mod error;
 mod four_pillars;
-mod generated;
 mod julian_day;
 mod lunar_month;
 mod normalize;
@@ -48,7 +62,6 @@ mod sexagenary;
 mod solar_terms;
 mod stem_branch;
 mod time_index;
-mod year_info;
 
 pub use convert::{lunar_to_solar, solar_to_lunar};
 pub use date::{LunarDate, SolarDate};

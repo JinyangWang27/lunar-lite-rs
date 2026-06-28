@@ -7,13 +7,18 @@
 [![codecov](https://codecov.io/gh/JinyangWang27/lunar-lite-rs/branch/main/graph/badge.svg)](https://codecov.io/gh/JinyangWang27/lunar-lite-rs)
 [![License](https://img.shields.io/crates/l/lunar-lite.svg)](https://crates.io/crates/lunar-lite)
 
-A compact, table-backed Rust library for Chinese lunisolar (农历) date conversion and stem-branch (干支) calculation.
+A compact Rust library for Chinese lunisolar (农历) date conversion and stem-branch (干支) calculation.
 
 ## What it does
 
 `lunar-lite` converts between Gregorian solar dates and Chinese lunisolar dates, including leap-month handling, traditional twelve-branch time index (时辰, shíchen) calculation, sexagenary (干支, ganzhi) stem-branch cycle positions, and four-pillar (四柱 / 八字 BaZi) year/month/day/hour stem-branch calculation.
 
-**Supported lunar years: 1850..=2150**
+**Supported conversion range:** solar years `1..=9999`. Lunar-month facts
+(`leap_month`, `lunar_month_days`) accept lunar years `-1..=9999`; full
+lunar-to-solar conversion additionally requires the resulting solar date to fall
+in `1..=9999`, so the earliest lunar years (around `-1`) report
+`YearOutOfRange`. Dates before `1582-10-15` use Julian-calendar semantics, and
+the Gregorian reform gap `1582-10-05..=1582-10-14` is invalid, matching tyme4rs.
 
 ## What it does not do
 
@@ -21,11 +26,11 @@ See [Non-goals](#non-goals).
 
 ## Design
 
-`lunar-lite` aims to be small, deterministic, and idiomatic Rust. It does not embed a runtime astronomical engine, but it also does not store a huge day-by-day solar/lunar mapping table.
+`lunar-lite` aims to be small, deterministic, and idiomatic Rust. It uses a small internal astronomical backend for new-moon and solar-term calculation, with tyme4rs-compatible calendar behaviour. Portions of the astronomical calculation kernel are adapted from MIT-licensed `6tail/tyme4rs`; see [`THIRD_PARTY_LICENSES.md`](THIRD_PARTY_LICENSES.md).
 
-- **Lunar/solar conversion stores year structure, not every date mapping.** Each supported lunar year is represented by compact metadata: the Gregorian date of Chinese New Year, the leap-month position, the number of lunar months, the ordered month codes, and the length of each lunar month. Solar-to-lunar conversion resolves the lunar year and walks the month lengths by offset; lunar-to-solar conversion performs the inverse offset lookup.
-- **Stem-branch calculation stores precise solar-term boundaries, not precomputed pillars.** The generated solar-term table stores the exact date-time of the 12 Jie (节) boundaries for each supported Gregorian year. In `Exact` mode, the month branch is determined by the most recent Jie boundary, while the month Heavenly Stem is derived from the relevant sui/year stem using 五虎遁.
-- **Runtime stays pure Rust and lightweight.** Generated tables are committed under `src/generated/`; runtime users do not need Node.js, `lunar-typescript`, or `lunar-lite`. There is no runtime I/O, no runtime JavaScript dependency, and no allocations on the conversion hot path.
+- **Lunar/solar conversion computes astronomical new moons internally.** It does not store a day-by-day solar/lunar mapping table and does not expose tyme4rs types.
+- **Stem-branch exact month mode computes Jie boundaries astronomically.** In `Exact` mode, the month branch is determined by the most recent Jie boundary, while the month Heavenly Stem is derived from the relevant sui/year stem using 五虎遁.
+- **Runtime stays pure Rust and lightweight.** Runtime users do not need Node.js, `lunar-typescript`, `lunar-lite`, or `tyme4rs`.
 
 ## Installation
 
@@ -208,10 +213,8 @@ day pillar forward to the next day (晚子时).
 > two modes are intentionally asymmetric: `year:Exact` resolves at date granularity
 > while `month:Exact` resolves at second granularity, reproducing the reference.
 
-**Supported range:** four-pillar calculation covers **1850-01-01 ..= 2150-12-31**.
-`Exact` options cover the whole range; `Normal` options additionally depend on the
-lunar-year table, so solar dates before Chinese New Year 1850 (lunar year 1849)
-return `LunarError::YearOutOfRange`.
+**Supported range:** four-pillar calculation follows the conversion solar range:
+years `1..=9999`, excluding `1582-10-05..=1582-10-14`.
 
 ## Leap months
 
@@ -245,40 +248,36 @@ Stem-branch validation returns `Result<_, StemBranchError>`.
 | ---------------------------------------- | -------------------------------------------------------------- |
 | `LunarError::InvalidSolarDate`           | Solar date is not a valid calendar date                        |
 | `LunarError::InvalidLunarDate`           | Lunar date is structurally invalid, requested month/leap month does not exist, or day exceeds month length |
-| `LunarError::YearOutOfRange`             | Year is outside 1850..=2150                                    |
+| `LunarError::YearOutOfRange`             | Year is outside the supported solar or lunar conversion range   |
 | `LunarError::InvalidTime`                | Hour > 23 or minute > 59                                       |
 | `LunarError::InvalidTimeIndex`           | 时辰 index is outside 0..=12                                   |
-| `LunarError::SolarTermOutOfRange`        | Gregorian year is outside the solar-term table (1850..=2150)   |
+| `LunarError::SolarTermOutOfRange`        | Gregorian year is outside the supported solar-term range        |
 | `StemBranchError::InvalidStemBranchPair` | The stem and branch do not form a valid sexagenary pair        |
 
-## Reference data generation
+## Reference fixtures
 
-The static tables in `src/generated/` are produced by Node.js scripts under
+Four-pillar compatibility fixtures are produced by the Node.js script under
 `tools/lunar-lite-reference/scripts/`:
 
 | Script                               | Generates                                                               |
 | ------------------------------------ | ----------------------------------------------------------------------- |
-| `dump-year-info.mjs`                 | `src/generated/year_info.rs` (lunar-year metadata) + year-info fixtures |
-| `generate-solar-terms.mjs`           | `src/generated/solar_terms.rs` (the 12 Jie per year, 1850..=2150)       |
 | `generate-four-pillars-fixtures.mjs` | `tests/fixtures/four_pillars.json` (four-pillar compatibility cases)    |
 
-The solar-term and year-info scripts use [`lunar-typescript`](https://github.com/6tail/lunar-typescript) as their reference source; the four-pillar fixtures use [`lunar-lite`](https://github.com/SylarLong/lunar-lite). The solar-term generator fails unless every year yields exactly 12 strictly-ordered Jie boundaries.
+The four-pillar fixtures use [`lunar-lite`](https://github.com/SylarLong/lunar-lite). Conversion tests use stable literals checked against [`tyme4rs`](https://github.com/6tail/tyme4rs).
 
-**Runtime users do not need Node.js, `lunar-typescript`, or `lunar-lite`.** The generated files are committed to the repository; regeneration is only needed when extending the supported range or updating the reference data.
+**Runtime users do not need Node.js, `lunar-typescript`, `lunar-lite`, or `tyme4rs`.**
 
 To regenerate:
 
 ```sh
 cd tools/lunar-lite-reference
 npm install
-npm run dump-year-info
-npm run generate-solar-terms
 npm run generate-four-pillars-fixtures
 ```
 
-## Compatibility with lunar-typescript
+## Compatibility with tyme4rs
 
-Conversion results are generated from `lunar-typescript` and are expected to match it for all dates in the supported range. The crate does not embed the full astronomical engine; it is a lightweight Rust consumer of pre-computed data. Results are described as "generated from the reference implementation" rather than independently verified against historical astronomical records.
+Conversion results are intended to match tyme4rs calendar policy over the supported range. Portions of the internal astronomical kernel are adapted from MIT-licensed `6tail/tyme4rs`; see [`THIRD_PARTY_LICENSES.md`](THIRD_PARTY_LICENSES.md). This is an independent adaptation and does not imply any endorsement by, or affiliation with, `6tail` or the `tyme4rs` project.
 
 ## Non-goals
 

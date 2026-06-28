@@ -1,5 +1,6 @@
 use lunar_lite::{
-    LunarDate, LunarError, has_leap_month, leap_month, lunar_month_days, validate_lunar_date,
+    LunarDate, LunarError, has_leap_month, leap_month, lunar_month_days, lunar_to_solar,
+    validate_lunar_date,
 };
 
 fn lunar(year: i32, month: u8, day: u8, is_leap_month: bool) -> LunarDate {
@@ -145,6 +146,48 @@ fn validate_lunar_date_rejects_leap_date_when_month_is_not_leap() {
             day: 1,
             is_leap_month: true,
         }
+    );
+}
+
+// --- Lower-boundary (lunar year -1) policy -------------------------------
+//
+// leap_month and lunar_month_days are calendar facts and remain available for
+// the earliest supported lunar year (-1). Full lunar->solar conversion is only
+// promised when the resulting solar date lands in solar years 1..=9999; every
+// lunar year -1 date falls before solar year 1, so it reports YearOutOfRange.
+
+#[test]
+fn leap_month_supported_at_lower_boundary() {
+    assert_eq!(leap_month(-1).unwrap(), Some(11));
+}
+
+#[test]
+fn lunar_month_days_supported_at_lower_boundary() {
+    let days = lunar_month_days(-1, 1, false).unwrap();
+    assert!([29, 30].contains(&days));
+}
+
+#[test]
+fn lunar_to_solar_lower_boundary_is_out_of_solar_range() {
+    assert_eq!(
+        lunar_to_solar(lunar(-1, 1, 1, false)).unwrap_err(),
+        LunarError::YearOutOfRange { year: -1 }
+    );
+}
+
+#[test]
+fn lunar_month_days_rejects_below_range_year() {
+    assert_eq!(
+        lunar_month_days(-2, 1, false).unwrap_err(),
+        LunarError::YearOutOfRange { year: -2 }
+    );
+}
+
+#[test]
+fn lunar_month_days_rejects_above_range_year() {
+    assert_eq!(
+        lunar_month_days(10_000, 1, false).unwrap_err(),
+        LunarError::YearOutOfRange { year: 10_000 }
     );
 }
 

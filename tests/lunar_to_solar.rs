@@ -117,9 +117,9 @@ fn lunar_to_solar_rejects_invalid_day_after_fake_leap_normalized_away() {
 }
 
 #[test]
-fn lunar_to_solar_rejects_out_of_range_year() {
+fn lunar_to_solar_accepts_previously_out_of_generated_range_year() {
     assert_eq!(
-        lunar_to_solar(lunar(1849, 1, 1, false)).unwrap_err(),
-        LunarError::YearOutOfRange { year: 1849 }
+        lunar_to_solar(lunar(1849, 1, 1, false)).unwrap(),
+        solar(1849, 1, 24)
     );
 }

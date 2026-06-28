@@ -14,7 +14,7 @@ pub enum LunarError {
         day: u8,
         is_leap_month: bool,
     },
-    /// The year falls outside the range covered by the generated tables.
+    /// The year falls outside the supported conversion range.
     #[error("Year {year} is out of supported range")]
     YearOutOfRange { year: i32 },
     /// The time is not a valid 24-hour wall-clock time.
@@ -23,7 +23,7 @@ pub enum LunarError {
     /// The time index is outside the valid `0..=12` range (时辰 index).
     #[error("Invalid time index: {time_index} (expected 0..=12)")]
     InvalidTimeIndex { time_index: u8 },
-    /// The Gregorian year falls outside the generated solar-term table range.
+    /// The Gregorian year falls outside the supported solar-term range.
     #[error("Year {year} is outside the supported solar-term range")]
     SolarTermOutOfRange { year: i32 },
 }
