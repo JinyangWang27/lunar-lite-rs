@@ -131,6 +131,13 @@ fn decode(os: &str) -> String {
     s
 }
 
+fn assert_correction_digits(name: &str, value: &str) {
+    assert!(
+        value.bytes().all(|b| matches!(b, b'0' | b'1' | b'2')),
+        "{name}: decoded corrections must contain only 0, 1, or 2"
+    );
+}
+
 fn emit_f64_array(out: &mut String, name: &str, values: &[f64]) {
     writeln!(out, "pub(crate) static {name}: [f64; {}] = [", values.len()).unwrap();
     for v in values {
@@ -206,6 +213,12 @@ fn main() {
             !values.is_empty(),
             "moon_longitude_terms.txt: section [{sec}] is empty"
         );
+        // kernel.rs::moon_ecliptic_longitude consumes coefficients in 6-value groups.
+        assert!(
+            values.len() % 6 == 0,
+            "moon_longitude_terms.txt: section [{sec}] length must be a multiple of 6, got {}",
+            values.len()
+        );
     }
 
     let qi_cal = parse_floats_csv("qi_calibration.csv");
@@ -227,12 +240,14 @@ fn main() {
         !qi_corrections.is_empty(),
         "qi_corrections.txt: decoded to empty"
     );
+    assert_correction_digits("qi_corrections.txt", &qi_corrections);
 
     let shuo_corrections = decode(&read_payload_line("shuo_corrections.txt"));
     assert!(
         !shuo_corrections.is_empty(),
         "shuo_corrections.txt: decoded to empty"
     );
+    assert_correction_digits("shuo_corrections.txt", &shuo_corrections);
 
     let leap_codes = read_payload_line("leap_month_codes.txt");
     let expected_leap_len = (MAX_LUNAR_YEAR - MIN_LUNAR_YEAR + 1) as usize;
@@ -242,6 +257,12 @@ fn main() {
         "leap_month_codes.txt: expected {expected_leap_len} chars for years \
          {MIN_LUNAR_YEAR}..={MAX_LUNAR_YEAR}, got {}",
         leap_codes.len()
+    );
+    assert!(
+        leap_codes
+            .bytes()
+            .all(|b| matches!(b, b'0'..=b'9' | b'a'..=b'c')),
+        "leap_month_codes.txt: invalid leap-month code"
     );
 
     let mut out = String::new();
