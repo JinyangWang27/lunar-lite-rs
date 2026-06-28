@@ -1,22 +1,132 @@
-//! Julian Day arithmetic for the day pillar.
-//!
-//! `lunar-typescript` derives the day Ganzhi from the Julian Day Number at noon:
-//! `offset = floor(julianDay) - 11`, then `offset % 10` / `offset % 12`. For the
-//! supported range (1850..=2150, all after the 1582 Gregorian reform) the noon
-//! Julian Day Number equals `days_from_civil(y, m, d) + 2440588`, so we reuse the
-//! existing proleptic-Gregorian day count instead of recomputing the astronomical
-//! formula.
+//! Julian Day utilities with tyme-compatible Julian/Gregorian reform handling.
 
-use crate::calendar::days_from_civil;
+use crate::SolarDate;
 
-/// Julian Day Number at 1970-01-01 12:00 UTC (`floor(2440587.5 + 0.5)`).
-const NOON_JDN_AT_EPOCH: i64 = 2_440_588;
+/// 2000-01-01 12:00:00 UTC.
+pub(crate) const J2000: f64 = 2_451_545.0;
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub(crate) struct SolarDateTime {
+    pub(crate) date: SolarDate,
+    pub(crate) hour: u8,
+    pub(crate) minute: u8,
+    pub(crate) second: u8,
+}
+
+/// Returns the Julian Day for a calendar date and time.
+///
+/// Dates before 1582-10-15 are interpreted in the Julian calendar; dates on or
+/// after 1582-10-15 are interpreted in the Gregorian calendar.
+pub(crate) fn from_ymd_hms(
+    year: i32,
+    month: u8,
+    day: u8,
+    hour: u8,
+    minute: u8,
+    second: u8,
+) -> f64 {
+    let d = day as f64 + ((second as f64 / 60.0 + minute as f64) / 60.0 + hour as f64) / 24.0;
+    let mut n = 0;
+    let gregorian = year * 372 + month as i32 * 31 + d as i32 >= 588_829;
+    let mut y = year;
+    let mut m = month as i32;
+
+    if m <= 2 {
+        m += 12;
+        y -= 1;
+    }
+
+    if gregorian {
+        n = (y as f64 * 0.01) as i32;
+        n = 2 - n + (n as f64 * 0.25) as i32;
+    }
+
+    (365.25 * (y + 4716) as f64) as i32 as f64
+        + (30.6001 * (m + 1) as f64) as i32 as f64
+        + d
+        + n as f64
+        - 1524.5
+}
+
+pub(crate) fn to_solar_datetime(julian_day: f64) -> SolarDateTime {
+    let mut d = (julian_day + 0.5) as i32;
+    let mut fraction = julian_day + 0.5 - d as f64;
+
+    if d >= 2_299_161 {
+        let c = ((d as f64 - 1_867_216.25) / 36_524.25) as i32;
+        d += 1 + c - (c as f64 * 0.25) as i32;
+    }
+
+    d += 1524;
+    let mut year = ((d as f64 - 122.1) / 365.25) as i32;
+    d -= (365.25 * year as f64) as i32;
+    let mut month = (d as f64 / 30.601) as i32;
+    d -= (30.601 * month as f64) as i32;
+    let day = d;
+
+    if month > 13 {
+        month -= 12;
+    } else {
+        year -= 1;
+    }
+    month -= 1;
+    year -= 4715;
+
+    fraction *= 24.0;
+    let hour = fraction as u8;
+    fraction -= hour as f64;
+    fraction *= 60.0;
+    let minute = fraction as u8;
+    fraction -= minute as f64;
+    fraction *= 60.0;
+    let second = fraction.round() as u8;
+
+    if second < 60 {
+        return SolarDateTime {
+            date: SolarDate {
+                year,
+                month: month as u8,
+                day: day as u8,
+            },
+            hour,
+            minute,
+            second,
+        };
+    }
+
+    add_seconds(SolarDateTime {
+        date: SolarDate {
+            year,
+            month: month as u8,
+            day: day as u8,
+        },
+        hour,
+        minute,
+        second: second - 60,
+    })
+}
+
+pub(crate) fn to_solar_date(julian_day: f64) -> SolarDate {
+    to_solar_datetime(julian_day).date
+}
 
 /// The sexagenary offset used for the day pillar: `floor(noonJulianDay) - 11`.
-///
-/// The day pillar's cycle index is `day_pillar_offset(...).rem_euclid(60)`.
 pub(crate) fn day_pillar_offset(year: i32, month: u8, day: u8) -> i64 {
-    days_from_civil(year, month, day) as i64 + NOON_JDN_AT_EPOCH - 11
+    from_ymd_hms(year, month, day, 12, 0, 0).floor() as i64 - 11
+}
+
+fn add_seconds(time: SolarDateTime) -> SolarDateTime {
+    let total_seconds = time.hour as u32 * 3600 + time.minute as u32 * 60 + time.second as u32 + 60;
+    let day_offset = total_seconds / 86_400;
+    let second_of_day = total_seconds % 86_400;
+    let date = to_solar_date(from_ymd_hms(time.date.year, time.date.month, time.date.day, 0, 0, 0) + day_offset as f64);
+
+    SolarDateTime {
+        date,
+        hour: (second_of_day / 3600) as u8,
+        minute: (second_of_day % 3600 / 60) as u8,
+        second: (second_of_day % 60) as u8,
+    }
 }
 
 #[cfg(test)]
@@ -30,25 +140,27 @@ mod tests {
 
     #[test]
     fn known_day_pillars_match_reference() {
-        // Values from lunar-typescript@1.8.6 (stem index, branch index).
-        // 1970-01-01 -> 辛巳 (Xin=7, Si=5)
         assert_eq!(cycle(1970, 1, 1), (7, 5));
-        // 2000-01-01 -> 戊午 (Wu=4, Wu=6)
         assert_eq!(cycle(2000, 1, 1), (4, 6));
-        // 1984-02-02 -> 丙寅 (Bing=2, Yin=2)
         assert_eq!(cycle(1984, 2, 2), (2, 2));
-        // 1850-01-01 -> 壬子 (Ren=8, Zi=0)
         assert_eq!(cycle(1850, 1, 1), (8, 0));
-        // 2150-12-31 -> 己巳 (Ji=5, Si=5)
         assert_eq!(cycle(2150, 12, 31), (5, 5));
     }
 
     #[test]
-    fn noon_jdn_matches_reference_floor() {
-        // floor(julianDay) at noon, straight from the reference.
-        assert_eq!(day_pillar_offset(1970, 1, 1) + 11, 2_440_588);
-        assert_eq!(day_pillar_offset(2000, 1, 1) + 11, 2_451_545);
-        assert_eq!(day_pillar_offset(1850, 1, 1) + 11, 2_396_759);
-        assert_eq!(day_pillar_offset(2150, 12, 31) + 11, 2_506_696);
+    fn julian_day_round_trips_across_reform() {
+        let before = from_ymd_hms(1582, 10, 4, 0, 0, 0);
+        let after = from_ymd_hms(1582, 10, 15, 0, 0, 0);
+
+        assert_eq!(after - before, 1.0);
+        assert_eq!(to_solar_date(before), SolarDate { year: 1582, month: 10, day: 4 });
+        assert_eq!(to_solar_date(after), SolarDate { year: 1582, month: 10, day: 15 });
+        assert_eq!(to_solar_date(before + 1.0), SolarDate { year: 1582, month: 10, day: 15 });
+    }
+
+    #[test]
+    fn julian_calendar_leap_day_before_reform_round_trips() {
+        let day = from_ymd_hms(1500, 2, 29, 0, 0, 0);
+        assert_eq!(to_solar_date(day), SolarDate { year: 1500, month: 2, day: 29 });
     }
 }

@@ -35,6 +35,7 @@
 //! - `serde`: derive `Serialize`/`Deserialize` for the public date and
 //!   stem-branch types.
 
+mod astronomical;
 mod calendar;
 mod convert;
 mod date;
