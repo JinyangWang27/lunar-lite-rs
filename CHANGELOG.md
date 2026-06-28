@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.0](https://github.com/JinyangWang27/lunar-lite-rs/compare/v1.0.0...v1.1.0) - 2026-06-28
+
+### Added
+
+- use tyme-compatible astronomical conversion ([#19](https://github.com/JinyangWang27/lunar-lite-rs/pull/19))
+- add lunar month helpers ([#14](https://github.com/JinyangWang27/lunar-lite-rs/pull/14))
+
+### Other
+
+- add broad tyme4rs oracle compatibility suite ([#20](https://github.com/JinyangWang27/lunar-lite-rs/pull/20))
+
 ### Breaking
 
 - Replaced the generated lunar-year and solar-term conversion tables with a
