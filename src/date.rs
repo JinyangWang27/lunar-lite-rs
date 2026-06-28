@@ -1,11 +1,12 @@
-/// A date in the Gregorian (solar) calendar.
+/// A solar-calendar date using tyme-compatible Julian/Gregorian reform semantics.
 ///
-/// Conversion APIs support solar years `1..=9999`. The historical Gregorian
-/// reform gap `1582-10-05..=1582-10-14` is invalid, matching tyme4rs.
+/// Conversion APIs support solar years `1..=9999`. Dates before
+/// `1582-10-15` use Julian-calendar semantics. The historical Gregorian reform
+/// gap `1582-10-05..=1582-10-14` is invalid, matching tyme4rs.
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct SolarDate {
-    /// Gregorian year.
+    /// Solar-calendar year.
     pub year: i32,
     /// Month of the year, `1..=12`.
     pub month: u8,
@@ -15,7 +16,9 @@ pub struct SolarDate {
 
 /// A date in the Chinese lunar calendar.
 ///
-/// Conversion APIs support lunar years `-1..=9999`, matching tyme4rs.
+/// Lunar-month fact APIs support lunar years `-1..=9999`. `lunar_to_solar`
+/// additionally requires the resulting solar date to fall within supported
+/// solar years `1..=9999`.
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct LunarDate {
