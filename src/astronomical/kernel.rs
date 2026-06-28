@@ -13,8 +13,8 @@ use crate::astronomical::data::{
 };
 use std::f64::consts::PI;
 
-pub static PI_2: f64 = PI * 2.0;
-pub static ONE_THIRD: f64 = 1.0 / 3.0;
+static PI_2: f64 = PI * 2.0;
+static ONE_THIRD: f64 = 1.0 / 3.0;
 static SECOND_PER_DAY: f64 = 86400.0;
 static SECOND_PER_RAD: f64 = 180.0 * 3600.0 / PI;
 
@@ -23,7 +23,7 @@ static SECOND_PER_RAD: f64 = 180.0 * 3600.0 / PI;
 pub struct AstronomicalKernel {}
 
 impl AstronomicalKernel {
-    pub fn nutation_lon2(t: f64) -> f64 {
+    fn approx_nutation_longitude(t: f64) -> f64 {
         let mut a: f64 = -1.742 * t;
         let t2: f64 = t * t;
         let mut dl: f64 = 0.0;
@@ -39,7 +39,7 @@ impl AstronomicalKernel {
         dl / 100.0 / SECOND_PER_RAD
     }
 
-    pub fn elon(pt: f64, n: isize) -> f64 {
+    fn earth_ecliptic_longitude(pt: f64, n: isize) -> f64 {
         let t: f64 = pt / 10.0;
         let mut v: f64 = 0.0;
         let mut tn: f64 = 1.0;
@@ -80,7 +80,7 @@ impl AstronomicalKernel {
         v
     }
 
-    pub fn mlon(t: f64, pn: isize) -> f64 {
+    fn moon_ecliptic_longitude(t: f64, pn: isize) -> f64 {
         let obl: isize = MOON_LONGITUDE_TERMS[0].len() as isize;
         let mut tn: f64 = 1.0;
         let mut v: f64 = 0.0;
@@ -129,14 +129,14 @@ impl AstronomicalKernel {
         v
     }
 
-    pub fn gxc_sun_lon(t: f64) -> f64 {
+    fn sun_aberration_longitude(t: f64) -> f64 {
         let t2: f64 = t * t;
         let v: f64 = -0.043126 + 628.301955 * t - 0.000002732 * t2;
         let e: f64 = 0.016708634 - 0.000042037 * t - 0.0000001267 * t2;
         -20.49552 * (1.0 + e * v.cos()) / SECOND_PER_RAD
     }
 
-    pub fn ev(t: f64) -> f64 {
+    fn earth_longitude_velocity(t: f64) -> f64 {
         let f: f64 = 628.307585 * t;
         628.332
             + 21.0 * (1.527 + f).sin()
@@ -145,25 +145,29 @@ impl AstronomicalKernel {
             + 0.00055 * (4.21 + f).sin() * t * t
     }
 
-    pub fn sa_lon(t: f64, n: isize) -> f64 {
-        Self::elon(t, n) + Self::nutation_lon2(t) + Self::gxc_sun_lon(t) + PI
+    fn solar_apparent_longitude(t: f64, n: isize) -> f64 {
+        Self::earth_ecliptic_longitude(t, n)
+            + Self::approx_nutation_longitude(t)
+            + Self::sun_aberration_longitude(t)
+            + PI
     }
 
-    pub fn dt_ext(y: f64, jsd: f64) -> f64 {
+    fn delta_t_extrapolated(y: f64, jsd: f64) -> f64 {
         let dy: f64 = (y - 1820.0) / 100.0;
         -20.0 + jsd * dy * dy
     }
 
-    pub fn dt_calc(y: f64) -> f64 {
+    fn delta_t_seconds(y: f64) -> f64 {
         let size: usize = DELTA_T_TABLE.len();
         let y0: f64 = DELTA_T_TABLE[size - 2];
         let t0: f64 = DELTA_T_TABLE[size - 1];
         if y >= y0 {
             let jsd: f64 = 31.0;
             if y > y0 + 100.0 {
-                return Self::dt_ext(y, jsd);
+                return Self::delta_t_extrapolated(y, jsd);
             }
-            return Self::dt_ext(y, jsd) - (Self::dt_ext(y0, jsd) - t0) * (y0 + 100.0 - y) / 100.0;
+            return Self::delta_t_extrapolated(y, jsd)
+                - (Self::delta_t_extrapolated(y0, jsd) - t0) * (y0 + 100.0 - y) / 100.0;
         }
         let mut i: usize = 0;
         while i < size {
@@ -181,11 +185,11 @@ impl AstronomicalKernel {
             + DELTA_T_TABLE[i + 4] * t3
     }
 
-    pub fn dtt(t: f64) -> f64 {
-        Self::dt_calc(t / 365.2425 + 2000.0) / SECOND_PER_DAY
+    fn delta_t_days(t: f64) -> f64 {
+        Self::delta_t_seconds(t / 365.2425 + 2000.0) / SECOND_PER_DAY
     }
 
-    pub fn mv(t: f64) -> f64 {
+    fn moon_longitude_velocity(t: f64) -> f64 {
         let mut v: f64 = 8399.71 - 914.0 * (0.7848 + 8328.691425 * t + 0.0001523 * t * t).sin();
         v -= 179.0 * (2.543 + 15542.7543 * t).sin()
             + 160.0 * (0.1874 + 7214.0629 * t).sin()
@@ -201,44 +205,45 @@ impl AstronomicalKernel {
         v
     }
 
-    pub fn sa_lon_t(w: f64) -> f64 {
+    fn solar_apparent_longitude_time(w: f64) -> f64 {
         let mut v: f64 = 628.3319653318;
         let mut t = (w - 1.75347 - PI) / v;
-        v = Self::ev(t);
-        t += (w - Self::sa_lon(t, 10)) / v;
-        v = Self::ev(t);
-        t += (w - Self::sa_lon(t, -1)) / v;
+        v = Self::earth_longitude_velocity(t);
+        t += (w - Self::solar_apparent_longitude(t, 10)) / v;
+        v = Self::earth_longitude_velocity(t);
+        t += (w - Self::solar_apparent_longitude(t, -1)) / v;
         t
     }
 
-    pub fn m_sa_lon(t: f64, mn: isize, sn: isize) -> f64 {
-        Self::mlon(t, mn) + (-3.4E-6) - (Self::elon(t, sn) + Self::gxc_sun_lon(t) + PI)
+    fn moon_sun_longitude_difference(t: f64, mn: isize, sn: isize) -> f64 {
+        Self::moon_ecliptic_longitude(t, mn) + (-3.4E-6)
+            - (Self::earth_ecliptic_longitude(t, sn) + Self::sun_aberration_longitude(t) + PI)
     }
 
-    pub fn m_sa_lon_t(w: f64) -> f64 {
+    fn new_moon_longitude_alignment_time(w: f64) -> f64 {
         let mut v: f64 = 7771.37714500204;
         let mut t: f64 = (w + 1.08472) / v;
-        t += (w - Self::m_sa_lon(t, 3, 3)) / v;
-        v = Self::mv(t) - Self::ev(t);
-        t += (w - Self::m_sa_lon(t, 20, 10)) / v;
-        t += (w - Self::m_sa_lon(t, -1, 60)) / v;
+        t += (w - Self::moon_sun_longitude_difference(t, 3, 3)) / v;
+        v = Self::moon_longitude_velocity(t) - Self::earth_longitude_velocity(t);
+        t += (w - Self::moon_sun_longitude_difference(t, 20, 10)) / v;
+        t += (w - Self::moon_sun_longitude_difference(t, -1, 60)) / v;
         t
     }
 
-    pub fn sa_lon_t2(w: f64) -> f64 {
+    fn approx_solar_apparent_longitude_time(w: f64) -> f64 {
         let v: f64 = 628.3319653318;
         let mut t: f64 = (w - 1.75347 - PI) / v;
         t -= (0.000005297 * t * t
             + 0.0334166 * (4.669257 + 628.307585 * t).cos()
             + 0.0002061 * (2.67823 + 628.307585 * t).cos() * t)
             / v;
-        t += (w - Self::elon(t, 8) - PI
+        t += (w - Self::earth_ecliptic_longitude(t, 8) - PI
             + (20.5 + 17.2 * (2.1824 - 33.75705 * t).sin()) / SECOND_PER_RAD)
             / v;
         t
     }
 
-    pub fn m_sa_lon_t2(w: f64) -> f64 {
+    fn approx_new_moon_longitude_alignment_time(w: f64) -> f64 {
         let mut v: f64 = 7771.37714500204;
         let mut t: f64 = (w + 1.08472) / v;
         let mut t2: f64 = t * t;
@@ -248,7 +253,7 @@ impl AstronomicalKernel {
             - 0.03342 * (4.669257 + 628.307585 * t).cos())
             / v;
         t2 = t * t;
-        let l: f64 = Self::mlon(t, 20)
+        let l: f64 = Self::moon_ecliptic_longitude(t, 20)
             - (4.8950632
                 + 628.3319653318 * t
                 + 0.000005297 * t2
@@ -264,27 +269,29 @@ impl AstronomicalKernel {
         t
     }
 
-    pub fn qi_high(w: f64) -> f64 {
-        let mut t: f64 = Self::sa_lon_t2(w) * 36525.0;
-        t = t - Self::dtt(t) + ONE_THIRD;
+    fn high_precision_solar_term_offset(w: f64) -> f64 {
+        let mut t: f64 = Self::approx_solar_apparent_longitude_time(w) * 36525.0;
+        t = t - Self::delta_t_days(t) + ONE_THIRD;
         let v: f64 = ((t + 0.5) % 1.0) * SECOND_PER_DAY;
         if v < 1200.0 || v > (SECOND_PER_DAY - 1200.0) {
-            t = Self::sa_lon_t(w) * 36525.0 - Self::dtt(t) + ONE_THIRD;
+            t = Self::solar_apparent_longitude_time(w) * 36525.0 - Self::delta_t_days(t)
+                + ONE_THIRD;
         }
         t
     }
 
-    pub fn shuo_high(w: f64) -> f64 {
-        let mut t: f64 = Self::m_sa_lon_t2(w) * 36525.0;
-        t = t - Self::dtt(t) + ONE_THIRD;
+    fn high_precision_new_moon_offset(w: f64) -> f64 {
+        let mut t: f64 = Self::approx_new_moon_longitude_alignment_time(w) * 36525.0;
+        t = t - Self::delta_t_days(t) + ONE_THIRD;
         let v: f64 = ((t + 0.5) % 1.0) * SECOND_PER_DAY;
         if v < 1800.0 || v > (SECOND_PER_DAY - 1800.0) {
-            t = Self::m_sa_lon_t(w) * 36525.0 - Self::dtt(t) + ONE_THIRD;
+            t = Self::new_moon_longitude_alignment_time(w) * 36525.0 - Self::delta_t_days(t)
+                + ONE_THIRD;
         }
         t
     }
 
-    pub fn qi_low(w: f64) -> f64 {
+    fn low_precision_solar_term_offset(w: f64) -> f64 {
         let v: f64 = 628.3319653318;
         let mut t: f64 = (w - 4.895062166) / v;
         t -= (53.0 * t * t
@@ -305,7 +312,7 @@ impl AstronomicalKernel {
         t * 36525.0 + ONE_THIRD
     }
 
-    pub fn shuo_low(w: f64) -> f64 {
+    fn low_precision_new_moon_offset(w: f64) -> f64 {
         let v: f64 = 7771.37714500204;
         let mut t: f64 = (w + 1.08472) / v;
         t -= (-0.0000331 * t * t
@@ -320,7 +327,7 @@ impl AstronomicalKernel {
     /// Returns the day offset of the solar term (`is_qi`) or new moon nearest
     /// Julian Day `julian_day`, from the analytic series. `is_high` selects the
     /// high-precision variant; `pc` is the table-alignment correction.
-    pub fn qi_shuo(is_qi: bool, is_high: bool, julian_day: f64, pc: f64) -> f64 {
+    fn analytic_event_offset(is_qi: bool, is_high: bool, julian_day: f64, pc: f64) -> f64 {
         let target_angle: f64;
         if is_qi {
             target_angle = ((julian_day + pc - 2451259.0) / 365.2422 * 24.0).floor() * PI / 12.0;
@@ -330,15 +337,15 @@ impl AstronomicalKernel {
         let day_offset: f64;
         if is_qi {
             if is_high {
-                day_offset = Self::qi_high(target_angle);
+                day_offset = Self::high_precision_solar_term_offset(target_angle);
             } else {
-                day_offset = Self::qi_low(target_angle);
+                day_offset = Self::low_precision_solar_term_offset(target_angle);
             }
         } else {
             if is_high {
-                day_offset = Self::shuo_high(target_angle);
+                day_offset = Self::high_precision_new_moon_offset(target_angle);
             } else {
-                day_offset = Self::shuo_low(target_angle);
+                day_offset = Self::low_precision_new_moon_offset(target_angle);
             }
         }
         (day_offset + 0.5).floor()
@@ -347,7 +354,7 @@ impl AstronomicalKernel {
     /// Returns the day offset from J2000 of a calendar event (solar term when
     /// `is_qi`, otherwise new moon), using the calibrated low-precision tables
     /// where available and falling back to the high-precision series elsewhere.
-    pub fn calendar_event_offset(
+    fn calendar_event_offset(
         is_qi: bool,
         day_offset: f64,
         calibration_table: &[f64],
@@ -361,7 +368,7 @@ impl AstronomicalKernel {
         let table_start_jd: f64 = calibration_table[0] - pc;
         let table_end_jd: f64 = calibration_table[size - 1] - pc;
         if julian_day < table_start_jd || julian_day >= 2436935.0 {
-            result_offset = Self::qi_shuo(is_qi, true, julian_day, pc);
+            result_offset = Self::analytic_event_offset(is_qi, true, julian_day, pc);
         } else if julian_day >= table_start_jd && julian_day < table_end_jd {
             let mut i: usize = 0;
             while i < size {
@@ -381,7 +388,7 @@ impl AstronomicalKernel {
             }
             result_offset -= 2451545.0;
         } else if julian_day >= table_end_jd {
-            result_offset = Self::qi_shuo(is_qi, false, julian_day, pc);
+            result_offset = Self::analytic_event_offset(is_qi, false, julian_day, pc);
             let correction_index: usize;
             if is_qi {
                 correction_index = ((day_offset - table_end_jd) / 365.2422 * 24.0) as usize;
@@ -399,26 +406,26 @@ impl AstronomicalKernel {
     }
 
     /// Calculates the new-moon (朔) day offset from J2000 nearest `jd`.
-    pub fn new_moon_day_offset(jd: f64) -> f64 {
+    pub(crate) fn new_moon_day_offset(jd: f64) -> f64 {
         Self::calendar_event_offset(false, jd, &SHUO_CALIBRATION, 14.0, SHUO_CORRECTIONS)
     }
 
     /// Calculates the solar-term (节气) day offset from J2000 nearest `jd`.
-    pub fn solar_term_day_offset(jd: f64) -> f64 {
+    pub(crate) fn solar_term_day_offset(jd: f64) -> f64 {
         Self::calendar_event_offset(true, jd, &QI_CALIBRATION, 7.0, QI_CORRECTIONS)
     }
 
     /// Returns the accurate solar-term day offset from J2000 for solar
     /// longitude `w`, applying the ΔT correction.
-    pub fn accurate_solar_term_offset(w: f64) -> f64 {
-        let t: f64 = Self::sa_lon_t(w) * 36525.0;
-        t - Self::dtt(t) + ONE_THIRD
+    fn accurate_solar_term_offset(w: f64) -> f64 {
+        let t: f64 = Self::solar_apparent_longitude_time(w) * 36525.0;
+        t - Self::delta_t_days(t) + ONE_THIRD
     }
 
     /// Refines a cursory solar-term day offset `jd` to an accurate Julian-day
     /// offset, nudging by one term step if the first estimate lands on a
     /// neighbouring term.
-    pub fn refine_solar_term_offset(jd: f64) -> f64 {
+    pub(crate) fn refine_solar_term_offset(jd: f64) -> f64 {
         let d: f64 = PI / 12.0;
         let w: f64 = ((jd + 293.0) / 365.2422 * 24.0).floor() * d;
         let a: f64 = Self::accurate_solar_term_offset(w);
