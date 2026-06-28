@@ -30,7 +30,7 @@ See [Non-goals](#non-goals).
 
 - **Lunar/solar conversion computes astronomical new moons internally.** It does not store a day-by-day solar/lunar mapping table and does not expose tyme4rs types.
 - **Stem-branch exact month mode computes Jie boundaries astronomically.** In `Exact` mode, the month branch is determined by the most recent Jie boundary, while the month Heavenly Stem is derived from the relevant sui/year stem using 五虎遁.
-- **Runtime stays pure Rust and lightweight.** Runtime users do not need Node.js, `lunar-typescript`, `lunar-lite`, or `tyme4rs`.
+- **Runtime stays pure Rust and lightweight.** Runtime users do not need Node.js, `lunar-typescript`, or `tyme4rs`.
 
 ## Installation
 
@@ -265,7 +265,7 @@ Four-pillar compatibility fixtures are produced by the Node.js script under
 
 The four-pillar fixtures use [`lunar-lite`](https://github.com/SylarLong/lunar-lite). Conversion tests use stable literals checked against [`tyme4rs`](https://github.com/6tail/tyme4rs).
 
-**Runtime users do not need Node.js, `lunar-typescript`, `lunar-lite`, or `tyme4rs`.**
+**Runtime users do not need Node.js, `lunar-typescript`, or `tyme4rs`.**
 
 To regenerate:
 
