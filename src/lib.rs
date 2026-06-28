@@ -41,7 +41,6 @@ mod convert;
 mod date;
 mod error;
 mod four_pillars;
-mod generated;
 mod julian_day;
 mod lunar_month;
 mod normalize;
@@ -49,7 +48,6 @@ mod sexagenary;
 mod solar_terms;
 mod stem_branch;
 mod time_index;
-mod year_info;
 
 pub use convert::{lunar_to_solar, solar_to_lunar};
 pub use date::{LunarDate, SolarDate};
