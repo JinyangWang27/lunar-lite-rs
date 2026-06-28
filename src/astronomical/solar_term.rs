@@ -1,4 +1,4 @@
-use crate::astronomical::shouxing::ShouXingUtil;
+use crate::astronomical::kernel::AstronomicalKernel;
 use crate::julian_day::{J2000, SolarDateTime, to_solar_datetime};
 
 const SOLAR_YEAR_DAYS: f64 = 365.2422;
@@ -17,15 +17,15 @@ pub(crate) fn term_cursory_offset(year: i32, index: i32) -> f64 {
         ((jd - WINTER_SOLSTICE_2000_OFFSET + 183.0) / SOLAR_YEAR_DAYS).floor() * SOLAR_YEAR_DAYS
             + WINTER_SOLSTICE_2000_OFFSET;
 
-    if ShouXingUtil::calc_qi(winter_solstice) > jd {
+    if AstronomicalKernel::solar_term_day_offset(winter_solstice) > jd {
         winter_solstice -= SOLAR_YEAR_DAYS;
     }
 
-    ShouXingUtil::calc_qi(winter_solstice + TERM_STEP_DAYS * term_index as f64)
+    AstronomicalKernel::solar_term_day_offset(winter_solstice + TERM_STEP_DAYS * term_index as f64)
 }
 
 pub(crate) fn term_julian_day(year: i32, index: i32) -> f64 {
-    ShouXingUtil::qi_accurate2(term_cursory_offset(year, index)) + J2000
+    AstronomicalKernel::refine_solar_term_offset(term_cursory_offset(year, index)) + J2000
 }
 
 pub(crate) fn term_datetime(year: i32, index: i32) -> SolarDateTime {

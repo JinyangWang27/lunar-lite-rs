@@ -2,7 +2,7 @@ use crate::astronomical::{lunar_year, solar_term};
 use crate::julian_day::{J2000, to_solar_date};
 use crate::{LunarError, SolarDate};
 
-use super::shouxing::ShouXingUtil;
+use super::kernel::AstronomicalKernel;
 
 const SYNODIC_MONTH_DAYS: f64 = 29.5306;
 
@@ -113,7 +113,7 @@ impl LunarMonth {
     }
 
     pub(crate) fn first_julian_day(self) -> Result<f64, LunarError> {
-        Ok(J2000 + ShouXingUtil::calc_shuo(self.new_moon_offset()?))
+        Ok(J2000 + AstronomicalKernel::new_moon_day_offset(self.new_moon_offset()?))
     }
 
     pub(crate) fn first_solar_date(self) -> Result<SolarDate, LunarError> {
@@ -122,13 +122,13 @@ impl LunarMonth {
 
     pub(crate) fn day_count(self) -> Result<u8, LunarError> {
         let new_moon = self.new_moon_offset()?;
-        Ok((ShouXingUtil::calc_shuo(new_moon + SYNODIC_MONTH_DAYS)
-            - ShouXingUtil::calc_shuo(new_moon)) as u8)
+        Ok((AstronomicalKernel::new_moon_day_offset(new_moon + SYNODIC_MONTH_DAYS)
+            - AstronomicalKernel::new_moon_day_offset(new_moon)) as u8)
     }
 
     fn new_moon_offset(self) -> Result<f64, LunarError> {
         let dong_zhi_jd = solar_term::winter_solstice_cursory_offset(self.year);
-        let mut w = ShouXingUtil::calc_shuo(dong_zhi_jd);
+        let mut w = AstronomicalKernel::new_moon_day_offset(dong_zhi_jd);
         if w > dong_zhi_jd {
             w -= 29.53;
         }

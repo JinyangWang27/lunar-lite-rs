@@ -1,7 +1,9 @@
-//! ShouXing astronomical routines adapted from `6tail/tyme4rs`.
+//! Internal astronomical calculation kernel for new-moon and solar-term offsets.
 //!
-//! The original implementation is MIT licensed. This module keeps only the
-//! internal functions needed by `lunar-lite` for new moons and solar terms.
+//! This module holds the numerical routines `lunar-lite` needs to locate new
+//! moons (朔) and solar terms (节气) relative to the J2000 epoch. Portions of the
+//! kernel are adapted from MIT-licensed `6tail/tyme4rs`; see
+//! `THIRD_PARTY_LICENSES.md`.
 
 #![allow(clippy::approx_constant, clippy::needless_late_init)]
 
@@ -6617,11 +6619,11 @@ static SHUO_KB: [f64; 23] = [
     1947168.00,
 ];
 
-/// 寿星天文历工具
+/// Internal astronomical calculation engine for new-moon and solar-term offsets.
 #[derive(Debug)]
-pub struct ShouXingUtil {}
+pub struct AstronomicalKernel {}
 
-impl ShouXingUtil {
+impl AstronomicalKernel {
     pub fn nutation_lon2(t: f64) -> f64 {
         let mut a: f64 = -1.742 * t;
         let t2: f64 = t * t;
@@ -6935,7 +6937,10 @@ impl ShouXingUtil {
         (d + 0.5).floor()
     }
 
-    pub fn calc(is_qi: bool, jd: f64, kb: &[f64], pc: f64, fkb: String) -> f64 {
+    /// Returns the day offset from J2000 of a calendar event (solar term when
+    /// `is_qi`, otherwise new moon), using the calibrated low-precision tables
+    /// where available and falling back to the high-precision series elsewhere.
+    pub fn calendar_event_offset(is_qi: bool, jd: f64, kb: &[f64], pc: f64, fkb: String) -> f64 {
         let size: usize = kb.len();
         let mut d: f64 = 0.0;
         let j: f64 = jd + 2451545.0;
@@ -6974,28 +6979,35 @@ impl ShouXingUtil {
         d
     }
 
-    pub fn calc_shuo(jd: f64) -> f64 {
-        Self::calc(false, jd, &SHUO_KB, 14.0, SB.clone())
+    /// Calculates the new-moon (朔) day offset from J2000 nearest `jd`.
+    pub fn new_moon_day_offset(jd: f64) -> f64 {
+        Self::calendar_event_offset(false, jd, &SHUO_KB, 14.0, SB.clone())
     }
 
-    pub fn calc_qi(jd: f64) -> f64 {
-        Self::calc(true, jd, &QI_KB, 7.0, QB.clone())
+    /// Calculates the solar-term (节气) day offset from J2000 nearest `jd`.
+    pub fn solar_term_day_offset(jd: f64) -> f64 {
+        Self::calendar_event_offset(true, jd, &QI_KB, 7.0, QB.clone())
     }
 
-    pub fn qi_accurate(w: f64) -> f64 {
+    /// Returns the accurate solar-term day offset from J2000 for solar
+    /// longitude `w`, applying the ΔT correction.
+    pub fn accurate_solar_term_offset(w: f64) -> f64 {
         let t: f64 = Self::sa_lon_t(w) * 36525.0;
         t - Self::dtt(t) + ONE_THIRD
     }
 
-    pub fn qi_accurate2(jd: f64) -> f64 {
+    /// Refines a cursory solar-term day offset `jd` to an accurate Julian-day
+    /// offset, nudging by one term step if the first estimate lands on a
+    /// neighbouring term.
+    pub fn refine_solar_term_offset(jd: f64) -> f64 {
         let d: f64 = PI / 12.0;
         let w: f64 = ((jd + 293.0) / 365.2422 * 24.0).floor() * d;
-        let a: f64 = Self::qi_accurate(w);
+        let a: f64 = Self::accurate_solar_term_offset(w);
         if a - jd > 5.0 {
-            return Self::qi_accurate(w - d);
+            return Self::accurate_solar_term_offset(w - d);
         }
         if a - jd < -5.0 {
-            return Self::qi_accurate(w + d);
+            return Self::accurate_solar_term_offset(w + d);
         }
         a
     }

@@ -1,6 +1,6 @@
 //! Internal astronomical calendar routines.
 
+pub(crate) mod kernel;
 pub(crate) mod lunar_month;
 pub(crate) mod lunar_year;
-pub(crate) mod shouxing;
 pub(crate) mod solar_term;
