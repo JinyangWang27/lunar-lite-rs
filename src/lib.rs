@@ -19,8 +19,14 @@
 //!
 //! # Supported range
 //!
-//! Conversions are backed by a generated table of per-year data; years outside
-//! the supported range return [`LunarError::YearOutOfRange`].
+//! Conversions use an internal astronomical new-moon and solar-term backend
+//! adapted from the MIT-licensed `6tail/tyme4rs` ShouXing routines.
+//!
+//! - Solar conversion supports Gregorian years `1..=9999`.
+//! - Lunar conversion supports lunar years `-1..=9999`.
+//! - The historical Gregorian reform gap `1582-10-05..=1582-10-14` is invalid.
+//!
+//! Years outside the supported ranges return [`LunarError::YearOutOfRange`].
 //!
 //! # Lunar month helpers
 //!

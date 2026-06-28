@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Replaced generated lunar-year and solar-term conversion tables with an internal
+  astronomical backend adapted from MIT-licensed `6tail/tyme4rs` ShouXing-style
+  routines.
+- Conversion support now follows tyme-compatible policy: solar years `1..=9999`,
+  lunar years `-1..=9999`, and invalid Gregorian reform gap
+  `1582-10-05..=1582-10-14`.
+
 ## [1.0.0](https://github.com/JinyangWang27/lunar-lite-rs/compare/v0.3.2...v1.0.0) - 2026-06-12
 
 ### Other

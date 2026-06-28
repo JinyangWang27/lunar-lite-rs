@@ -7,13 +7,14 @@
 [![codecov](https://codecov.io/gh/JinyangWang27/lunar-lite-rs/branch/main/graph/badge.svg)](https://codecov.io/gh/JinyangWang27/lunar-lite-rs)
 [![License](https://img.shields.io/crates/l/lunar-lite.svg)](https://crates.io/crates/lunar-lite)
 
-一个精巧、基于静态表的 Rust 库，用于中国农历（农历）日期转换与干支计算。
+一个精巧的 Rust 库，用于中国农历（农历）日期转换与干支计算。
 
 ## 功能
 
 `lunar-lite` 支持公历（阳历）与中国农历（阴阳历）之间的相互转换，包括闰月处理、十二时辰索引计算、干支（六十甲子）周期定位，以及四柱（八字）年柱/月柱/日柱/时柱计算。
 
-**支持农历年份范围：1850..=2150**
+**支持转换范围：** 公历年份 `1..=9999`，农历年份 `-1..=9999`。
+公历改革缺失日期 `1582-10-05..=1582-10-14` 视为无效，与 tyme4rs 保持一致。
 
 ## 不支持的功能
 
@@ -21,11 +22,11 @@
 
 ## 设计理念
 
-`lunar-lite` 力求小巧、确定性强、符合 Rust 惯用风格。它不内嵌运行时天文计算引擎，也不存储庞大的逐日公农历映射表。
+`lunar-lite` 力求小巧、确定性强、符合 Rust 惯用风格。它使用一个最小内部天文后端，改编自 MIT 许可的 `6tail/tyme4rs` 寿星例程。
 
-- **农历/公历转换存储的是年份结构，而非每个日期的映射。** 每个支持的农历年以紧凑的元数据表示：公历春节日期、闰月位置、农历月份数量、月份编码顺序及各月天数。公历转农历通过偏移量推算农历年并遍历月份天数；农历转公历则执行逆向偏移查找。
-- **干支计算存储的是精确的节气边界，而非预计算的四柱。** 生成的节气表存储每个支持公历年的 12 个节（Jie）边界的精确日期时间。在 `Exact` 模式下，月支由最近的节气边界确定，月天干则通过五虎遁从相应岁/年干推算。
-- **运行时保持纯 Rust 且轻量。** 生成的静态表提交在 `src/generated/` 目录下；运行时用户无需 Node.js、`lunar-typescript` 或 `lunar-lite`。转换热路径上无运行时 I/O、无运行时 JavaScript 依赖、无内存分配。
+- **农历/公历转换在内部计算天文朔日。** 它不存储逐日公农历映射表，也不暴露 tyme4rs 类型。
+- **干支 Exact 月柱在内部计算节气边界。** 在 `Exact` 模式下，月支由最近的节气边界确定，月天干则通过五虎遁从相应岁/年干推算。
+- **运行时保持纯 Rust 且轻量。** 运行时用户无需 Node.js、`lunar-typescript`、`lunar-lite` 或 `tyme4rs`。
 
 ## 安装
 
@@ -160,7 +161,7 @@ let _ = four_pillars_from_solar_date_with_options(solar, 2, options);
 
 > 月柱在 `Exact` 模式下使用节气，而非农历月份。两种模式有意设计为非对称：`year:Exact` 按日期粒度处理，`month:Exact` 按秒级粒度处理，与参考实现保持一致。
 
-**支持范围：** 四柱计算覆盖 **1850-01-01 ..= 2150-12-31**。`Exact` 选项覆盖全范围；`Normal` 选项还依赖农历年表，对于春节前的公历日期（农历 1849 年）会返回 `LunarError::YearOutOfRange`。
+**支持范围：** 四柱计算遵循转换 API 的公历范围：年份 `1..=9999`，不包含 `1582-10-05..=1582-10-14`。
 
 ## 闰月
 
@@ -183,39 +184,35 @@ let _ = four_pillars_from_solar_date_with_options(solar, 2, options);
 | ---------------------------------------- | --------------------------------------------- |
 | `LunarError::InvalidSolarDate`           | 公历日期不合法                                |
 | `LunarError::InvalidLunarDate`           | 农历日期结构不合法或日数超出当月天数          |
-| `LunarError::YearOutOfRange`             | 年份超出 1850..=2150 范围                     |
+| `LunarError::YearOutOfRange`             | 年份超出支持的公历或农历转换范围              |
 | `LunarError::InvalidTime`                | 小时 > 23 或分钟 > 59                         |
 | `LunarError::InvalidTimeIndex`           | 时辰索引超出 0..=12 范围                      |
-| `LunarError::SolarTermOutOfRange`        | 公历年份超出节气表范围（1850..=2150）         |
+| `LunarError::SolarTermOutOfRange`        | 公历年份超出支持的节气范围                    |
 | `StemBranchError::InvalidStemBranchPair` | 天干与地支不构成有效的六十甲子组合            |
 
-## 参考数据生成
+## 参考 fixture
 
-`src/generated/` 中的静态表由 `tools/lunar-lite-reference/scripts/` 下的 Node.js 脚本生成：
+四柱兼容性 fixture 由 `tools/lunar-lite-reference/scripts/` 下的 Node.js 脚本生成：
 
 | 脚本                                   | 生成内容                                                            |
 | -------------------------------------- | ------------------------------------------------------------------- |
-| `dump-year-info.mjs`                   | `src/generated/year_info.rs`（农历年元数据）及年份信息 fixture      |
-| `generate-solar-terms.mjs`             | `src/generated/solar_terms.rs`（1850..=2150 年的 12 个节气边界）    |
 | `generate-four-pillars-fixtures.mjs`   | `tests/fixtures/four_pillars.json`（四柱兼容性测试用例）            |
 
-节气和年份信息脚本以 [`lunar-typescript`](https://github.com/6tail/lunar-typescript) 为参考来源；四柱 fixture 使用 [`lunar-lite`](https://github.com/SylarLong/lunar-lite)。节气生成器要求每年必须恰好包含 12 个严格有序的节气边界，否则报错。
+四柱 fixture 使用 [`lunar-lite`](https://github.com/SylarLong/lunar-lite)。转换测试使用经 [`tyme4rs`](https://github.com/6tail/tyme4rs) 校验的稳定字面量。
 
-**运行时用户无需安装 Node.js、`lunar-typescript` 或 `lunar-lite`。** 生成的文件已提交到仓库；只有在扩展支持范围或更新参考数据时才需要重新生成。
+**运行时用户无需安装 Node.js、`lunar-typescript`、`lunar-lite` 或 `tyme4rs`。**
 
 重新生成方法：
 
 ```sh
 cd tools/lunar-lite-reference
 npm install
-npm run dump-year-info
-npm run generate-solar-terms
 npm run generate-four-pillars-fixtures
 ```
 
-## 与 lunar-typescript 的兼容性
+## 与 tyme4rs 的兼容性
 
-转换结果由 `lunar-typescript` 生成，预期与其在支持范围内的所有日期保持一致。本库不内嵌完整的天文计算引擎，而是作为轻量级的 Rust 预计算数据消费者。结果描述为"由参考实现生成"，而非独立经天文历史记录验证。
+转换结果目标是在支持范围内匹配 tyme4rs 的日历政策。内部天文例程改编自 `6tail/tyme4rs` 和寿星风格计算，遵循 MIT 许可。
 
 ## 非目标
 
