@@ -11,7 +11,8 @@ use crate::solar_terms::{MAX_YEAR, MIN_YEAR};
 
 /// The exact date and wall-clock time at which a solar term occurs.
 ///
-/// All fields are in local solar time (no time-zone correction).
+/// This API returns the backend's tyme-compatible calendar datetime and does
+/// not apply longitude or time-zone correction.
 ///
 /// # Examples
 ///
