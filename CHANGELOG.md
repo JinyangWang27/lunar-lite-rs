@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.2.0](https://github.com/JinyangWang27/lunar-lite-rs/compare/v1.1.0...v1.2.0) - 2026-06-29
+
+### Added
+
+- expose exact LiChun datetime ([#21](https://github.com/JinyangWang27/lunar-lite-rs/pull/21))
+
 ## [1.1.0](https://github.com/JinyangWang27/lunar-lite-rs/compare/v1.0.0...v1.1.0) - 2026-06-28
 
 ### Added
