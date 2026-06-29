@@ -44,6 +44,23 @@
 //! months. Invalid month and leap-month selections return
 //! [`LunarError::InvalidLunarDate`].
 //!
+//! # Exact LiChun datetime
+//!
+//! [`li_chun_datetime`] returns the exact astronomical datetime of 立春
+//! (LiChun, Start of Spring) for a given Gregorian year. This is a public
+//! primitive for downstream crates that need second-level LiChun precision.
+//!
+//! Note: this does **not** change [`YearDivide::Exact`] semantics in the
+//! four-pillar API, which remains date-level for compatibility.
+//!
+//! ```
+//! use lunar_lite::li_chun_datetime;
+//!
+//! let dt = li_chun_datetime(2000).unwrap();
+//! assert_eq!((dt.date.year, dt.date.month, dt.date.day), (2000, 2, 4));
+//! assert_eq!((dt.hour, dt.minute, dt.second), (20, 40, 24));
+//! ```
+//!
 //! # Features
 //!
 //! - `serde`: derive `Serialize`/`Deserialize` for the public date and
@@ -59,6 +76,7 @@ mod julian_day;
 mod lunar_month;
 mod normalize;
 mod sexagenary;
+mod solar_term_datetime;
 mod solar_terms;
 mod stem_branch;
 mod time_index;
@@ -75,5 +93,6 @@ pub use four_pillars::{
 pub use lunar_month::{has_leap_month, leap_month, lunar_month_days, validate_lunar_date};
 pub use normalize::normalize_lunar_date;
 pub use sexagenary::{StemBranch, lunar_year_branch, lunar_year_stem, lunar_year_stem_branch};
+pub use solar_term_datetime::{SolarTermDateTime, li_chun_datetime};
 pub use stem_branch::{EARTHLY_BRANCHES, EarthlyBranch, HEAVENLY_STEMS, HeavenlyStem};
 pub use time_index::{is_early_zi, is_late_zi, time_index, time_index_to_branch};

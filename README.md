@@ -279,9 +279,33 @@ npm run generate-four-pillars-fixtures
 
 Conversion results are intended to match tyme4rs calendar policy over the supported range. Portions of the internal astronomical kernel are adapted from MIT-licensed `6tail/tyme4rs`; see [`THIRD_PARTY_LICENSES.md`](THIRD_PARTY_LICENSES.md). This is an independent adaptation and does not imply any endorsement by, or affiliation with, `6tail` or the `tyme4rs` project.
 
+### Exact LiChun datetime
+
+`lunar-lite` exposes the exact astronomical datetime of 立春 (LiChun, Start of
+Spring) as a stable public primitive:
+
+```rust
+use lunar_lite::{li_chun_datetime, LunarError};
+
+let dt = li_chun_datetime(2000).unwrap();
+assert_eq!((dt.date.year, dt.date.month, dt.date.day), (2000, 2, 4));
+assert_eq!((dt.hour, dt.minute, dt.second), (20, 40, 24));
+
+// Out-of-range years return LunarError::SolarTermOutOfRange.
+assert_eq!(
+    li_chun_datetime(0).unwrap_err(),
+    LunarError::SolarTermOutOfRange { year: 0 },
+);
+```
+
+This does **not** change [`YearDivide::Exact`] semantics in the four-pillar
+API, which remains date-level for backwards compatibility. `li_chun_datetime`
+is a separate public primitive for downstream crates that need second-level
+LiChun precision.
+
 ## Non-goals
 
-- **Solar terms (节气) API** — Jie boundaries back the four-pillar month pillar but are not exposed as a standalone public API.
+- **Full solar terms (节气) API** — only `li_chun_datetime` is exposed; the remaining Jie boundaries back the four-pillar month pillar but are not individually exposed.
 - **True solar time correction** — time zone offsets based on longitude are not applied; the four-pillar time is synthesized from `time_index`.
 - **Zi Wei Dou Shu (紫微斗数) charting** — out of scope.
 - **Runtime JavaScript dependency** — the crate is pure Rust at runtime.
