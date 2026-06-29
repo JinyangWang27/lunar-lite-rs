@@ -217,9 +217,29 @@ npm run generate-four-pillars-fixtures
 
 转换结果目标是在支持范围内匹配 tyme4rs 的日历政策。内部天文内核的部分内容改编自 MIT 许可的 `6tail/tyme4rs`，详见 [`THIRD_PARTY_LICENSES.md`](THIRD_PARTY_LICENSES.md)。这是独立的改编实现，并不暗示获得 `6tail` 或 `tyme4rs` 项目的任何认可或关联。
 
+### 精确立春时刻
+
+`lunar-lite` 将立春的精确天文时刻作为稳定的公开原语暴露：
+
+```rust
+use lunar_lite::{li_chun_datetime, LunarError};
+
+let dt = li_chun_datetime(2000).unwrap();
+assert_eq!((dt.date.year, dt.date.month, dt.date.day), (2000, 2, 4));
+assert_eq!((dt.hour, dt.minute, dt.second), (20, 40, 24));
+
+// 超出支持范围的年份返回 LunarError::SolarTermOutOfRange。
+assert_eq!(
+    li_chun_datetime(0).unwrap_err(),
+    LunarError::SolarTermOutOfRange { year: 0 },
+);
+```
+
+此接口**不会**改变四柱 API 中 [`YearDivide::Exact`] 的语义——后者仍按**日期**粒度处理，保持向后兼容。`li_chun_datetime` 是为需要秒级立春精度的下游 crate 提供的独立公开原语。
+
 ## 非目标
 
-- **节气 API** — 节气边界支撑四柱月柱计算，但不作为独立的公开 API 暴露。
+- **完整节气 API** — 仅暴露 `li_chun_datetime`；其余节气边界支撑四柱月柱计算，但不单独暴露。
 - **真太阳时修正** — 不根据经度应用时区偏移；四柱时间由 `time_index` 合成。
 - **紫微斗数排盘** — 不在支持范围内。
 - **运行时 JavaScript 依赖** — 库在运行时为纯 Rust 实现。
