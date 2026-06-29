@@ -26,7 +26,6 @@ include = [
     "build.rs",
     "data/**",
     "src/**",
-    "tests/**",
 ]
 
 
