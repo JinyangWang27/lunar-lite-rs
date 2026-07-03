@@ -127,7 +127,7 @@ assert!(StemBranch::try_new(HeavenlyStem::Jia, EarthlyBranch::Chou).is_err());
 
 四柱干支 API 根据公历日期和时辰索引，计算年柱、月柱、日柱、时柱（`FourPillars`）。该实现忠实移植自 TypeScript [`lunar-lite`](https://github.com/SylarLong/lunar-lite) 的 `getHeavenlyStemAndEarthlyBranchBySolarDate` 函数，并经过输出验证。
 
-Rust 原生入口为 `four_pillars_from_solar_date`（默认选项）和 `four_pillars_from_solar_date_with_options`。较长的 `get_heavenly_stem_and_earthly_branch_by_solar_date[_with_options]` 名称保留，以说明与 TypeScript 参考实现的对等关系；`HeavenlyStemAndEarthlyBranchDate` 作为 `FourPillars` 的类型别名同样保留。
+入口为 `four_pillars_from_solar_date`（默认选项）和 `four_pillars_from_solar_date_with_options`。
 
 ```rust
 use lunar_lite::{

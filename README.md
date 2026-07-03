@@ -165,11 +165,8 @@ The four-pillar stem-branch API computes the year, month, day, and hour pillars
 TypeScript [`lunar-lite`](https://github.com/SylarLong/lunar-lite) function
 `getHeavenlyStemAndEarthlyBranchBySolarDate` and is validated against its output.
 
-The Rust-native entry points are `four_pillars_from_solar_date` (default options)
-and `four_pillars_from_solar_date_with_options`. The long
-`get_heavenly_stem_and_earthly_branch_by_solar_date[_with_options]` names are kept
-to document parity with the TypeScript reference; `HeavenlyStemAndEarthlyBranchDate`
-remains available as a type alias for `FourPillars` for the same reason.
+The entry points are `four_pillars_from_solar_date` (default options) and
+`four_pillars_from_solar_date_with_options`.
 
 ```rust
 use lunar_lite::{

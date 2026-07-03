@@ -97,27 +97,20 @@ pub struct FourPillars {
     pub hourly: StemBranch,
 }
 
-/// Compatibility alias mirroring the TypeScript `lunar-lite` result name.
-pub type HeavenlyStemAndEarthlyBranchDate = FourPillars;
-
 /// Computes the four pillars for a Gregorian solar date and 时辰 index, using the
 /// default ([`StemBranchOptions::default`], i.e. `Exact`/`Exact`, matching
 /// `lunar-lite@0.2.8`).
 ///
-/// Use [`get_heavenly_stem_and_earthly_branch_by_solar_date_with_options`] to
-/// choose the year and month boundary conventions explicitly.
+/// Use [`four_pillars_from_solar_date_with_options`] to choose the year and
+/// month boundary conventions explicitly.
 ///
 /// # Errors
-/// See [`get_heavenly_stem_and_earthly_branch_by_solar_date_with_options`].
-pub fn get_heavenly_stem_and_earthly_branch_by_solar_date(
+/// See [`four_pillars_from_solar_date_with_options`].
+pub fn four_pillars_from_solar_date(
     solar: SolarDate,
     time_index: u8,
 ) -> Result<FourPillars, LunarError> {
-    get_heavenly_stem_and_earthly_branch_by_solar_date_with_options(
-        solar,
-        time_index,
-        StemBranchOptions::default(),
-    )
+    four_pillars_from_solar_date_with_options(solar, time_index, StemBranchOptions::default())
 }
 
 /// Computes the four pillars for a Gregorian solar date and 时辰 index with
@@ -133,7 +126,7 @@ pub fn get_heavenly_stem_and_earthly_branch_by_solar_date(
 /// - [`LunarError::SolarYearOutOfRange`] if `solar.year` is outside `1..=9999`.
 /// - [`LunarError::LunarYearOutOfRange`] for `Normal` options when the lunar
 ///   year is outside `-1..=9999`.
-pub fn get_heavenly_stem_and_earthly_branch_by_solar_date_with_options(
+pub fn four_pillars_from_solar_date_with_options(
     solar: SolarDate,
     time_index: u8,
     options: StemBranchOptions,
@@ -173,25 +166,6 @@ pub fn get_heavenly_stem_and_earthly_branch_by_solar_date_with_options(
         daily,
         hourly,
     })
-}
-
-/// Rust-native alias for [`get_heavenly_stem_and_earthly_branch_by_solar_date`]
-/// (default `Exact`/`Exact` options).
-pub fn four_pillars_from_solar_date(
-    solar: SolarDate,
-    time_index: u8,
-) -> Result<FourPillars, LunarError> {
-    get_heavenly_stem_and_earthly_branch_by_solar_date(solar, time_index)
-}
-
-/// Rust-native alias for
-/// [`get_heavenly_stem_and_earthly_branch_by_solar_date_with_options`].
-pub fn four_pillars_from_solar_date_with_options(
-    solar: SolarDate,
-    time_index: u8,
-    options: StemBranchOptions,
-) -> Result<FourPillars, LunarError> {
-    get_heavenly_stem_and_earthly_branch_by_solar_date_with_options(solar, time_index, options)
 }
 
 fn year_pillar(solar: SolarDate, divide: YearDivide) -> Result<StemBranch, LunarError> {
@@ -287,24 +261,14 @@ mod tests {
     // Reference: lunar-lite@0.2.8, 2000-08-16 timeIndex 2 -> 庚辰 甲申 丙午 庚寅.
     #[test]
     fn spot_check_2000_08_16() {
-        let r = get_heavenly_stem_and_earthly_branch_by_solar_date_with_options(
-            solar(2000, 8, 16),
-            2,
-            EXACT,
-        )
-        .unwrap();
+        let r = four_pillars_from_solar_date_with_options(solar(2000, 8, 16), 2, EXACT).unwrap();
         assert_eq!(r.yearly, sb(HeavenlyStem::Geng, EarthlyBranch::Chen));
         assert_eq!(r.monthly, sb(HeavenlyStem::Jia, EarthlyBranch::Shen));
         assert_eq!(r.daily, sb(HeavenlyStem::Bing, EarthlyBranch::Wu));
         assert_eq!(r.hourly, sb(HeavenlyStem::Geng, EarthlyBranch::Yin));
 
         // Interior date: normal options agree with exact.
-        let n = get_heavenly_stem_and_earthly_branch_by_solar_date_with_options(
-            solar(2000, 8, 16),
-            2,
-            NORMAL,
-        )
-        .unwrap();
+        let n = four_pillars_from_solar_date_with_options(solar(2000, 8, 16), 2, NORMAL).unwrap();
         assert_eq!(n, r);
     }
 
@@ -312,21 +276,13 @@ mod tests {
     // follows the rolled day stem.
     #[test]
     fn late_zi_rolls_day_and_hour() {
-        let early = get_heavenly_stem_and_earthly_branch_by_solar_date_with_options(
-            solar(2000, 8, 16),
-            0,
-            EXACT,
-        )
-        .unwrap();
+        let early =
+            four_pillars_from_solar_date_with_options(solar(2000, 8, 16), 0, EXACT).unwrap();
         assert_eq!(early.daily, sb(HeavenlyStem::Bing, EarthlyBranch::Wu));
         assert_eq!(early.hourly, sb(HeavenlyStem::Wu, EarthlyBranch::Zi));
 
-        let late = get_heavenly_stem_and_earthly_branch_by_solar_date_with_options(
-            solar(2000, 8, 16),
-            12,
-            EXACT,
-        )
-        .unwrap();
+        let late =
+            four_pillars_from_solar_date_with_options(solar(2000, 8, 16), 12, EXACT).unwrap();
         assert_eq!(late.daily, sb(HeavenlyStem::Ding, EarthlyBranch::Wei));
         assert_eq!(late.hourly, sb(HeavenlyStem::Geng, EarthlyBranch::Zi));
     }
@@ -335,12 +291,8 @@ mod tests {
     fn all_time_indices_produce_expected_branches() {
         // Branch index for each time_index: 0 and 12 -> 子, otherwise time_index.
         for ti in 0..=12u8 {
-            let r = get_heavenly_stem_and_earthly_branch_by_solar_date_with_options(
-                solar(2000, 8, 16),
-                ti,
-                EXACT,
-            )
-            .unwrap();
+            let r =
+                four_pillars_from_solar_date_with_options(solar(2000, 8, 16), ti, EXACT).unwrap();
             let expected = EarthlyBranch::from_index((ti % 12) as usize);
             assert_eq!(r.hourly.branch(), expected, "time_index {ti}");
         }
@@ -348,48 +300,16 @@ mod tests {
 
     #[test]
     fn default_function_equals_explicit_exact_exact() {
-        let default =
-            get_heavenly_stem_and_earthly_branch_by_solar_date(solar(2024, 6, 1), 5).unwrap();
-        let explicit = get_heavenly_stem_and_earthly_branch_by_solar_date_with_options(
-            solar(2024, 6, 1),
-            5,
-            EXACT,
-        )
-        .unwrap();
+        let default = four_pillars_from_solar_date(solar(2024, 6, 1), 5).unwrap();
+        let explicit =
+            four_pillars_from_solar_date_with_options(solar(2024, 6, 1), 5, EXACT).unwrap();
         assert_eq!(default, explicit);
-    }
-
-    #[test]
-    fn aliases_match_primary_functions() {
-        // Default-options alias.
-        assert_eq!(
-            four_pillars_from_solar_date(solar(2024, 6, 1), 5).unwrap(),
-            get_heavenly_stem_and_earthly_branch_by_solar_date(solar(2024, 6, 1), 5).unwrap(),
-        );
-        // Explicit-options alias.
-        assert_eq!(
-            four_pillars_from_solar_date_with_options(solar(2024, 6, 1), 5, NORMAL).unwrap(),
-            get_heavenly_stem_and_earthly_branch_by_solar_date_with_options(
-                solar(2024, 6, 1),
-                5,
-                NORMAL
-            )
-            .unwrap(),
-        );
-    }
-
-    #[test]
-    fn compatibility_alias_type_is_usable() {
-        let pillars: HeavenlyStemAndEarthlyBranchDate =
-            four_pillars_from_solar_date(solar(2000, 8, 16), 2).unwrap();
-        let native: FourPillars = pillars;
-        assert_eq!(native.yearly, sb(HeavenlyStem::Geng, EarthlyBranch::Chen));
     }
 
     #[test]
     fn invalid_time_index_errors() {
         assert_eq!(
-            get_heavenly_stem_and_earthly_branch_by_solar_date(solar(2000, 1, 1), 13),
+            four_pillars_from_solar_date(solar(2000, 1, 1), 13),
             Err(LunarError::InvalidTimeIndex { time_index: 13 })
         );
     }
@@ -397,11 +317,11 @@ mod tests {
     #[test]
     fn year_out_of_range_errors() {
         assert_eq!(
-            get_heavenly_stem_and_earthly_branch_by_solar_date(solar(0, 6, 1), 0),
+            four_pillars_from_solar_date(solar(0, 6, 1), 0),
             Err(LunarError::SolarYearOutOfRange { year: 0 })
         );
         assert_eq!(
-            get_heavenly_stem_and_earthly_branch_by_solar_date(solar(10_000, 6, 1), 0),
+            four_pillars_from_solar_date(solar(10_000, 6, 1), 0),
             Err(LunarError::SolarYearOutOfRange { year: 10_000 })
         );
     }
