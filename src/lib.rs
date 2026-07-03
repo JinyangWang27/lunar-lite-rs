@@ -30,11 +30,12 @@
 //! - Full lunar-to-solar conversion additionally requires the resulting solar
 //!   date to fall in solar years `1..=9999`. Every lunar year `-1` date lands
 //!   before solar year 1, so [`lunar_to_solar`] reports
-//!   [`LunarError::YearOutOfRange`] there.
+//!   [`LunarError::SolarYearOutOfRange`] there.
 //! - Dates before `1582-10-15` use Julian-calendar semantics; the historical
 //!   Gregorian reform gap `1582-10-05..=1582-10-14` is invalid.
 //!
-//! Years outside the supported ranges return [`LunarError::YearOutOfRange`].
+//! Solar years outside `1..=9999` return [`LunarError::SolarYearOutOfRange`];
+//! lunar years outside `-1..=9999` return [`LunarError::LunarYearOutOfRange`].
 //!
 //! Support across the full `1..=9999` range means this crate returns a
 //! deterministic, tyme-compatible model result for every date in that range,
@@ -50,6 +51,8 @@
 //! `validate_lunar_date` expose calendar facts only. They do not encode
 //! downstream chart-placement policy for how consumers should interpret leap
 //! months. Invalid month and leap-month selections return
+//! [`LunarError::InvalidLunarMonth`] from [`lunar_month_days`], while
+//! [`validate_lunar_date`] reports full-date failures as
 //! [`LunarError::InvalidLunarDate`].
 //!
 //! # Exact LiChun datetime

@@ -5,7 +5,7 @@ use crate::{LunarDate, LunarError};
 ///
 /// # Errors
 ///
-/// Returns [`LunarError::YearOutOfRange`] if `year` is outside `-1..=9999`.
+/// Returns [`LunarError::LunarYearOutOfRange`] if `year` is outside `-1..=9999`.
 pub fn leap_month(year: i32) -> Result<Option<u8>, LunarError> {
     lunar_year::leap_month(year)
 }
@@ -14,7 +14,7 @@ pub fn leap_month(year: i32) -> Result<Option<u8>, LunarError> {
 ///
 /// # Errors
 ///
-/// Returns [`LunarError::YearOutOfRange`] if `year` is outside `-1..=9999`.
+/// Returns [`LunarError::LunarYearOutOfRange`] if `year` is outside `-1..=9999`.
 pub fn has_leap_month(year: i32) -> Result<bool, LunarError> {
     Ok(leap_month(year)?.is_some())
 }
@@ -23,16 +23,12 @@ pub fn has_leap_month(year: i32) -> Result<bool, LunarError> {
 ///
 /// # Errors
 ///
-/// Returns [`LunarError::InvalidLunarDate`] if the month is outside `1..=12`
+/// Returns [`LunarError::InvalidLunarMonth`] if the month is outside `1..=12`
 /// or the requested leap month does not exist in that year. Returns
-/// [`LunarError::YearOutOfRange`] if `year` is outside `-1..=9999`.
+/// [`LunarError::LunarYearOutOfRange`] if `year` is outside `-1..=9999`.
 pub fn lunar_month_days(year: i32, month: u8, is_leap_month: bool) -> Result<u8, LunarError> {
     if !(1..=12).contains(&month) {
-        return Err(invalid_lunar_month_as_date_error(
-            year,
-            month,
-            is_leap_month,
-        ));
+        return Err(invalid_lunar_month_error(year, month, is_leap_month));
     }
 
     let month_with_leap = if is_leap_month {
@@ -53,8 +49,8 @@ pub fn lunar_month_days(year: i32, month: u8, is_leap_month: bool) -> Result<u8,
 ///
 /// Returns [`LunarError::InvalidLunarDate`] if the month/day shape is invalid,
 /// the day exceeds the actual month length, or the leap-month flag does not
-/// match the year's leap month. Returns [`LunarError::YearOutOfRange`] if the
-/// year is outside `-1..=9999`.
+/// match the year's leap month. Returns [`LunarError::LunarYearOutOfRange`] if
+/// the year is outside `-1..=9999`.
 pub fn validate_lunar_date(date: LunarDate) -> Result<(), LunarError> {
     if !(1..=12).contains(&date.month) || date.day == 0 {
         return Err(invalid_lunar_date(date));
@@ -63,7 +59,7 @@ pub fn validate_lunar_date(date: LunarDate) -> Result<(), LunarError> {
     let days =
         lunar_month_days(date.year, date.month, date.is_leap_month).map_err(
             |error| match error {
-                LunarError::InvalidLunarDate { .. } => invalid_lunar_date(date),
+                LunarError::InvalidLunarMonth { .. } => invalid_lunar_date(date),
                 other => other,
             },
         )?;
@@ -74,11 +70,10 @@ pub fn validate_lunar_date(date: LunarDate) -> Result<(), LunarError> {
     Ok(())
 }
 
-fn invalid_lunar_month_as_date_error(year: i32, month: u8, is_leap_month: bool) -> LunarError {
-    LunarError::InvalidLunarDate {
+fn invalid_lunar_month_error(year: i32, month: u8, is_leap_month: bool) -> LunarError {
+    LunarError::InvalidLunarMonth {
         year,
         month,
-        day: 1,
         is_leap_month,
     }
 }

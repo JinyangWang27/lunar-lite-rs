@@ -46,7 +46,7 @@ pub struct SolarTermDateTime {
 ///
 /// The calculation reuses the internal astronomical backend. The supported
 /// range is `1..=9999`; years outside that range return
-/// [`LunarError::SolarTermOutOfRange`].
+/// [`LunarError::SolarYearOutOfRange`].
 ///
 /// The returned datetime is a China Standard Time (UTC+8) wall-clock value,
 /// matching tyme4rs; no longitude, local-timezone, or true-solar-time
@@ -59,7 +59,7 @@ pub struct SolarTermDateTime {
 ///
 /// # Errors
 ///
-/// Returns [`LunarError::SolarTermOutOfRange`] when `year` is outside
+/// Returns [`LunarError::SolarYearOutOfRange`] when `year` is outside
 /// `1..=9999`.
 ///
 /// # Examples
@@ -77,12 +77,12 @@ pub struct SolarTermDateTime {
 ///
 /// assert_eq!(
 ///     li_chun_datetime(0).unwrap_err(),
-///     LunarError::SolarTermOutOfRange { year: 0 },
+///     LunarError::SolarYearOutOfRange { year: 0 },
 /// );
 /// ```
 pub fn li_chun_datetime(year: i32) -> Result<SolarTermDateTime, LunarError> {
     if !(MIN_YEAR..=MAX_YEAR).contains(&year) {
-        return Err(LunarError::SolarTermOutOfRange { year });
+        return Err(LunarError::SolarYearOutOfRange { year });
     }
     // Term index 3 = 立春 in Tyme's 24-term order (0=winter solstice, 3=start of spring).
     let term = solar_term::term_datetime(year, 3);

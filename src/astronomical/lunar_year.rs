@@ -11,7 +11,7 @@ pub(crate) const MAX_LUNAR_YEAR: i32 = 9_999;
 
 pub(crate) fn validate_lunar_year(year: i32) -> Result<(), LunarError> {
     if !(MIN_LUNAR_YEAR..=MAX_LUNAR_YEAR).contains(&year) {
-        return Err(LunarError::YearOutOfRange { year });
+        return Err(LunarError::LunarYearOutOfRange { year });
     }
     Ok(())
 }

@@ -130,12 +130,9 @@ pub fn get_heavenly_stem_and_earthly_branch_by_solar_date(
 /// # Errors
 /// - [`LunarError::InvalidSolarDate`] if `solar` is not a real date.
 /// - [`LunarError::InvalidTimeIndex`] if `time_index > 12`.
-/// - [`LunarError::YearOutOfRange`] if `solar.year` is outside `1..=9999`.
-///   Solar-year validation runs before the internal solar-term range check,
-///   so this path returns `YearOutOfRange` rather than
-///   [`LunarError::SolarTermOutOfRange`] for out-of-range solar years.
-/// - [`LunarError::YearOutOfRange`] for `Normal` options when the lunar year is
-///   outside `-1..=9999`.
+/// - [`LunarError::SolarYearOutOfRange`] if `solar.year` is outside `1..=9999`.
+/// - [`LunarError::LunarYearOutOfRange`] for `Normal` options when the lunar
+///   year is outside `-1..=9999`.
 pub fn get_heavenly_stem_and_earthly_branch_by_solar_date_with_options(
     solar: SolarDate,
     time_index: u8,
@@ -401,11 +398,11 @@ mod tests {
     fn year_out_of_range_errors() {
         assert_eq!(
             get_heavenly_stem_and_earthly_branch_by_solar_date(solar(0, 6, 1), 0),
-            Err(LunarError::YearOutOfRange { year: 0 })
+            Err(LunarError::SolarYearOutOfRange { year: 0 })
         );
         assert_eq!(
             get_heavenly_stem_and_earthly_branch_by_solar_date(solar(10_000, 6, 1), 0),
-            Err(LunarError::YearOutOfRange { year: 10_000 })
+            Err(LunarError::SolarYearOutOfRange { year: 10_000 })
         );
     }
 
