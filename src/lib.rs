@@ -30,11 +30,12 @@
 //! - Full lunar-to-solar conversion additionally requires the resulting solar
 //!   date to fall in solar years `1..=9999`. Every lunar year `-1` date lands
 //!   before solar year 1, so [`lunar_to_solar`] reports
-//!   [`LunarError::YearOutOfRange`] there.
+//!   [`LunarError::SolarYearOutOfRange`] there.
 //! - Dates before `1582-10-15` use Julian-calendar semantics; the historical
 //!   Gregorian reform gap `1582-10-05..=1582-10-14` is invalid.
 //!
-//! Years outside the supported ranges return [`LunarError::YearOutOfRange`].
+//! Solar years outside `1..=9999` return [`LunarError::SolarYearOutOfRange`];
+//! lunar years outside `-1..=9999` return [`LunarError::LunarYearOutOfRange`].
 //!
 //! Support across the full `1..=9999` range means this crate returns a
 //! deterministic, tyme-compatible model result for every date in that range,
@@ -50,6 +51,8 @@
 //! `validate_lunar_date` expose calendar facts only. They do not encode
 //! downstream chart-placement policy for how consumers should interpret leap
 //! months. Invalid month and leap-month selections return
+//! [`LunarError::InvalidLunarMonth`] from [`lunar_month_days`], while
+//! [`validate_lunar_date`] reports full-date failures as
 //! [`LunarError::InvalidLunarDate`].
 //!
 //! # Exact LiChun datetime
@@ -93,10 +96,8 @@ pub use convert::{lunar_to_solar, solar_to_lunar};
 pub use date::{LunarDate, SolarDate};
 pub use error::{LunarError, StemBranchError};
 pub use four_pillars::{
-    FourPillars, HeavenlyStemAndEarthlyBranchDate, MonthDivide, StemBranchOptions, YearDivide,
-    four_pillars_from_solar_date, four_pillars_from_solar_date_with_options,
-    get_heavenly_stem_and_earthly_branch_by_solar_date,
-    get_heavenly_stem_and_earthly_branch_by_solar_date_with_options,
+    FourPillars, MonthDivide, StemBranchOptions, YearDivide, four_pillars_from_solar_date,
+    four_pillars_from_solar_date_with_options,
 };
 pub use lunar_month::{has_leap_month, leap_month, lunar_month_days, validate_lunar_date};
 pub use normalize::normalize_lunar_date;

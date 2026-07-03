@@ -140,11 +140,11 @@ fn solar_to_lunar_matches_tyme_1582_reform_policy() {
 fn solar_to_lunar_rejects_tyme_unsupported_solar_years() {
     assert_eq!(
         solar_to_lunar(solar(0, 1, 1)).unwrap_err(),
-        LunarError::YearOutOfRange { year: 0 }
+        LunarError::SolarYearOutOfRange { year: 0 }
     );
     assert_eq!(
         solar_to_lunar(solar(10_000, 1, 1)).unwrap_err(),
-        LunarError::YearOutOfRange { year: 10_000 }
+        LunarError::SolarYearOutOfRange { year: 10_000 }
     );
 }
 
@@ -155,11 +155,11 @@ fn lunar_helpers_support_tyme_lunar_year_boundaries() {
 
     assert_eq!(
         lunar_month_days(-2, 1, false).unwrap_err(),
-        LunarError::YearOutOfRange { year: -2 }
+        LunarError::LunarYearOutOfRange { year: -2 }
     );
     assert_eq!(
         lunar_month_days(10_000, 1, false).unwrap_err(),
-        LunarError::YearOutOfRange { year: 10_000 }
+        LunarError::LunarYearOutOfRange { year: 10_000 }
     );
 }
 
@@ -172,10 +172,10 @@ fn lunar_to_solar_matches_tyme_lunar_boundary_policy() {
 
     assert_eq!(
         lunar_to_solar(lunar(-2, 1, 1, false)).unwrap_err(),
-        LunarError::YearOutOfRange { year: -2 }
+        LunarError::LunarYearOutOfRange { year: -2 }
     );
     assert_eq!(
         lunar_to_solar(lunar(10_000, 1, 1, false)).unwrap_err(),
-        LunarError::YearOutOfRange { year: 10_000 }
+        LunarError::LunarYearOutOfRange { year: 10_000 }
     );
 }

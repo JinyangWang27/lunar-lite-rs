@@ -36,7 +36,7 @@ pub(crate) fn day_instant(year: i32, month: u8, day: u8, second_of_day: i64) -> 
 /// The 12 Jie instants (seconds since epoch) for `year`, in table order.
 pub(crate) fn jie_instants(year: i32) -> Result<[i64; 12], LunarError> {
     if !(MIN_YEAR..=MAX_YEAR).contains(&year) {
-        return Err(LunarError::SolarTermOutOfRange { year });
+        return Err(LunarError::SolarYearOutOfRange { year });
     }
 
     let mut out = [0i64; 12];
@@ -56,7 +56,7 @@ pub(crate) fn jie_instants(year: i32) -> Result<[i64; 12], LunarError> {
 /// The `(month, day)` on which 立春 falls in `year`.
 pub(crate) fn li_chun_date(year: i32) -> Result<(u8, u8), LunarError> {
     if !(MIN_YEAR..=MAX_YEAR).contains(&year) {
-        return Err(LunarError::SolarTermOutOfRange { year });
+        return Err(LunarError::SolarYearOutOfRange { year });
     }
 
     let term = solar_term::term_datetime(year, 3);
@@ -110,11 +110,11 @@ mod tests {
     fn out_of_range_years_error() {
         assert_eq!(
             jie_instants(0).unwrap_err(),
-            LunarError::SolarTermOutOfRange { year: 0 }
+            LunarError::SolarYearOutOfRange { year: 0 }
         );
         assert_eq!(
             li_chun_date(10_000).unwrap_err(),
-            LunarError::SolarTermOutOfRange { year: 10_000 }
+            LunarError::SolarYearOutOfRange { year: 10_000 }
         );
     }
 }

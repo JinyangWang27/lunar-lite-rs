@@ -8,7 +8,7 @@ const MAX_SOLAR_YEAR: i32 = 9_999;
 
 pub(crate) fn validate_solar_date(date: SolarDate) -> Result<(), LunarError> {
     if !(MIN_SOLAR_YEAR..=MAX_SOLAR_YEAR).contains(&date.year) {
-        return Err(LunarError::YearOutOfRange { year: date.year });
+        return Err(LunarError::SolarYearOutOfRange { year: date.year });
     }
 
     if date.month < 1 || date.month > 12 {

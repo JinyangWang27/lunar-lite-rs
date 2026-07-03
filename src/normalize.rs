@@ -9,8 +9,8 @@ use crate::{LunarDate, LunarError};
 /// # Errors
 ///
 /// Returns [`LunarError::InvalidLunarDate`] if the month/day are out of shape or
-/// the day exceeds the month's length, or [`LunarError::YearOutOfRange`] if the
-/// year is outside the supported range.
+/// the day exceeds the month's length, or [`LunarError::LunarYearOutOfRange`] if
+/// the year is outside the supported range.
 pub fn normalize_lunar_date(date: LunarDate) -> Result<LunarDate, LunarError> {
     validate_lunar_basic_shape(date)?;
 

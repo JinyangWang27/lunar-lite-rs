@@ -171,10 +171,9 @@ fn lunar_year_month_count(year: i32) -> Result<i32, LunarError> {
 }
 
 fn invalid_lunar_month(year: i32, month: u8, is_leap_month: bool) -> LunarError {
-    LunarError::InvalidLunarDate {
+    LunarError::InvalidLunarMonth {
         year,
         month,
-        day: 1,
         is_leap_month,
     }
 }

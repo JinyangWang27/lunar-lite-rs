@@ -15,7 +15,7 @@
 
 **支持转换范围：** 公历年份 `1..=9999`。农历月历信息（`leap_month`、
 `lunar_month_days`）接受农历年份 `-1..=9999`；完整的农历转公历还要求结果公历日期落在
-`1..=9999` 之内，因此最早的农历年份（约 `-1`）会返回 `YearOutOfRange`。
+`1..=9999` 之内，因此最早的农历年份（约 `-1`）会返回 `SolarYearOutOfRange`。
 `1582-10-15` 之前的日期按儒略历语义处理，公历改革缺失日期
 `1582-10-05..=1582-10-14` 视为无效，与 tyme4rs 保持一致。
 
@@ -127,7 +127,7 @@ assert!(StemBranch::try_new(HeavenlyStem::Jia, EarthlyBranch::Chou).is_err());
 
 四柱干支 API 根据公历日期和时辰索引，计算年柱、月柱、日柱、时柱（`FourPillars`）。该实现忠实移植自 TypeScript [`lunar-lite`](https://github.com/SylarLong/lunar-lite) 的 `getHeavenlyStemAndEarthlyBranchBySolarDate` 函数，并经过输出验证。
 
-Rust 原生入口为 `four_pillars_from_solar_date`（默认选项）和 `four_pillars_from_solar_date_with_options`。较长的 `get_heavenly_stem_and_earthly_branch_by_solar_date[_with_options]` 名称保留，以说明与 TypeScript 参考实现的对等关系；`HeavenlyStemAndEarthlyBranchDate` 作为 `FourPillars` 的类型别名同样保留。
+入口为 `four_pillars_from_solar_date`（默认选项）和 `four_pillars_from_solar_date_with_options`。
 
 ```rust
 use lunar_lite::{
@@ -187,11 +187,14 @@ let _ = four_pillars_from_solar_date_with_options(solar, 2, options);
 | ---------------------------------------- | --------------------------------------------- |
 | `LunarError::InvalidSolarDate`           | 公历日期不合法                                |
 | `LunarError::InvalidLunarDate`           | 农历日期结构不合法或日数超出当月天数          |
-| `LunarError::YearOutOfRange`             | 年份超出支持的公历或农历转换范围              |
+| `LunarError::InvalidLunarMonth`          | 月份超出 `1..=12`，或该年该月无闰月却请求了闰月 |
+| `LunarError::SolarYearOutOfRange`        | 公历年份超出 `1..=9999`（农历转公历结果超范围时也返回此项） |
+| `LunarError::LunarYearOutOfRange`        | 农历年份超出 `-1..=9999`                      |
 | `LunarError::InvalidTime`                | 小时 > 23 或分钟 > 59                         |
 | `LunarError::InvalidTimeIndex`           | 时辰索引超出 0..=12 范围                      |
-| `LunarError::SolarTermOutOfRange`        | 公历年份超出支持的节气范围                    |
 | `StemBranchError::InvalidStemBranchPair` | 天干与地支不构成有效的六十甲子组合            |
+
+`LunarError` 与 `StemBranchError` 均为 `#[non_exhaustive]`；匹配时请加通配分支。
 
 ## 参考 fixture
 
@@ -228,10 +231,10 @@ let dt = li_chun_datetime(2000).unwrap();
 assert_eq!((dt.date.year, dt.date.month, dt.date.day), (2000, 2, 4));
 assert_eq!((dt.hour, dt.minute, dt.second), (20, 40, 24));
 
-// 超出支持范围的年份返回 LunarError::SolarTermOutOfRange。
+// 超出支持范围的年份返回 LunarError::SolarYearOutOfRange。
 assert_eq!(
     li_chun_datetime(0).unwrap_err(),
-    LunarError::SolarTermOutOfRange { year: 0 },
+    LunarError::SolarYearOutOfRange { year: 0 },
 );
 ```
 

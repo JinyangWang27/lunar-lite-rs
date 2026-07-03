@@ -5,8 +5,7 @@
 #![cfg(feature = "serde")]
 
 use lunar_lite::{
-    FourPillars, SolarDate, StemBranchOptions,
-    get_heavenly_stem_and_earthly_branch_by_solar_date_with_options,
+    FourPillars, SolarDate, StemBranchOptions, four_pillars_from_solar_date_with_options,
 };
 use serde::Deserialize;
 
@@ -26,11 +25,7 @@ fn fixtures_match_lunar_lite_reference() {
 
     let mut failures = Vec::new();
     for (i, case) in cases.iter().enumerate() {
-        match get_heavenly_stem_and_earthly_branch_by_solar_date_with_options(
-            case.solar,
-            case.time_index,
-            case.options,
-        ) {
+        match four_pillars_from_solar_date_with_options(case.solar, case.time_index, case.options) {
             Ok(got) if got == case.expected => {}
             Ok(got) => failures.push(format!(
                 "case {i}: {:?} ti={} {:?}\n  expected {:?}\n  got      {:?}",

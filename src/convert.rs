@@ -9,7 +9,7 @@ use crate::{LunarDate, LunarError, SolarDate};
 /// # Errors
 ///
 /// Returns [`LunarError::InvalidSolarDate`] if `date` is not a real calendar
-/// date, or [`LunarError::YearOutOfRange`] if it falls outside solar years
+/// date, or [`LunarError::SolarYearOutOfRange`] if it falls outside solar years
 /// `1..=9999`.
 pub fn solar_to_lunar(date: SolarDate) -> Result<LunarDate, LunarError> {
     validate_solar_date(date)?;
@@ -37,9 +37,10 @@ pub fn solar_to_lunar(date: SolarDate) -> Result<LunarDate, LunarError> {
 ///
 /// # Errors
 ///
-/// Returns [`LunarError::InvalidLunarDate`] if the date does not exist, or
-/// [`LunarError::YearOutOfRange`] if the lunar year is outside `-1..=9999` or
-/// the resulting solar date is outside solar years `1..=9999`.
+/// Returns [`LunarError::InvalidLunarDate`] if the date does not exist,
+/// [`LunarError::LunarYearOutOfRange`] if the lunar year is outside `-1..=9999`,
+/// or [`LunarError::SolarYearOutOfRange`] if the resulting solar date is outside
+/// solar years `1..=9999`.
 pub fn lunar_to_solar(date: LunarDate) -> Result<SolarDate, LunarError> {
     let date = normalize_lunar_date(date)?;
     let month_with_leap = if date.is_leap_month {
