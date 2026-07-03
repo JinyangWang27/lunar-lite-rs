@@ -7,6 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.0](https://github.com/JinyangWang27/lunar-lite-rs/compare/v1.2.1...v2.0.0) - 2026-07-03
+
+### Added
+
+- enhance date validation and normalization functions
+
+### Other
+
+- Refactor error taxonomy ([#27](https://github.com/JinyangWang27/lunar-lite-rs/pull/27))
+- clarify lunar date ordering behavior in comments
+- add self-standing invariant tests for lunar-lite functionality
+- update comments and clarify behavior
+
 ## [1.2.1](https://github.com/JinyangWang27/lunar-lite-rs/compare/v1.2.0...v1.2.1) - 2026-06-29
 
 ### Other
