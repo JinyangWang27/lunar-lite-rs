@@ -383,6 +383,9 @@ impl AstronomicalKernel {
                         .floor()
                 + 0.5)
                 .floor();
+            // Single-point fixup for a known calibration-table discontinuity;
+            // inherited from tyme4rs 1.5.0 compatibility behaviour, do not
+            // adjust without rerunning the oracle tests.
             if !is_qi && result_offset == 1683460.0 {
                 result_offset += 1.0;
             }
@@ -406,11 +409,19 @@ impl AstronomicalKernel {
     }
 
     /// Calculates the new-moon (朔) day offset from J2000 nearest `jd`.
+    ///
+    /// The `14.0` table-alignment constant is inherited from tyme4rs 1.5.0
+    /// compatibility behaviour; do not adjust without rerunning the oracle
+    /// tests.
     pub(crate) fn new_moon_day_offset(jd: f64) -> f64 {
         Self::calendar_event_offset(false, jd, &SHUO_CALIBRATION, 14.0, SHUO_CORRECTIONS)
     }
 
     /// Calculates the solar-term (节气) day offset from J2000 nearest `jd`.
+    ///
+    /// The `7.0` table-alignment constant is inherited from tyme4rs 1.5.0
+    /// compatibility behaviour; do not adjust without rerunning the oracle
+    /// tests.
     pub(crate) fn solar_term_day_offset(jd: f64) -> f64 {
         Self::calendar_event_offset(true, jd, &QI_CALIBRATION, 7.0, QI_CORRECTIONS)
     }

@@ -147,6 +147,9 @@ impl LunarMonth {
         } else {
             0
         };
+        // The `year > 8 && year < 24` and `year != 239 && year != 240` branches
+        // are inherited from tyme4rs 1.5.0 compatibility behaviour; do not
+        // adjust without rerunning the oracle tests.
         let mut offset = 2.0;
         if self.year > 8 && self.year < 24 {
             offset = 1.0;

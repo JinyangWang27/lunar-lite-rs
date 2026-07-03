@@ -75,9 +75,13 @@ mod tests {
 
     #[test]
     fn jie_instants_are_strictly_increasing() {
-        let instants = jie_instants(2000).unwrap();
-        for pair in instants.windows(2) {
-            assert!(pair[0] < pair[1]);
+        // Cover the supported-range endpoints and the reform year, not just a
+        // modern year, so the ordering invariant holds across the whole span.
+        for year in [1, 1582, 2000, 9999] {
+            let instants = jie_instants(year).unwrap();
+            for pair in instants.windows(2) {
+                assert!(pair[0] < pair[1], "jie not increasing in {year}: {pair:?}");
+            }
         }
     }
 
