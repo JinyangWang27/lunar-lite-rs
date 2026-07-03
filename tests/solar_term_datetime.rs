@@ -34,7 +34,7 @@ fn li_chun_2024_known_values() {
 fn li_chun_year_zero_is_out_of_range() {
     assert_eq!(
         li_chun_datetime(0).unwrap_err(),
-        LunarError::SolarTermOutOfRange { year: 0 },
+        LunarError::SolarYearOutOfRange { year: 0 },
     );
 }
 
@@ -42,7 +42,7 @@ fn li_chun_year_zero_is_out_of_range() {
 fn li_chun_year_10000_is_out_of_range() {
     assert_eq!(
         li_chun_datetime(10_000).unwrap_err(),
-        LunarError::SolarTermOutOfRange { year: 10_000 },
+        LunarError::SolarYearOutOfRange { year: 10_000 },
     );
 }
 

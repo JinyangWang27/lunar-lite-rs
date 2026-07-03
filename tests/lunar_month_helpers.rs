@@ -48,10 +48,9 @@ fn lunar_month_days_leap_month_returns_29_or_30() {
 fn lunar_month_days_rejects_invalid_month_zero() {
     assert_eq!(
         lunar_month_days(2024, 0, false).unwrap_err(),
-        LunarError::InvalidLunarDate {
+        LunarError::InvalidLunarMonth {
             year: 2024,
             month: 0,
-            day: 1,
             is_leap_month: false,
         }
     );
@@ -61,10 +60,9 @@ fn lunar_month_days_rejects_invalid_month_zero() {
 fn lunar_month_days_rejects_invalid_month_thirteen() {
     assert_eq!(
         lunar_month_days(2024, 13, false).unwrap_err(),
-        LunarError::InvalidLunarDate {
+        LunarError::InvalidLunarMonth {
             year: 2024,
             month: 13,
-            day: 1,
             is_leap_month: false,
         }
     );
@@ -74,10 +72,9 @@ fn lunar_month_days_rejects_invalid_month_thirteen() {
 fn lunar_month_days_rejects_invalid_leap_month_flag_for_non_leap_year() {
     assert_eq!(
         lunar_month_days(2024, 1, true).unwrap_err(),
-        LunarError::InvalidLunarDate {
+        LunarError::InvalidLunarMonth {
             year: 2024,
             month: 1,
-            day: 1,
             is_leap_month: true,
         }
     );
@@ -87,10 +84,9 @@ fn lunar_month_days_rejects_invalid_leap_month_flag_for_non_leap_year() {
 fn lunar_month_days_rejects_leap_flag_for_wrong_month() {
     assert_eq!(
         lunar_month_days(2020, 5, true).unwrap_err(),
-        LunarError::InvalidLunarDate {
+        LunarError::InvalidLunarMonth {
             year: 2020,
             month: 5,
-            day: 1,
             is_leap_month: true,
         }
     );
@@ -154,7 +150,8 @@ fn validate_lunar_date_rejects_leap_date_when_month_is_not_leap() {
 // leap_month and lunar_month_days are calendar facts and remain available for
 // the earliest supported lunar year (-1). Full lunar->solar conversion is only
 // promised when the resulting solar date lands in solar years 1..=9999; every
-// lunar year -1 date falls before solar year 1, so it reports YearOutOfRange.
+// lunar year -1 date falls before solar year 1, so it reports
+// SolarYearOutOfRange.
 
 #[test]
 fn leap_month_supported_at_lower_boundary() {
@@ -171,7 +168,7 @@ fn lunar_month_days_supported_at_lower_boundary() {
 fn lunar_to_solar_lower_boundary_is_out_of_solar_range() {
     assert_eq!(
         lunar_to_solar(lunar(-1, 1, 1, false)).unwrap_err(),
-        LunarError::YearOutOfRange { year: -1 }
+        LunarError::SolarYearOutOfRange { year: -1 }
     );
 }
 
@@ -179,7 +176,7 @@ fn lunar_to_solar_lower_boundary_is_out_of_solar_range() {
 fn lunar_month_days_rejects_below_range_year() {
     assert_eq!(
         lunar_month_days(-2, 1, false).unwrap_err(),
-        LunarError::YearOutOfRange { year: -2 }
+        LunarError::LunarYearOutOfRange { year: -2 }
     );
 }
 
@@ -187,7 +184,7 @@ fn lunar_month_days_rejects_below_range_year() {
 fn lunar_month_days_rejects_above_range_year() {
     assert_eq!(
         lunar_month_days(10_000, 1, false).unwrap_err(),
-        LunarError::YearOutOfRange { year: 10_000 }
+        LunarError::LunarYearOutOfRange { year: 10_000 }
     );
 }
 
