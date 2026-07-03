@@ -19,6 +19,13 @@ pub struct SolarDate {
 /// Lunar-month fact APIs support lunar years `-1..=9999`. `lunar_to_solar`
 /// additionally requires the resulting solar date to fall within supported
 /// solar years `1..=9999`.
+///
+/// The derived [`Ord`] is structural field order (`year`, `month`, `day`,
+/// `is_leap_month`), not chronological lunar-calendar order: a regular month
+/// sorts after its own leap instance (e.g. `is_leap_month: false` for month 4
+/// compares greater than `is_leap_month: true` for month 4), which is
+/// backwards from the actual calendar sequence. Convert to [`SolarDate`] via
+/// [`crate::lunar_to_solar`] for chronological comparison.
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct LunarDate {

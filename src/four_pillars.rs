@@ -19,6 +19,10 @@
 //! The month pillar uses solar terms, not the lunar month, in `Exact` mode.
 //! - [`MonthDivide::Normal`]: lunar-month 五虎遁 (uses [`solar_to_lunar`]).
 //! - [`MonthDivide::Exact`]: the 12 Jie (节) boundaries at **exact second**.
+//!   The synthesized wall-clock instant and the Jie boundary instants are
+//!   both China Standard Time (UTC+8) values from the same tyme-compatible
+//!   backend as [`crate::li_chun_datetime`]; no longitude or true-solar-time
+//!   correction is applied to either side of the comparison.
 
 use crate::calendar::validate_solar_date;
 use crate::convert::solar_to_lunar;
@@ -49,6 +53,10 @@ pub enum YearDivide {
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Hash)]
 pub enum MonthDivide {
     /// Use the lunar month with 五虎遁 (not solar terms).
+    ///
+    /// Compatibility policy: a leap lunar month past its 15th day counts
+    /// toward the following month's pillar. This mirrors `lunar-lite@0.2.8`
+    /// and is not a general charting recommendation.
     Normal,
     /// Use the 12 Jie (节) solar-term boundaries at exact second.
     Exact,
@@ -122,7 +130,10 @@ pub fn get_heavenly_stem_and_earthly_branch_by_solar_date(
 /// # Errors
 /// - [`LunarError::InvalidSolarDate`] if `solar` is not a real date.
 /// - [`LunarError::InvalidTimeIndex`] if `time_index > 12`.
-/// - [`LunarError::SolarTermOutOfRange`] if `solar.year` is outside `1..=9999`.
+/// - [`LunarError::YearOutOfRange`] if `solar.year` is outside `1..=9999`.
+///   Solar-year validation runs before the internal solar-term range check,
+///   so this path returns `YearOutOfRange` rather than
+///   [`LunarError::SolarTermOutOfRange`] for out-of-range solar years.
 /// - [`LunarError::YearOutOfRange`] for `Normal` options when the lunar year is
 ///   outside `-1..=9999`.
 pub fn get_heavenly_stem_and_earthly_branch_by_solar_date_with_options(
@@ -136,6 +147,10 @@ pub fn get_heavenly_stem_and_earthly_branch_by_solar_date_with_options(
         return Err(LunarError::InvalidTimeIndex { time_index });
     }
 
+    // `validate_solar_date` above already rejects years outside `1..=9999`,
+    // the same bounds as `solar_terms::MIN_YEAR..=MAX_YEAR`, so this check is
+    // currently unreachable in practice; kept as a guard against the two
+    // ranges diverging.
     if !(solar_terms::MIN_YEAR..=solar_terms::MAX_YEAR).contains(&solar.year) {
         return Err(LunarError::SolarTermOutOfRange { year: solar.year });
     }

@@ -36,6 +36,14 @@
 //!
 //! Years outside the supported ranges return [`LunarError::YearOutOfRange`].
 //!
+//! Support across the full `1..=9999` range means this crate returns a
+//! deterministic, tyme-compatible model result for every date in that range,
+//! not that every result is historically or astronomically authoritative.
+//! The underlying ΔT and calibration tables are most accurate near the
+//! modern era and extrapolate for years far from it; extreme-year output
+//! should be read as "what the tyme-compatible model computes," not as
+//! ground truth.
+//!
 //! # Lunar month helpers
 //!
 //! `leap_month`, `has_leap_month`, `lunar_month_days`, and

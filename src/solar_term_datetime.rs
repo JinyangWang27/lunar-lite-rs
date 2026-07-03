@@ -12,7 +12,9 @@ use crate::solar_terms::{MAX_YEAR, MIN_YEAR};
 /// The exact date and wall-clock time at which a solar term occurs.
 ///
 /// This API returns the backend's tyme-compatible calendar datetime and does
-/// not apply longitude or time-zone correction.
+/// not apply longitude or time-zone correction. The wall-clock value is
+/// China Standard Time (UTC+8), matching tyme4rs; no local-timezone or
+/// true-solar-time adjustment is applied.
 ///
 /// # Examples
 ///
@@ -45,6 +47,10 @@ pub struct SolarTermDateTime {
 /// The calculation reuses the internal astronomical backend. The supported
 /// range is `1..=9999`; years outside that range return
 /// [`LunarError::SolarTermOutOfRange`].
+///
+/// The returned datetime is a China Standard Time (UTC+8) wall-clock value,
+/// matching tyme4rs; no longitude, local-timezone, or true-solar-time
+/// correction is applied.
 ///
 /// This function exposes a public primitive for downstream crates that need
 /// datetime-level LiChun precision. It does **not** change
