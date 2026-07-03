@@ -17,7 +17,7 @@ A compact Rust library for Chinese lunisolar (农历) date conversion and stem-b
 (`leap_month`, `lunar_month_days`) accept lunar years `-1..=9999`; full
 lunar-to-solar conversion additionally requires the resulting solar date to fall
 in `1..=9999`, so the earliest lunar years (around `-1`) report
-`YearOutOfRange`. Dates before `1582-10-15` use Julian-calendar semantics, and
+`SolarYearOutOfRange`. Dates before `1582-10-15` use Julian-calendar semantics, and
 the Gregorian reform gap `1582-10-05..=1582-10-14` is invalid, matching tyme4rs.
 
 ## What it does not do
@@ -247,12 +247,15 @@ Stem-branch validation returns `Result<_, StemBranchError>`.
 | Variant                                  | Meaning                                                        |
 | ---------------------------------------- | -------------------------------------------------------------- |
 | `LunarError::InvalidSolarDate`           | Solar date is not a valid calendar date                        |
-| `LunarError::InvalidLunarDate`           | Lunar date is structurally invalid, requested month/leap month does not exist, or day exceeds month length |
-| `LunarError::YearOutOfRange`             | Year is outside the supported solar or lunar conversion range   |
+| `LunarError::InvalidLunarDate`           | Lunar date is structurally invalid or the day exceeds the month length |
+| `LunarError::InvalidLunarMonth`          | Month is outside `1..=12`, or a leap instance was requested for a month with none that year |
+| `LunarError::SolarYearOutOfRange`        | Solar year is outside `1..=9999` (also for a lunar→solar result outside that range) |
+| `LunarError::LunarYearOutOfRange`        | Lunar year is outside `-1..=9999`                              |
 | `LunarError::InvalidTime`                | Hour > 23 or minute > 59                                       |
 | `LunarError::InvalidTimeIndex`           | 时辰 index is outside 0..=12                                   |
-| `LunarError::SolarTermOutOfRange`        | Gregorian year is outside the supported solar-term range        |
 | `StemBranchError::InvalidStemBranchPair` | The stem and branch do not form a valid sexagenary pair        |
+
+Both `LunarError` and `StemBranchError` are `#[non_exhaustive]`; match on them with a wildcard arm.
 
 ## Reference fixtures
 
@@ -291,10 +294,10 @@ let dt = li_chun_datetime(2000).unwrap();
 assert_eq!((dt.date.year, dt.date.month, dt.date.day), (2000, 2, 4));
 assert_eq!((dt.hour, dt.minute, dt.second), (20, 40, 24));
 
-// Out-of-range years return LunarError::SolarTermOutOfRange.
+// Out-of-range years return LunarError::SolarYearOutOfRange.
 assert_eq!(
     li_chun_datetime(0).unwrap_err(),
-    LunarError::SolarTermOutOfRange { year: 0 },
+    LunarError::SolarYearOutOfRange { year: 0 },
 );
 ```
 
