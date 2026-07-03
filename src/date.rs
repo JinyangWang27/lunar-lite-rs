@@ -21,11 +21,12 @@ pub struct SolarDate {
 /// solar years `1..=9999`.
 ///
 /// The derived [`Ord`] is structural field order (`year`, `month`, `day`,
-/// `is_leap_month`), not chronological lunar-calendar order: a regular month
-/// sorts after its own leap instance (e.g. `is_leap_month: false` for month 4
-/// compares greater than `is_leap_month: true` for month 4), which is
-/// backwards from the actual calendar sequence. Convert to [`SolarDate`] via
-/// [`crate::lunar_to_solar`] for chronological comparison.
+/// `is_leap_month`), not chronological lunar-calendar order. In leap-month
+/// years this can disagree with real calendar sequence across the regular/leap
+/// month boundary: for example, regular `2020-04-30` sorts after leap
+/// `2020-04-01` because `day` is compared before `is_leap_month`, while
+/// chronologically the leap month follows the regular month. Convert to
+/// [`SolarDate`] via [`crate::lunar_to_solar`] for chronological comparison.
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct LunarDate {
