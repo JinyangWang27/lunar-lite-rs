@@ -147,14 +147,6 @@ pub fn get_heavenly_stem_and_earthly_branch_by_solar_date_with_options(
         return Err(LunarError::InvalidTimeIndex { time_index });
     }
 
-    // `validate_solar_date` above already rejects years outside `1..=9999`,
-    // the same bounds as `solar_terms::MIN_YEAR..=MAX_YEAR`, so this check is
-    // currently unreachable in practice; kept as a guard against the two
-    // ranges diverging.
-    if !(solar_terms::MIN_YEAR..=solar_terms::MAX_YEAR).contains(&solar.year) {
-        return Err(LunarError::SolarTermOutOfRange { year: solar.year });
-    }
-
     // Synthesized wall-clock time: hour = max(time_index*2 - 1, 0), minute = 30.
     let synth_hour = (time_index as i64 * 2 - 1).max(0);
     let synth_second_of_day = synth_hour * 3600 + 30 * 60;

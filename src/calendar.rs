@@ -1,6 +1,6 @@
 // src/calendar.rs
 
-use crate::julian_day::from_ymd_hms;
+use crate::julian_day::{from_ymd_hms, is_gregorian_reform_date};
 use crate::{LunarError, SolarDate};
 
 const MIN_SOLAR_YEAR: i32 = 1;
@@ -57,7 +57,9 @@ fn days_in_month(year: i32, month: u8) -> u8 {
 }
 
 fn is_leap_year(year: i32) -> bool {
-    if year * 372 + 2 * 31 + 29 < 588_829 {
+    // Whether Feb 29 of `year` falls before the Gregorian reform decides
+    // which leap-year rule applies.
+    if !is_gregorian_reform_date(year, 2, 29) {
         return year % 4 == 0;
     }
     year % 4 == 0 && (year % 100 != 0 || year % 400 == 0)

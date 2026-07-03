@@ -49,20 +49,10 @@ pub fn lunar_to_solar(date: LunarDate) -> Result<SolarDate, LunarError> {
     };
     let month = LunarMonth::from_ym(date.year, month_with_leap)?;
 
-    if date.day > month.day_count()? {
-        return Err(invalid_lunar_date(date));
-    }
-
+    // `normalize_lunar_date` above already validates that `date.day` does not
+    // exceed this same month's day count, so no further day-bound check is
+    // needed here.
     let solar = to_solar_date(month.first_julian_day()? + date.day as f64 - 1.0);
     validate_solar_date(solar)?;
     Ok(solar)
-}
-
-fn invalid_lunar_date(date: LunarDate) -> LunarError {
-    LunarError::InvalidLunarDate {
-        year: date.year,
-        month: date.month,
-        day: date.day,
-        is_leap_month: date.is_leap_month,
-    }
 }

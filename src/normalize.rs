@@ -23,7 +23,7 @@ pub fn normalize_lunar_date(date: LunarDate) -> Result<LunarDate, LunarError> {
         date
     };
 
-    validate_lunar_actual_date(normalized)?;
+    validate_lunar_date(normalized)?;
 
     Ok(normalized)
 }
@@ -38,8 +38,4 @@ pub(crate) fn validate_lunar_basic_shape(date: LunarDate) -> Result<(), LunarErr
     }
 
     Ok(())
-}
-
-pub(crate) fn validate_lunar_actual_date(date: LunarDate) -> Result<(), LunarError> {
-    validate_lunar_date(date)
 }

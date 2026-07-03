@@ -5,6 +5,20 @@ use crate::SolarDate;
 /// 2000-01-01 12:00:00 UTC.
 pub(crate) const J2000: f64 = 2_451_545.0;
 
+/// Threshold for the packed key `year * 372 + month * 31 + day`: dates whose
+/// key is `>=` this value fall on or after the Gregorian reform (1582-10-15);
+/// dates below it are Julian-calendar dates. `372 = 12 * 31` and `31` give
+/// every month a fixed 31-day stride, so the packed key is monotonic in
+/// calendar order even though real months are shorter. Adapted from
+/// tyme4rs's compact Julian/Gregorian branch test.
+pub(crate) const GREGORIAN_REFORM_KEY: i32 = 588_829;
+
+/// Returns whether `year-month-day` falls on or after the Gregorian reform
+/// (1582-10-15), using the packed [`GREGORIAN_REFORM_KEY`] threshold.
+pub(crate) fn is_gregorian_reform_date(year: i32, month: i32, day: i32) -> bool {
+    year * 372 + month * 31 + day >= GREGORIAN_REFORM_KEY
+}
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub(crate) struct SolarDateTime {
     pub(crate) date: SolarDate,
@@ -20,7 +34,7 @@ pub(crate) struct SolarDateTime {
 pub(crate) fn from_ymd_hms(year: i32, month: u8, day: u8, hour: u8, minute: u8, second: u8) -> f64 {
     let d = day as f64 + ((second as f64 / 60.0 + minute as f64) / 60.0 + hour as f64) / 24.0;
     let mut n = 0;
-    let gregorian = year * 372 + month as i32 * 31 + d as i32 >= 588_829;
+    let gregorian = is_gregorian_reform_date(year, month as i32, d as i32);
     let mut y = year;
     let mut m = month as i32;
 
